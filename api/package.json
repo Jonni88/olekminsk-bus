@@ -1,0 +1,9 @@
+{
+  "name": "olekminsk-bus-api",
+  "version": "1.0.0",
+  "description": "API for Olekminsk Bus Schedule",
+  "main": "index.js",
+  "dependencies": {
+    "googleapis": "^133.0.0"
+  }
+}
