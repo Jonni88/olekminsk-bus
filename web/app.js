@@ -15,8 +15,12 @@ let scheduleData = {
     route1: { weekday: {}, saturday: {}, sunday: {} },
     route5: { weekday: {}, saturday: {}, sunday: {} },
     suburban: {},
-    stops: []
+    stops: [],
+    news: [],
+    lastUpdate: null
 };
+
+let isLoading = false;
 
 // === ИНИЦИАЛИЗАЦИЯ ===
 document.addEventListener('DOMContentLoaded', () => {
@@ -37,6 +41,13 @@ function updateTime() {
 
 // === ЗАГРУЗКА ДАННЫХ ИЗ GOOGLE SHEETS ===
 async function loadData(force = false) {
+    if (isLoading) return;
+    isLoading = true;
+    
+    // Показываем анимацию загрузки
+    const refreshBtn = document.querySelector('.refresh-btn');
+    if (refreshBtn) refreshBtn.classList.add('spinning');
+    
     // Проверяем кэш
     if (!force) {
         const cached = localStorage.getItem(CONFIG.CACHE_KEY);
@@ -48,6 +59,10 @@ async function loadData(force = false) {
                 scheduleData = JSON.parse(cached);
                 updateAllTimes();
                 renderStops();
+                renderNews();
+                updateLastUpdateTime();
+                isLoading = false;
+                if (refreshBtn) refreshBtn.classList.remove('spinning');
                 return;
             }
         }
@@ -57,7 +72,7 @@ async function loadData(force = false) {
         // Загружаем все листы
         const [route1Weekday, route1Saturday, route1Sunday,
                route5Weekday, route5Saturday, route5Sunday,
-               suburban, stops] = await Promise.all([
+               suburban, stops, news] = await Promise.all([
             fetchSheet('Маршрут1_Будни'),
             fetchSheet('Маршрут1_Суббота'),
             fetchSheet('Маршрут1_Воскресенье'),
@@ -65,7 +80,8 @@ async function loadData(force = false) {
             fetchSheet('Маршрут5_Суббота'),
             fetchSheet('Маршрут5_Воскресенье'),
             fetchSheet('Пригород'),
-            fetchSheet('Остановки')
+            fetchSheet('Остановки'),
+            fetchSheet('Новости')
         ]);
         
         // Преобразуем данные
@@ -79,6 +95,8 @@ async function loadData(force = false) {
         
         scheduleData.suburban = parseSuburbanData(suburban);
         scheduleData.stops = parseStopsData(stops);
+        scheduleData.news = parseNewsData(news);
+        scheduleData.lastUpdate = new Date().toISOString();
         
         // Сохраняем в кэш
         localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(scheduleData));
@@ -86,16 +104,25 @@ async function loadData(force = false) {
         
         updateAllTimes();
         renderStops();
+        renderNews();
+        updateLastUpdateTime();
+        showToast('✅ Данные обновлены');
         
     } catch (error) {
         console.error('Ошибка загрузки:', error);
+        showToast('❌ Ошибка загрузки, используем кэш');
         // Используем кэш если есть
         const cached = localStorage.getItem(CONFIG.CACHE_KEY);
         if (cached) {
             scheduleData = JSON.parse(cached);
             updateAllTimes();
             renderStops();
+            renderNews();
+            updateLastUpdateTime();
         }
+    } finally {
+        isLoading = false;
+        if (refreshBtn) refreshBtn.classList.remove('spinning');
     }
 }
 
@@ -177,6 +204,18 @@ function parseStopsData(data) {
         name: row.Название || row.Остановка,
         routes: (row.Маршруты || '').split(/[,;]/).map(r => r.trim()).filter(Boolean)
     }));
+}
+
+function parseNewsData(data) {
+    return data
+        .filter(row => row.Заголовок || row.Title)
+        .map(row => ({
+            date: row.Дата || row.Date || new Date().toLocaleDateString('ru-RU'),
+            title: row.Заголовок || row.Title,
+            content: row.Текст || row.Content || row.Описание || '',
+            important: (row.Важно || row.Important || '').toString().toLowerCase() === 'да'
+        }))
+        .sort((a, b) => new Date(b.date.split('.').reverse().join('-')) - new Date(a.date.split('.').reverse().join('-')));
 }
 
 // === ТАБЫ ===
@@ -436,6 +475,87 @@ function showStopDetail(stopName) {
 // === ЗАКРЫТИЕ ===
 function closeDetail() {
     document.getElementById('detailView').classList.remove('open');
+}
+
+// === НОВОСТИ ===
+function renderNews() {
+    const container = document.getElementById('newsList');
+    if (!container) return;
+    
+    const news = scheduleData.news || [];
+    
+    if (news.length === 0) {
+        container.innerHTML = `
+            <div class="empty-news">
+                <div class="empty-news-icon">📭</div>
+                <p>Нет новостей</p>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = news.map(item => `
+        <div class="news-card ${item.important ? 'important' : ''}">
+            ${item.important ? '<span class="news-badge">ВАЖНО</span>' : ''}
+            <div class="news-date">${item.date}</div>
+            <div class="news-card-title">${item.title}</div>
+            ${item.content ? `<div class="news-content">${item.content}</div>` : ''}
+        </div>
+    `).join('');
+}
+
+// === ОБНОВЛЕНИЕ ===
+function updateLastUpdateTime() {
+    const el = document.getElementById('lastUpdateTime');
+    if (!el) return;
+    
+    if (scheduleData.lastUpdate) {
+        const date = new Date(scheduleData.lastUpdate);
+        el.textContent = 'Обновлено: ' + date.toLocaleString('ru-RU', { 
+            day: 'numeric', 
+            month: 'short', 
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+    } else {
+        el.textContent = 'Обновите данные';
+    }
+}
+
+function refreshAllData() {
+    showToast('🔄 Обновление...');
+    loadData(true);
+}
+
+// === TOAST ===
+function showToast(message) {
+    // Удаляем старый тост если есть
+    const oldToast = document.querySelector('.toast-message');
+    if (oldToast) oldToast.remove();
+    
+    const toast = document.createElement('div');
+    toast.className = 'toast-message';
+    toast.style.cssText = `
+        position: fixed;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--bg-card);
+        color: var(--text);
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-size: 15px;
+        z-index: 2000;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        animation: fadeIn 0.3s ease;
+    `;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
 }
 
 // === PWA ===
