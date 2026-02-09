@@ -1,448 +1,611 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#1a365d">
-    <meta name="description" content="Расписание автобусов Олёкминск — актуальное расписание маршрутов">
-    <title>🚌 Расписание автобусов Олёкминск</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="description" content="Расписание автобусов Олёкминск — как в Яндекс.Метро">
+    <title>🚌 Олёкминск — Расписание</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        /* === ЯНДЕКС.МЕТРО STYLE === */
         :root {
-            --primary: #1a365d;
-            --primary-light: #2c5282;
-            --accent: #d69e2e;
-            --accent-light: #ecc94b;
-            --bg: #f7fafc;
-            --card: #ffffff;
-            --text: #2d3748;
-            --text-light: #718096;
-            --border: #e2e8f0;
-            --success: #48bb78;
-            --warning: #ed8936;
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #141419;
+            --bg-tertiary: #1c1c24;
+            --bg-card: #23232d;
+            --bg-elevated: #2a2a36;
+            
+            --text-primary: #ffffff;
+            --text-secondary: #8e8e93;
+            --text-tertiary: #636366;
+            
+            --accent-primary: #ffcc00;
+            --accent-secondary: #ff9500;
+            --accent-success: #34c759;
+            --accent-error: #ff3b30;
+            --accent-info: #007aff;
+            
+            --route-1: #ef4444;
+            --route-2: #3b82f6;
+            --route-3: #22c55e;
+            --route-4: #a855f7;
+            --route-5: #f97316;
+            
+            --safe-area-top: env(safe-area-inset-top);
+            --safe-area-bottom: env(safe-area-inset-bottom);
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+        
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
+            line-height: 1.4;
+            overflow-x: hidden;
+            padding-top: var(--safe-area-top);
+            padding-bottom: calc(80px + var(--safe-area-bottom));
         }
         
         /* Header */
         .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            padding: 20px;
+            background: var(--bg-primary);
+            padding: 16px 20px;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            border-bottom: 1px solid var(--bg-tertiary);
         }
         
-        .header-content {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .header h1 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        
-        .header-subtitle {
-            font-size: 0.875rem;
-            opacity: 0.8;
-        }
-        
-        .header-time {
-            margin-top: 12px;
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        /* Tabs */
-        .tabs {
-            display: flex;
-            background: white;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 80px;
-            z-index: 99;
-        }
-        
-        .tab {
-            flex: 1;
-            padding: 16px 8px;
-            text-align: center;
-            font-weight: 500;
-            font-size: 0.875rem;
-            color: var(--text-light);
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s;
-        }
-        
-        .tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--accent);
-        }
-        
-        /* Content */
-        .content {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 16px;
-        }
-        
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-light);
-        }
-        
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--border);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Error */
-        .error {
-            background: #fed7d7;
-            color: #c53030;
-            padding: 16px;
-            border-radius: 12px;
-            margin: 16px 0;
-            text-align: center;
-        }
-        
-        .error button {
-            margin-top: 12px;
-            padding: 8px 16px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        
-        /* Route Cards */
-        .route-card {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .route-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        .route-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 8px;
-        }
-        
-        .route-number {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--primary);
-        }
-        
-        .route-info h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text);
-        }
-        
-        .route-info p {
-            font-size: 0.875rem;
-            color: var(--text-light);
-        }
-        
-        .route-next {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .next-buses {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .time-badge {
-            background: var(--success);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-        
-        .time-badge.soon {
-            background: var(--accent);
-        }
-        
-        /* Schedule Detail */
-        .schedule-detail {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 16px;
-            margin-top: 12px;
-        }
-        
-        .schedule-header {
+        .header-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 16px;
         }
         
-        .schedule-header h2 {
-            font-size: 1.125rem;
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .time-display {
+            text-align: right;
+        }
+        
+        .time-display .time {
+            font-size: 34px;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            line-height: 1;
+        }
+        
+        .time-display .date {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        /* Search */
+        .search-container {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: var(--radius-xl);
+            padding: 14px 20px 14px 48px;
+            color: var(--text-primary);
+            font-size: 17px;
+            outline: none;
+            transition: all 0.2s;
+        }
+        
+        .search-input::placeholder {
+            color: var(--text-tertiary);
+        }
+        
+        .search-input:focus {
+            background: var(--bg-card);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: var(--text-tertiary);
+        }
+        
+        /* Quick Filters */
+        .quick-filters {
+            display: flex;
+            gap: 8px;
+            padding: 12px 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .quick-filters::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .filter-chip {
+            background: var(--bg-tertiary);
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: var(--text-secondary);
+            font-size: 15px;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-chip.active {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+        
+        /* Route Cards - Metro Style */
+        .routes-section {
+            padding: 8px 16px;
+        }
+        
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 16px 4px 8px;
+        }
+        
+        .route-metro-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            margin-bottom: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        
+        .route-metro-card:active {
+            transform: scale(0.98);
+        }
+        
+        .route-metro-header {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            gap: 16px;
+        }
+        
+        .route-line {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .route-line.route-1 { background: var(--route-1); }
+        .route-line.route-2 { background: var(--route-2); }
+        .route-line.route-3 { background: var(--route-3); }
+        .route-line.route-4 { background: var(--route-4); }
+        .route-line.route-5 { background: var(--route-5); }
+        
+        .route-metro-info {
+            flex: 1;
+        }
+        
+        .route-metro-info h3 {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .route-metro-info p {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+        
+        .route-status {
+            text-align: right;
+        }
+        
+        .next-time {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--accent-primary);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .next-time.urgent {
+            color: var(--accent-error);
+        }
+        
+        .next-time.soon {
+            color: var(--accent-secondary);
+        }
+        
+        .status-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+        
+        /* Timeline */
+        .route-timeline {
+            padding: 0 16px 16px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .time-pill {
+            background: var(--bg-tertiary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .time-pill.next {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--bg-tertiary);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 calc(8px + var(--safe-area-bottom));
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 24px;
+            color: var(--text-tertiary);
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+            border: none;
+            background: none;
+        }
+        
+        .nav-item.active {
+            color: var(--accent-primary);
+        }
+        
+        .nav-icon {
+            font-size: 24px;
+            line-height: 1;
+        }
+        
+        /* Detail View */
+        .detail-view {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-primary);
+            z-index: 2000;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .detail-view.open {
+            transform: translateY(0);
+        }
+        
+        .detail-header {
+            background: var(--bg-secondary);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid var(--bg-tertiary);
         }
         
         .back-btn {
             background: none;
             border: none;
-            color: var(--primary);
+            color: var(--accent-primary);
+            font-size: 17px;
             font-weight: 500;
             cursor: pointer;
             padding: 8px;
         }
         
-        .stop-section {
-            margin-bottom: 20px;
+        .detail-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
         }
         
-        .stop-title {
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 12px;
-            padding: 8px 12px;
-            background: var(--bg);
-            border-radius: 8px;
+        .stops-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
         }
         
-        .time-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 8px;
+        .stop-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--bg-tertiary);
         }
         
-        .time-item {
-            text-align: center;
-            padding: 10px;
-            background: var(--bg);
-            border-radius: 8px;
+        .stop-marker {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+        
+        .stop-info h4 {
+            font-size: 17px;
             font-weight: 500;
+            margin-bottom: 4px;
         }
         
-        .time-item.past {
-            opacity: 0.4;
+        .stop-times {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
         }
         
-        .time-item.next {
-            background: var(--accent);
-            color: var(--primary);
-        }
-        
-        /* Stops List */
-        .stop-card {
-            background: var(--card);
-            border-radius: 12px;
+        /* Stops Tab */
+        .stops-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
             padding: 16px;
-            margin-bottom: 10px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
-        .stop-card h4 {
+        .stop-card-metro {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .stop-card-metro h4 {
+            font-size: 15px;
             font-weight: 600;
             margin-bottom: 8px;
         }
         
-        .stop-routes {
+        .routes-dots {
             display: flex;
-            flex-wrap: wrap;
             gap: 6px;
+            justify-content: center;
         }
         
-        .route-tag {
-            background: var(--bg);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
+        .route-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
         }
         
-        /* Exceptions */
-        .exception-card {
-            background: #fffaf0;
-            border-left: 4px solid var(--warning);
-            padding: 12px 16px;
-            margin-bottom: 10px;
-            border-radius: 0 12px 12px 0;
+        /* Loading */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
         }
         
-        .exception-date {
-            font-weight: 600;
-            color: var(--warning);
+        .loading-screen.hidden {
+            display: none;
         }
         
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: var(--text-light);
-            font-size: 0.8rem;
+        .loading-logo {
+            font-size: 64px;
+            margin-bottom: 24px;
+            animation: pulse 2s infinite;
         }
         
-        .update-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.95); opacity: 0.7; }
+        }
+        
+        .loading-text {
+            font-size: 17px;
+            color: var(--text-secondary);
+        }
+        
+        /* Update Toast */
+        .update-toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-elevated);
             padding: 12px 24px;
-            border-radius: 8px;
+            border-radius: var(--radius-xl);
+            font-size: 15px;
             font-weight: 500;
-            cursor: pointer;
-            margin-top: 8px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1500;
+        }
+        
+        .update-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
         
         /* Hidden */
         .hidden { display: none !important; }
-        
-        /* Install prompt */
-        .install-prompt {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: var(--card);
-            padding: 16px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            display: none;
-            z-index: 200;
-        }
-        
-        .install-prompt.show { display: block; }
-        
-        .install-prompt button {
-            background: var(--accent);
-            color: var(--primary);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <h1>🚌 Автобусы Олёкминск</h1>
-            <p class="header-subtitle">Актуальное расписание</p>
-            <div class="header-time">
-                <span>🕐</span>
-                <span id="currentTime">--:--</span>
-                <span id="currentDate"></span>
-            </div>
-        </div>
-    </header>
+    <!-- Loading -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-logo">🚌</div>
+        <div class="loading-text">Загрузка расписания...</div>
+    </div>
     
-    <nav class="tabs">
-        <div class="tab active" data-tab="routes">Маршруты</div>
-        <div class="tab" data-tab="stops">Остановки</div>
-        <div class="tab" data-tab="exceptions">Изменения</div>
-    </nav>
-    
-    <main class="content">
-        <!-- Loading -->
-        <div id="loading" class="loading">
-            <div class="spinner"></div>
-            <p>Загрузка расписания...</p>
-        </div>
-        
-        <!-- Error -->
-        <div id="error" class="error hidden">
-            <p>Не удалось загрузить расписание</p>
-            <button onclick="loadData()">Повторить</button>
-        </div>
-        
-        <!-- Routes Tab -->
-        <div id="routes-tab" class="tab-content">
-            <div id="routes-list"></div>
-            <div id="route-schedule" class="hidden">
-                <div class="schedule-detail">
-                    <div class="schedule-header">
-                        <h2 id="schedule-title">Маршрут</h2>
-                        <button class="back-btn" onclick="showRoutes()">← Назад</button>
-                    </div>
-                    <div id="schedule-content"></div>
+    <!-- Main App -->
+    <div id="mainApp">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-top">
+                <h1>Олёкминск</h1>
+                <div class="time-display">
+                    <div class="time" id="currentTime">--:--</div>
+                    <div class="date" id="currentDate">-- -----</div>
                 </div>
             </div>
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="searchInput" placeholder="Поиск маршрута или остановки">
+            </div>
+        </header>
+        
+        <!-- Quick Filters -->
+        <div class="quick-filters">
+            <button class="filter-chip active" data-filter="all">Все</button>
+            <button class="filter-chip" data-filter="now">Сейчас</button>
+            <button class="filter-chip" data-filter="popular">Популярные</button>
+            <button class="filter-chip" data-filter="favorites">⭐ Избранное</button>
         </div>
         
-        <!-- Stops Tab -->
-        <div id="stops-tab" class="tab-content hidden">
-            <div id="stops-list"></div>
-        </div>
+        <!-- Content -->
+        <main id="mainContent">
+            <!-- Routes Tab -->
+            <div id="routesTab" class="tab-content">
+                <div class="routes-section">
+                    <div class="section-title">Ближайшие рейсы</div>
+                    <div id="routesList"></div>
+                </div>
+            </div>
+            
+            <!-- Stops Tab -->
+            <div id="stopsTab" class="tab-content hidden">
+                <div class="stops-grid" id="stopsGrid"></div>
+            </div>
+            
+            <!-- Map Tab -->
+            <div id="mapTab" class="tab-content hidden">
+                <div style="padding: 40px; text-align: center; color: var(--text-secondary);">
+                    <div style="font-size: 64px; margin-bottom: 16px;">🗺️</div>
+                    <p>Карта маршрутов</p>
+                    <p style="font-size: 13px; margin-top: 8px;">В разработке</p>
+                </div>
+            </div>
+            
+            <!-- Info Tab -->
+            <div id="infoTab" class="tab-content hidden">
+                <div style="padding: 20px;">
+                    <div class="section-title">О приложении</div>
+                    <div class="route-metro-card" style="padding: 20px;">
+                        <h3 style="margin-bottom: 12px;">🚌 Расписание автобусов</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 16px;">Актуальное расписание автобусов Олёкминска с данными из Google Sheets.</p>
+                        
+                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                            <button class="filter-chip" onclick="loadData(true)" style="background: var(--accent-primary); color: var(--bg-primary);">🔄 Обновить сейчас</button>
+                        </div>
+                        
+                        <div id="lastUpdateInfo" style="margin-top: 16px; font-size: 13px; color: var(--text-tertiary);">
+                            Обновлено: --
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
         
-        <!-- Exceptions Tab -->
-        <div id="exceptions-tab" class="tab-content hidden">
-            <div id="exceptions-list"></div>
-        </div>
-        
-        <footer class="footer">
-            <p id="lastUpdate">Обновлено: --</p>
-            <button class="update-btn" onclick="loadData(true)">🔄 Обновить</button>
-        </footer>
-    </main>
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-nav="routes">
+                <span class="nav-icon">🚌</span>
+                <span>Маршруты</span>
+            </button>
+            <button class="nav-item" data-nav="stops">
+                <span class="nav-icon">📍</span>
+                <span>Остановки</span>
+            </button>
+            <button class="nav-item" data-nav="map">
+                <span class="nav-icon">🗺️</span>
+                <span>Карта</span>
+            </button>
+            <button class="nav-item" data-nav="info">
+                <span class="nav-icon">ℹ️</span>
+                <span>Инфо</span>
+            </button>
+        </nav>
+    </div>
     
-    <div id="installPrompt" class="install-prompt">
-        <strong>📱 Установить приложение</strong>
-        <p>Добавьте на главный экран для быстрого доступа</p>
-        <button onclick="installApp()">Установить</button>
+    <!-- Detail View -->
+    <div id="detailView" class="detail-view">
+        <div class="detail-header">
+            <button class="back-btn" onclick="closeDetail()">← Назад</button>
+            <h2 id="detailTitle">Маршрут</h2>
+        </div>
+        <div class="detail-content">
+            <div id="detailContent"></div>
+        </div>
+    </div>
+    
+    <!-- Update Toast -->
+    <div id="updateToast" class="update-toast">
+        🔄 Расписание обновлено
     </div>
     
     <script src="app.js"></script>
