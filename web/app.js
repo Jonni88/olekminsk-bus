@@ -16,6 +16,8 @@ const CONFIG = {
     CACHE_TIME_KEY: 'bus_schedule_time',
     // Время жизни кэша (5 минут)
     CACHE_TTL: 5 * 60 * 1000,
+    // Автоматическое обновление (1 час = 60 минут)
+    AUTO_REFRESH_INTERVAL: 60 * 60 * 1000,
 };
 
 // Глобальные переменные
@@ -363,7 +365,8 @@ function updateLastUpdate() {
     const el = document.getElementById('lastUpdate');
     if (appData.lastUpdate) {
         const date = new Date(appData.lastUpdate);
-        el.textContent = `Обновлено: ${date.toLocaleString('ru-RU')}`;
+        const nextUpdate = new Date(date.getTime() + CONFIG.AUTO_REFRESH_INTERVAL);
+        el.innerHTML = `Обновлено: ${date.toLocaleString('ru-RU')}<br><small>Следующее обновление: ${nextUpdate.toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'})}</small>`;
     }
 }
 
@@ -422,9 +425,24 @@ updateCurrentTime();
 setInterval(updateCurrentTime, 1000);
 loadData();
 
+// Автоматическое обновление каждый час
+setInterval(() => {
+    console.log('🔄 Автоматическое обновление расписания...');
+    loadData(true); // true = принудительное обновление
+}, CONFIG.AUTO_REFRESH_INTERVAL);
+
 // Обновление при возвращении на страницу
 document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
         updateCurrentTime();
+        // Проверяем, не устарели ли данные (более 1 часа)
+        const cachedTime = localStorage.getItem(CONFIG.CACHE_TIME_KEY);
+        if (cachedTime) {
+            const age = Date.now() - parseInt(cachedTime);
+            if (age > CONFIG.AUTO_REFRESH_INTERVAL) {
+                console.log('📱 Приложение вернулось на экран, данные устарели — обновляем...');
+                loadData(true);
+            }
+        }
     }
 });
