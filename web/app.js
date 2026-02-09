@@ -1,98 +1,21 @@
 /**
- * Расписание автобусов Олёкминск — С разделением по дням недели
+ * Расписание автобусов Олёкминск — С Google Sheets
  */
 
-// === РАСПИСАНИЕ ===
-const SCHEDULE = {
-    route1: {
-        weekday: {
-            forward: {  // С автовокзала
-                name: "Маршрут №1 — С автовокзала (Пн-Пт)",
-                times: ["06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "10:00", 
-                        "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"]
-            },
-            back: {  // С дачи
-                name: "Маршрут №1 — С дачи (Пн-Пт)",
-                times: ["06:15", "06:45", "07:15", "07:45", "08:15", "08:45", "09:15", "10:15",
-                        "11:15", "12:15", "13:15", "14:15", "15:15", "16:15", "17:15", "18:15", "19:15", "20:15"]
-            }
-        },
-        saturday: {
-            forward: {
-                name: "Маршрут №1 — С автовокзала (Суббота)",
-                times: ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"]
-            },
-            back: {
-                name: "Маршрут №1 — С дачи (Суббота)",
-                times: ["07:15", "08:15", "09:15", "10:15", "11:15", "12:15", "13:15", "14:15", "15:15", "16:15", "17:15", "18:15", "19:15", "20:15"]
-            }
-        },
-        sunday: {
-            forward: {
-                name: "Маршрут №1 — С автовокзала (Вск/Праздники)",
-                times: ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"]
-            },
-            back: {
-                name: "Маршрут №1 — С дачи (Вск/Праздники)",
-                times: ["08:15", "09:15", "10:15", "11:15", "12:15", "13:15", "14:15", "15:15", "16:15", "17:15", "18:15", "19:15"]
-            }
-        }
-    },
-    route5: {
-        weekday: {
-            forward: {  // С автовокзала
-                name: "Маршрут №5 — С автовокзала (Пн-Пт)",
-                times: ["06:20", "07:00", "07:40", "08:20", "09:00", "10:00", "11:00", "12:00",
-                        "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"]
-            },
-            back: {  // С ПНДИ
-                name: "Маршрут №5 — С ПНДИ (Пн-Пт)",
-                times: ["06:35", "07:15", "07:55", "08:35", "09:15", "10:15", "11:15", "12:15",
-                        "13:15", "14:15", "15:15", "16:15", "17:15", "18:15", "19:15"]
-            }
-        },
-        saturday: {
-            forward: {
-                name: "Маршрут №5 — С автовокзала (Суббота)",
-                times: ["07:30", "08:30", "09:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30", "16:30", "17:30", "18:30"]
-            },
-            back: {
-                name: "Маршрут №5 — С ПНДИ (Суббота)",
-                times: ["07:45", "08:45", "09:45", "10:45", "11:45", "12:45", "13:45", "14:45", "15:45", "16:45", "17:45", "18:45"]
-            }
-        },
-        sunday: {
-            forward: {
-                name: "Маршрут №5 — С автовокзала (Вск/Праздники)",
-                times: ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
-            },
-            back: {
-                name: "Маршрут №5 — С ПНДИ (Вск/Праздники)",
-                times: ["09:15", "10:15", "11:15", "12:15", "13:15", "14:15", "15:15", "16:15", "17:15", "18:15"]
-            }
-        }
-    },
-    suburban: {
-        yakutsk: {
-            name: "Олёкминск → Якутск",
-            times: ["07:00", "12:00", "18:00"],
-            price: "1200₽"
-        },
-        olekminsk: {
-            name: "Якутск → Олёкминск",
-            times: ["08:00", "14:00", "19:00"],
-            price: "1200₽"
-        }
-    },
-    stops: [
-        { name: "Автовокзал", routes: ["1", "5"] },
-        { name: "Центр", routes: ["1"] },
-        { name: "Центральная площадь", routes: ["5"] },
-        { name: "Школа №1", routes: ["1"] },
-        { name: "Больница", routes: ["5"] },
-        { name: "Дача", routes: ["1"] },
-        { name: "ПНДИ", routes: ["5"] }
-    ]
+// === КОНФИГУРАЦИЯ ===
+const CONFIG = {
+    SPREADSHEET_ID: '1jNSVkXTohNjy2Ukpb2-IZMUbu7OKGJQ_G-eel60c-IE',
+    CACHE_KEY: 'bus_schedule_cache_v3',
+    CACHE_TIME_KEY: 'bus_schedule_time_v3',
+    CACHE_TTL: 5 * 60 * 1000, // 5 минут
+};
+
+// === ДАННЫЕ ===
+let scheduleData = {
+    route1: { weekday: {}, saturday: {}, sunday: {} },
+    route5: { weekday: {}, saturday: {}, sunday: {} },
+    suburban: {},
+    stops: []
 };
 
 // === ИНИЦИАЛИЗАЦИЯ ===
@@ -101,9 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateTime, 1000);
     setupTabs();
     setupDayTabs();
-    updateAllTimes();
-    renderStops();
-    setInterval(updateAllTimes, 30000);
+    loadData();
+    setInterval(() => loadData(true), 60 * 60 * 1000); // Обновление каждый час
 });
 
 // === ВРЕМЯ ===
@@ -111,6 +33,150 @@ function updateTime() {
     const now = new Date();
     document.getElementById('currentTime').textContent = 
         now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+}
+
+// === ЗАГРУЗКА ДАННЫХ ИЗ GOOGLE SHEETS ===
+async function loadData(force = false) {
+    // Проверяем кэш
+    if (!force) {
+        const cached = localStorage.getItem(CONFIG.CACHE_KEY);
+        const cachedTime = localStorage.getItem(CONFIG.CACHE_TIME_KEY);
+        
+        if (cached && cachedTime) {
+            const age = Date.now() - parseInt(cachedTime);
+            if (age < CONFIG.CACHE_TTL) {
+                scheduleData = JSON.parse(cached);
+                updateAllTimes();
+                renderStops();
+                return;
+            }
+        }
+    }
+    
+    try {
+        // Загружаем все листы
+        const [route1Weekday, route1Saturday, route1Sunday,
+               route5Weekday, route5Saturday, route5Sunday,
+               suburban, stops] = await Promise.all([
+            fetchSheet('Маршрут1_Будни'),
+            fetchSheet('Маршрут1_Суббота'),
+            fetchSheet('Маршрут1_Воскресенье'),
+            fetchSheet('Маршрут5_Будни'),
+            fetchSheet('Маршрут5_Суббота'),
+            fetchSheet('Маршрут5_Воскресенье'),
+            fetchSheet('Пригород'),
+            fetchSheet('Остановки')
+        ]);
+        
+        // Преобразуем данные
+        scheduleData.route1.weekday = parseRouteData(route1Weekday, 'Маршрут №1 — С автовокзала (Пн-Пт)', 'Маршрут №1 — С дачи (Пн-Пт)');
+        scheduleData.route1.saturday = parseRouteData(route1Saturday, 'Маршрут №1 — С автовокзала (Суббота)', 'Маршрут №1 — С дачи (Суббота)');
+        scheduleData.route1.sunday = parseRouteData(route1Sunday, 'Маршрут №1 — С автовокзала (Вск/Праздники)', 'Маршрут №1 — С дачи (Вск/Праздники)');
+        
+        scheduleData.route5.weekday = parseRouteData(route5Weekday, 'Маршрут №5 — С автовокзала (Пн-Пт)', 'Маршрут №5 — С ПНДИ (Пн-Пт)');
+        scheduleData.route5.saturday = parseRouteData(route5Saturday, 'Маршрут №5 — С автовокзала (Суббота)', 'Маршрут №5 — С ПНДИ (Суббота)');
+        scheduleData.route5.sunday = parseRouteData(route5Sunday, 'Маршрут №5 — С автовокзала (Вск/Праздники)', 'Маршрут №5 — С ПНДИ (Вск/Праздники)');
+        
+        scheduleData.suburban = parseSuburbanData(suburban);
+        scheduleData.stops = parseStopsData(stops);
+        
+        // Сохраняем в кэш
+        localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(scheduleData));
+        localStorage.setItem(CONFIG.CACHE_TIME_KEY, Date.now().toString());
+        
+        updateAllTimes();
+        renderStops();
+        
+    } catch (error) {
+        console.error('Ошибка загрузки:', error);
+        // Используем кэш если есть
+        const cached = localStorage.getItem(CONFIG.CACHE_KEY);
+        if (cached) {
+            scheduleData = JSON.parse(cached);
+            updateAllTimes();
+            renderStops();
+        }
+    }
+}
+
+async function fetchSheet(sheetName) {
+    const url = `https://docs.google.com/spreadsheets/d/${CONFIG.SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return parseCSV(await response.text());
+}
+
+function parseCSV(csv) {
+    const lines = csv.trim().split('\n');
+    if (lines.length < 2) return [];
+    
+    const headers = parseCSVLine(lines[0]);
+    return lines.slice(1).map(line => {
+        const values = parseCSVLine(line);
+        const obj = {};
+        headers.forEach((h, i) => obj[h] = values[i] || '');
+        return obj;
+    });
+}
+
+function parseCSVLine(line) {
+    const result = [];
+    let current = '', inQuotes = false;
+    
+    for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        if (char === '"') {
+            if (inQuotes && line[i + 1] === '"') {
+                current += '"'; i++;
+            } else {
+                inQuotes = !inQuotes;
+            }
+        } else if (char === ',' && !inQuotes) {
+            result.push(current.trim());
+            current = '';
+        } else {
+            current += char;
+        }
+    }
+    result.push(current.trim());
+    return result;
+}
+
+function parseRouteData(data, forwardName, backName) {
+    const forward = data.filter(r => r.Направление === 'forward' || r.Направление === 'туда').map(r => r.Время).filter(Boolean);
+    const back = data.filter(r => r.Направление === 'back' || r.Направление === 'обратно').map(r => r.Время).filter(Boolean);
+    
+    return {
+        forward: { name: forwardName, times: forward.sort() },
+        back: { name: backName, times: back.sort() }
+    };
+}
+
+function parseSuburbanData(data) {
+    const result = {};
+    data.forEach(row => {
+        if (row.Направление === 'yakutsk' || row.Направление === 'Якутск') {
+            result.yakutsk = {
+                name: row.Название || 'Олёкминск → Якутск',
+                times: row.Время ? row.Время.split(',').map(t => t.trim()) : [],
+                price: row.Цена || '1200₽'
+            };
+        } else if (row.Направление === 'olekminsk' || row.Направление === 'Олёкминск') {
+            result.olekminsk = {
+                name: row.Название || 'Якутск → Олёкминск',
+                times: row.Время ? row.Время.split(',').map(t => t.trim()) : [],
+                price: row.Цена || '1200₽'
+            };
+        }
+    });
+    return result;
+}
+
+function parseStopsData(data) {
+    return data.map(row => ({
+        name: row.Название || row.Остановка,
+        routes: (row.Маршруты || '').split(/[,;]/).map(r => r.trim()).filter(Boolean)
+    }));
 }
 
 // === ТАБЫ ===
@@ -131,14 +197,12 @@ function setupDayTabs() {
         tab.addEventListener('click', () => {
             const day = tab.dataset.day;
             
-            // Переключаем табы
             document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
             
             tab.classList.add('active');
             document.getElementById(day + 'Content').classList.add('active');
             
-            // Обновляем времена
             updateAllTimes();
         });
     });
@@ -148,20 +212,20 @@ function setupDayTabs() {
 function updateAllTimes() {
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
-    const dayOfWeek = now.getDay(); // 0-вс, 1-пн, ..., 6-сб
+    const dayOfWeek = now.getDay();
     
-    // Определяем текущий тип дня для отображения
     let currentDayType = 'weekday';
     if (dayOfWeek === 6) currentDayType = 'saturday';
     if (dayOfWeek === 0) currentDayType = 'sunday';
     
-    // Обновляем все времена для всех дней
     ['weekday', 'saturday', 'sunday'].forEach(dayType => {
         ['1', '5'].forEach(routeNum => {
             ['forward', 'back'].forEach(direction => {
                 const elementId = `time-${routeNum}-${dayType === 'weekday' ? 'weekday' : dayType === 'saturday' ? 'sat' : 'sun'}-${direction}`;
-                const schedule = SCHEDULE[`route${routeNum}`][dayType][direction];
-                updateTimeDisplay(elementId, schedule.times, currentMinutes, dayType === currentDayType);
+                const route = scheduleData[`route${routeNum}`][dayType];
+                if (route && route[direction]) {
+                    updateTimeDisplay(elementId, route[direction].times, currentMinutes, dayType === currentDayType);
+                }
             });
         });
     });
@@ -169,9 +233,10 @@ function updateAllTimes() {
 
 function updateTimeDisplay(elementId, times, currentMinutes, isCurrentDay) {
     const el = document.getElementById(elementId);
-    if (!el) return;
+    if (!el || !times) return;
     
     const nextBus = times.find(time => {
+        if (!time) return false;
         const [h, m] = time.split(':').map(Number);
         return h * 60 + m > currentMinutes;
     });
@@ -189,7 +254,7 @@ function updateTimeDisplay(elementId, times, currentMinutes, isCurrentDay) {
             el.className = 'time-main';
         }
     } else {
-        el.textContent = isCurrentDay ? '—' : times[0];
+        el.textContent = isCurrentDay ? '—' : (times[0] || '—');
         el.className = 'time-main';
     }
 }
@@ -197,35 +262,39 @@ function updateTimeDisplay(elementId, times, currentMinutes, isCurrentDay) {
 // === ОТРИСОВКА ОСТАНОВОК ===
 function renderStops() {
     const container = document.getElementById('stopsList');
+    if (!container || !scheduleData.stops.length) return;
+    
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
     const dayOfWeek = now.getDay();
     
-    // Текущий тип дня
     let dayType = 'weekday';
     if (dayOfWeek === 6) dayType = 'saturday';
     if (dayOfWeek === 0) dayType = 'sunday';
     
-    container.innerHTML = SCHEDULE.stops.map(stop => {
-        // Находим ближайший автобус
+    container.innerHTML = scheduleData.stops.map(stop => {
         let nearestBus = null;
         let nearestTime = Infinity;
         let nearestRoute = '';
         
         stop.routes.forEach(routeNum => {
-            const route = SCHEDULE[`route${routeNum}`][dayType];
-            
-            ['forward', 'back'].forEach(dir => {
-                route[dir].times.forEach(time => {
-                    const [h, m] = time.split(':').map(Number);
-                    const busMinutes = h * 60 + m;
-                    if (busMinutes > currentMinutes && busMinutes < nearestTime) {
-                        nearestTime = busMinutes;
-                        nearestBus = time;
-                        nearestRoute = routeNum;
+            const route = scheduleData[`route${routeNum}`][dayType];
+            if (route) {
+                ['forward', 'back'].forEach(dir => {
+                    if (route[dir] && route[dir].times) {
+                        route[dir].times.forEach(time => {
+                            if (!time) return;
+                            const [h, m] = time.split(':').map(Number);
+                            const busMinutes = h * 60 + m;
+                            if (busMinutes > currentMinutes && busMinutes < nearestTime) {
+                                nearestTime = busMinutes;
+                                nearestBus = time;
+                                nearestRoute = routeNum;
+                            }
+                        });
                     }
                 });
-            });
+            }
         });
         
         const diff = nearestBus ? nearestTime - currentMinutes : null;
@@ -254,14 +323,17 @@ function renderStops() {
 
 // === ПОКАЗАТЬ РАСПИСАНИЕ ===
 function showSchedule(routeNum, dayType, direction) {
-    const route = SCHEDULE[`route${routeNum}`][dayType][direction];
+    const route = scheduleData[`route${routeNum}`][dayType];
+    if (!route || !route[direction]) return;
     
-    document.getElementById('detailTitle').textContent = route.name;
+    const data = route[direction];
+    document.getElementById('detailTitle').textContent = data.name;
     
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
     
-    document.getElementById('detailContent').innerHTML = route.times.map(time => {
+    document.getElementById('detailContent').innerHTML = data.times.map(time => {
+        if (!time) return '';
         const [h, m] = time.split(':').map(Number);
         const busMinutes = h * 60 + m;
         const isPast = busMinutes < currentMinutes;
@@ -280,7 +352,8 @@ function showSchedule(routeNum, dayType, direction) {
 
 // === ПРИГОРОД ===
 function showSuburban(direction) {
-    const data = SCHEDULE.suburban[direction];
+    const data = scheduleData.suburban[direction];
+    if (!data) return;
     
     document.getElementById('detailTitle').textContent = data.name;
     
@@ -302,7 +375,7 @@ function showSuburban(direction) {
 
 // === ОСТАНОВКА ===
 function showStopDetail(stopName) {
-    const stop = SCHEDULE.stops.find(s => s.name === stopName);
+    const stop = scheduleData.stops.find(s => s.name === stopName);
     if (!stop) return;
     
     document.getElementById('detailTitle').textContent = stopName;
@@ -320,15 +393,20 @@ function showStopDetail(stopName) {
     </div>`;
     
     stop.routes.forEach(routeNum => {
-        const route = SCHEDULE[`route${routeNum}`][dayType];
+        const route = scheduleData[`route${routeNum}`][dayType];
+        if (!route) return;
         
         ['forward', 'back'].forEach(dir => {
+            if (!route[dir]) return;
             const direction = route[dir];
+            const dirName = dir === 'forward' ? 'С автовокзала' : routeNum === '1' ? 'С дачи' : 'С ПНДИ';
+            
             html += `<div style="margin-bottom: 20px;">`;
-            html += `<div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">Маршрут ${routeNum} — ${dir === 'forward' ? 'С автовокзала' : routeNum === '1' ? 'С дачи' : 'С ПНДИ'}</div>`;
+            html += `<div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">Маршрут ${routeNum} — ${dirName}</div>`;
             
             html += `<div style="display: flex; flex-wrap: wrap; gap: 8px;">`;
             direction.times.forEach(time => {
+                if (!time) return;
                 const [h, m] = time.split(':').map(Number);
                 const busMinutes = h * 60 + m;
                 const isPast = busMinutes < currentMinutes;
