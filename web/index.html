@@ -62,7 +62,7 @@
             color: var(--text);
         }
         
-        /* Tabs */
+        /* Main Tabs */
         .tabs {
             display: flex;
             background: var(--bg-card);
@@ -91,17 +91,62 @@
             color: var(--text);
         }
         
-        /* Content */
-        .content {
-            padding: 16px;
+        /* Day Tabs (sub-tabs) */
+        .day-tabs {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            overflow-x: auto;
+            scrollbar-width: none;
         }
         
-        .tab-content {
+        .day-tabs::-webkit-scrollbar {
             display: none;
         }
         
-        .tab-content.active {
+        .day-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        
+        .day-tab.active {
+            background: var(--accent);
+            color: var(--bg);
+        }
+        
+        /* Content */
+        .content {
+            padding: 0 16px 16px;
+        }
+        
+        .tab-content, .day-content {
+            display: none;
+        }
+        
+        .tab-content.active, .day-content.active {
             display: block;
+        }
+        
+        /* Route Section */
+        .route-section {
+            margin-bottom: 16px;
+        }
+        
+        .route-section-title {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 16px 0 8px;
+            padding-left: 4px;
         }
         
         /* Route Card */
@@ -249,7 +294,6 @@
         
         .route-pill.route-1 { background: var(--route-1); }
         .route-pill.route-5 { background: var(--route-5); }
-        .route-pill.route-sub { background: var(--route-sub); }
         
         /* Detail View */
         .detail-view {
@@ -309,52 +353,6 @@
             font-weight: 500;
         }
         
-        .schedule-stop {
-            font-size: 15px;
-            color: var(--text-secondary);
-        }
-        
-        /* Bottom Nav */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--bg-card);
-            border-top: 1px solid var(--bg-hover);
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
-        }
-        
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            padding: 8px 20px;
-            color: var(--text-secondary);
-            font-size: 11px;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .nav-item.active {
-            color: var(--accent);
-        }
-        
-        .nav-icon {
-            font-size: 22px;
-        }
-        
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-secondary);
-        }
-        
         .hidden { display: none !important; }
     </style>
 </head>
@@ -367,7 +365,7 @@
             <span class="time-big" id="currentTime">--:--</span>
         </div>
         
-        <!-- Tabs -->
+        <!-- Main Tabs -->
         <div class="tabs">
             <button class="tab active" data-tab="city">Город</button>
             <button class="tab" data-tab="suburban">Пригород</button>
@@ -379,97 +377,190 @@
     <main class="content">
         <!-- City Routes -->
         <div id="cityTab" class="tab-content active">
-            <!-- Route 1 -->
-            <div class="route-card">
-                <div class="route-header">
-                    <div class="route-number route-1">1</div>
-                    <div class="route-title">
-                        <h3>Автовокзал ⇄ Дача</h3>
-                        <p>Через центр города</p>
+            <!-- Day Tabs -->
+            <div class="day-tabs">
+                <button class="day-tab active" data-day="weekday">Пн-Пт</button>
+                <button class="day-tab" data-day="saturday">Суббота</button>
+                <button class="day-tab" data-day="sunday">Вск/Праздники</button>
+            </div>
+            
+            <!-- Weekday -->
+            <div id="weekdayContent" class="day-content active">
+                <!-- Route 1 -->
+                <div class="route-section-title">Маршрут №1</div>
+                <div class="route-card">
+                    <div class="direction" onclick="showSchedule('1', 'weekday', 'forward')">
+                        <div class="direction-info">
+                            <span class="direction-arrow">→</span>
+                            <span class="direction-name">С автовокзала</span>
+                        </div>
+                        <div class="direction-time">
+                            <div class="time-main" id="time-1-weekday-forward">--</div>
+                            <div class="time-label">мин</div>
+                        </div>
+                    </div>
+                    <div class="direction" onclick="showSchedule('1', 'weekday', 'back')">
+                        <div class="direction-info">
+                            <span class="direction-arrow">→</span>
+                            <span class="direction-name">С дачи</span>
+                        </div>
+                        <div class="direction-time">
+                            <div class="time-main" id="time-1-weekday-back">--</div>
+                            <div class="time-label">мин</div>
+                        </div>
                     </div>
                 </div>
-                <div class="direction" onclick="showRouteDetail('1', 'forward')">
-                    <div class="direction-info">
-                        <span class="direction-arrow">→</span>
-                        <span class="direction-name">Автовокзал → Дача</span>
+                
+                <!-- Route 5 -->
+                <div class="route-section-title">Маршрут №5</div>
+                
+                <div class="route-card">
+                    <div class="direction" onclick="showSchedule('5', 'weekday', 'forward')">
+                        <div class="direction-info">
+                            <span class="direction-arrow">→</span>
+                            <span class="direction-name">С автовокзала</span>
+                        </div>
+                        <div class="direction-time">
+                            <div class="time-main" id="time-5-weekday-forward">--</div>
+                            <div class="time-label">мин</div>
+                        </div>
                     </div>
-                    <div class="direction-time">
-                        <div class="time-main" id="time-1-forward">--</div>
-                        <div class="time-label">мин</div>
-                    </div>
-                </div>
-                <div class="direction" onclick="showRouteDetail('1', 'back')">
-                    <div class="direction-info">
-                        <span class="direction-arrow">→</span>
-                        <span class="direction-name">Дача → Автовокзал</span>
-                    </div>
-                    <div class="direction-time">
-                        <div class="time-main" id="time-1-back">--</div>
-                        <div class="time-label">мин</div>
+                    <div class="direction" onclick="showSchedule('5', 'weekday', 'back')">
+                        <div class="direction-info">
+                            <span class="direction-arrow">→</span>
+                            <span class="direction-name">С ПНДИ</span>
+                        </div>
+                        <div class="direction-time">
+                            <div class="time-main" id="time-5-weekday-back">--</div>
+                            <div class="time-label">мин</div>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Route 5 -->
-            <div class="route-card">
-                <div class="route-header">
-                    <div class="route-number route-5">5</div>
-                    <div class="route-title">
-                        <h3>Автовокзал ⇄ ПНДИ</h3>
-                        <p>Поликлиника</p>
+            <!-- Saturday -->
+            <div id="saturdayContent" class="day-content">
+                <div class="route-section-title">Маршрут №1</div>
+                
+                <div class="route-card">
+                    <div class="direction" onclick="showSchedule('1', 'saturday', 'forward')">
+                        <div class="direction-info">
+                            <span class="direction-arrow">→</span>
+                            <span class="direction-name">С автовокзала</span>
+                        </div>
+                        <div class="direction-time">
+                            <div class="time-main" id="time-1-sat-forward">--</div>
+                        </div>
+                    </div>
+                    <div class="direction" onclick="showSchedule('1', 'saturday', 'back')">
+                        <div class="direction-info">
+                            <span class="direction-arrow">→</span>
+                            <span class="direction-name">С дачи</span>
+                        </div>
+                        <div class="direction-time">
+                            <div class="time-main" id="time-1-sat-back">--</div>
+                        </div>
                     </div>
                 </div>
-                <div class="direction" onclick="showRouteDetail('5', 'forward')">
-                    <div class="direction-info">
-                        <span class="direction-arrow">→</span>
-                        <span class="direction-name">Автовокзал → ПНДИ</span>
+                
+                <div class="route-section-title">Маршрут №5</div>
+                
+                <div class="route-card">
+                    <div class="direction" onclick="showSchedule('5', 'saturday', 'forward')">
+                        <div class="direction-info">
+                            <span class="direction-arrow">→</span>
+                            <span class="direction-name">С автовокзала</span>
+                        </div>
+                        <div class="direction-time">
+                            <div class="time-main" id="time-5-sat-forward">--</div>
+                        </div>
                     </div>
-                    <div class="direction-time">
-                        <div class="time-main" id="time-5-forward">--</div>
-                        <div class="time-label">мин</div>
+                    <div class="direction" onclick="showSchedule('5', 'saturday', 'back')">
+                        <div class="direction-info">
+                            <span class="direction-arrow">→</span>
+                            <span class="direction-name">С ПНДИ</span>
+                        </div>
+                        <div class="direction-time">
+                            <div class="time-main" id="time-5-sat-back">--</div>
+                        </div>
                     </div>
                 </div>
-                <div class="direction" onclick="showRouteDetail('5', 'back')">
-                    <div class="direction-info">
-                        <span class="direction-arrow">→</span>
-                        <span class="direction-name">ПНДИ → Автовокзал</span>
+            </div>
+            
+            <!-- Sunday/Holiday -->
+            <div id="sundayContent" class="day-content">
+                <div class="route-section-title">Маршрут №1</div>
+                
+                <div class="route-card">
+                    <div class="direction" onclick="showSchedule('1', 'sunday', 'forward')">
+                        <div class="direction-info">
+                            <span class="direction-arrow">→</span>
+                            <span class="direction-name">С автовокзала</span>
+                        </div>
+                        <div class="direction-time">
+                            <div class="time-main" id="time-1-sun-forward">--</div>
+                        </div>
                     </div>
-                    <div class="direction-time">
-                        <div class="time-main" id="time-5-back">--</div>
-                        <div class="time-label">мин</div>
+                    <div class="direction" onclick="showSchedule('1', 'sunday', 'back')">
+                        <div class="direction-info">
+                            <span class="direction-arrow">→</span>
+                            <span class="direction-name">С дачи</span>
+                        </div>
+                        <div class="direction-time">
+                            <div class="time-main" id="time-1-sun-back">--</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="route-section-title">Маршрут №5</div>
+                
+                <div class="route-card">
+                    <div class="direction" onclick="showSchedule('5', 'sunday', 'forward')">
+                        <div class="direction-info">
+                            <span class="direction-arrow">→</span>
+                            <span class="direction-name">С автовокзала</span>
+                        </div>
+                        <div class="direction-time">
+                            <div class="time-main" id="time-5-sun-forward">--</div>
+                        </div>
+                    </div>
+                    <div class="direction" onclick="showSchedule('5', 'sunday', 'back')">
+                        <div class="direction-info">
+                            <span class="direction-arrow">→</span>
+                            <span class="direction-name">С ПНДИ</span>
+                        </div>
+                        <div class="direction-time">
+                            <div class="time-main" id="time-5-sun-back">--</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Suburban Routes -->
+        <!-- Suburban -->
         <div id="suburbanTab" class="tab-content">
+            <div class="route-section-title">Олёкминск ⇄ Якутск</div>
+            
             <div class="route-card">
-                <div class="route-header">
-                    <div class="route-number route-sub">С</div>
-                    <div class="route-title">
-                        <h3>Олёкминск ⇄ Якутск</h3>
-                        <p>Ежедневно</p>
-                    </div>
-                </div>
-                <div class="direction" onclick="showSuburbanDetail('yakutsk')">
+                <div class="direction" onclick="showSuburban('yakutsk')">
                     <div class="direction-info">
                         <span class="direction-arrow">→</span>
-                        <span class="direction-name">Олёкминск → Якутск</span>
+                        <span class="direction-name">В Якутск</span>
                     </div>
                     <div class="direction-time">
-                        <div class="time-main" id="time-sub-1">07:00</div>
-                        <div class="time-label">утро</div>
+                        <div class="time-main">07:00</div>
+                        <div class="time-label">1200₽</div>
                     </div>
                 </div>
-                <div class="direction" onclick="showSuburbanDetail('olekminsk')">
+                
+                <div class="direction" onclick="showSuburban('olekminsk')">
                     <div class="direction-info">
                         <span class="direction-arrow">→</span>
-                        <span class="direction-name">Якутск → Олёкминск</span>
+                        <span class="direction-name">В Олёкминск</span>
                     </div>
                     <div class="direction-time">
-                        <div class="time-main" id="time-sub-2">18:00</div>
-                        <div class="time-label">вечер</div>
+                        <div class="time-main">18:00</div>
+                        <div class="time-label">1200₽</div>
                     </div>
                 </div>
             </div>
@@ -477,9 +568,7 @@
         
         <!-- Stops -->
         <div id="stopsTab" class="tab-content">
-            <div id="stopsList">
-                <!-- Generated by JS -->
-            </div>
+            <div id="stopsList"></div>
         </div>
     </main>
     
@@ -487,11 +576,9 @@
     <div id="detailView" class="detail-view">
         <div class="detail-header">
             <button class="back-btn" onclick="closeDetail()">← Назад</button>
-            <span class="detail-title" id="detailTitle">Маршрут</span>
+            <span class="detail-title" id="detailTitle">Расписание</span>
         </div>
-        <div class="schedule-list" id="detailContent">
-            <!-- Generated by JS -->
-        </div>
+        <div class="schedule-list" id="detailContent"></div>
     </div>
     
     <script src="app.js"></script>
