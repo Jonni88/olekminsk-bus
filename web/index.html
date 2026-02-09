@@ -4,323 +4,252 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#0a0a0f">
-    <meta name="description" content="Расписание автобусов Олёкминск — как в Яндекс.Метро">
-    <title>🚌 Олёкминск — Расписание</title>
+    <title>🚌 Расписание автобусов Олёкминск</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* === ЯНДЕКС.МЕТРО STYLE === */
-        :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #141419;
-            --bg-tertiary: #1c1c24;
-            --bg-card: #23232d;
-            --bg-elevated: #2a2a36;
-            
-            --text-primary: #ffffff;
-            --text-secondary: #8e8e93;
-            --text-tertiary: #636366;
-            
-            --accent-primary: #ffcc00;
-            --accent-secondary: #ff9500;
-            --accent-success: #34c759;
-            --accent-error: #ff3b30;
-            --accent-info: #007aff;
-            
-            --route-1: #ef4444;
-            --route-2: #3b82f6;
-            --route-3: #22c55e;
-            --route-4: #a855f7;
-            --route-5: #f97316;
-            
-            --safe-area-top: env(safe-area-inset-top);
-            --safe-area-bottom: env(safe-area-inset-bottom);
-            
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 20px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+        :root {
+            --bg: #0a0a0f;
+            --bg-card: #1c1c24;
+            --bg-hover: #2a2a36;
+            --text: #ffffff;
+            --text-secondary: #8e8e93;
+            --accent: #ffcc00;
+            --route-1: #ef4444;
+            --route-5: #3b82f6;
+            --route-sub: #22c55e;
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
-            line-height: 1.4;
-            overflow-x: hidden;
-            padding-top: var(--safe-area-top);
-            padding-bottom: calc(80px + var(--safe-area-bottom));
+            padding-bottom: 80px;
         }
         
         /* Header */
         .header {
-            background: var(--bg-primary);
-            padding: 16px 20px;
+            background: var(--bg);
+            padding: 16px 16px 8px;
+            border-bottom: 1px solid var(--bg-card);
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid var(--bg-tertiary);
         }
         
-        .header-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-        
-        .header h1 {
-            font-size: 28px;
+        .header-title {
+            font-size: 24px;
             font-weight: 700;
-            letter-spacing: -0.5px;
+            margin-bottom: 12px;
         }
         
-        .time-display {
-            text-align: right;
-        }
-        
-        .time-display .time {
-            font-size: 34px;
-            font-weight: 600;
-            font-variant-numeric: tabular-nums;
-            line-height: 1;
-        }
-        
-        .time-display .date {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-        
-        /* Search */
-        .search-container {
-            position: relative;
-        }
-        
-        .search-input {
-            width: 100%;
-            background: var(--bg-tertiary);
-            border: none;
-            border-radius: var(--radius-xl);
-            padding: 14px 20px 14px 48px;
-            color: var(--text-primary);
-            font-size: 17px;
-            outline: none;
-            transition: all 0.2s;
-        }
-        
-        .search-input::placeholder {
-            color: var(--text-tertiary);
-        }
-        
-        .search-input:focus {
-            background: var(--bg-card);
-        }
-        
-        .search-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 18px;
-            color: var(--text-tertiary);
-        }
-        
-        /* Quick Filters */
-        .quick-filters {
+        .header-time {
             display: flex;
-            gap: 8px;
-            padding: 12px 20px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+            color: var(--text-secondary);
         }
         
-        .quick-filters::-webkit-scrollbar {
+        .time-big {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: var(--bg-card);
+            margin: 0 16px;
+            border-radius: 12px;
+            padding: 4px;
+            margin-top: 12px;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: none;
+        }
+        
+        .tab.active {
+            background: var(--bg-hover);
+            color: var(--text);
+        }
+        
+        /* Content */
+        .content {
+            padding: 16px;
+        }
+        
+        .tab-content {
             display: none;
         }
         
-        .filter-chip {
-            background: var(--bg-tertiary);
-            border: none;
-            border-radius: 20px;
-            padding: 8px 16px;
-            color: var(--text-secondary);
-            font-size: 15px;
-            font-weight: 500;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: all 0.2s;
+        .tab-content.active {
+            display: block;
         }
         
-        .filter-chip.active {
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-        }
-        
-        /* Route Cards - Metro Style */
-        .routes-section {
-            padding: 8px 16px;
-        }
-        
-        .section-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 16px 4px 8px;
-        }
-        
-        .route-metro-card {
-            background: var(--bg-secondary);
-            border-radius: var(--radius-lg);
+        /* Route Card */
+        .route-card {
+            background: var(--bg-card);
+            border-radius: 16px;
             margin-bottom: 12px;
             overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.15s;
         }
         
-        .route-metro-card:active {
-            transform: scale(0.98);
-        }
-        
-        .route-metro-header {
+        .route-header {
+            padding: 16px;
             display: flex;
             align-items: center;
-            padding: 16px;
-            gap: 16px;
+            gap: 12px;
         }
         
-        .route-line {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius-md);
+        .route-number {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 20px;
+            font-size: 18px;
             flex-shrink: 0;
         }
         
-        .route-line.route-1 { background: var(--route-1); }
-        .route-line.route-2 { background: var(--route-2); }
-        .route-line.route-3 { background: var(--route-3); }
-        .route-line.route-4 { background: var(--route-4); }
-        .route-line.route-5 { background: var(--route-5); }
+        .route-number.route-1 { background: var(--route-1); }
+        .route-number.route-5 { background: var(--route-5); }
+        .route-number.route-sub { background: var(--route-sub); }
         
-        .route-metro-info {
+        .route-title {
             flex: 1;
         }
         
-        .route-metro-info h3 {
-            font-size: 17px;
+        .route-title h3 {
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         
-        .route-metro-info p {
-            font-size: 15px;
+        .route-title p {
+            font-size: 13px;
             color: var(--text-secondary);
         }
         
-        .route-status {
+        /* Direction */
+        .direction {
+            padding: 12px 16px;
+            border-top: 1px solid var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .direction:hover {
+            background: var(--bg-hover);
+        }
+        
+        .direction-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .direction-arrow {
+            font-size: 20px;
+            color: var(--text-secondary);
+        }
+        
+        .direction-name {
+            font-size: 15px;
+        }
+        
+        .direction-time {
             text-align: right;
         }
         
-        .next-time {
-            font-size: 28px;
+        .time-main {
+            font-size: 24px;
             font-weight: 600;
-            color: var(--accent-primary);
-            font-variant-numeric: tabular-nums;
+            color: var(--accent);
         }
         
-        .next-time.urgent {
-            color: var(--accent-error);
+        .time-main.urgent {
+            color: #ff3b30;
         }
         
-        .next-time.soon {
-            color: var(--accent-secondary);
-        }
-        
-        .status-text {
-            font-size: 13px;
+        .time-label {
+            font-size: 12px;
             color: var(--text-secondary);
-            margin-top: 2px;
         }
         
-        /* Timeline */
-        .route-timeline {
-            padding: 0 16px 16px;
+        /* Stop Card */
+        .stop-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .stop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .stop-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .stop-next {
+            text-align: right;
+        }
+        
+        .stop-next-time {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        .stop-next-route {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .stop-routes {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
         }
         
-        .time-pill {
-            background: var(--bg-tertiary);
-            padding: 6px 12px;
+        .route-pill {
+            padding: 4px 10px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
-            color: var(--text-secondary);
         }
         
-        .time-pill.next {
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-        }
-        
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--bg-tertiary);
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0 calc(8px + var(--safe-area-bottom));
-            z-index: 1000;
-            backdrop-filter: blur(20px);
-        }
-        
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            padding: 8px 24px;
-            color: var(--text-tertiary);
-            font-size: 11px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: color 0.2s;
-            border: none;
-            background: none;
-        }
-        
-        .nav-item.active {
-            color: var(--accent-primary);
-        }
-        
-        .nav-icon {
-            font-size: 24px;
-            line-height: 1;
-        }
+        .route-pill.route-1 { background: var(--route-1); }
+        .route-pill.route-5 { background: var(--route-5); }
+        .route-pill.route-sub { background: var(--route-sub); }
         
         /* Detail View */
         .detail-view {
@@ -329,283 +258,240 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: var(--bg-primary);
-            z-index: 2000;
-            transform: translateY(100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
+            background: var(--bg);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
         }
         
         .detail-view.open {
-            transform: translateY(0);
+            transform: translateX(0);
         }
         
         .detail-header {
-            background: var(--bg-secondary);
-            padding: 16px 20px;
+            background: var(--bg-card);
+            padding: 16px;
             display: flex;
             align-items: center;
-            gap: 16px;
-            border-bottom: 1px solid var(--bg-tertiary);
+            gap: 12px;
+            position: sticky;
+            top: 0;
         }
         
         .back-btn {
             background: none;
             border: none;
-            color: var(--accent-primary);
-            font-size: 17px;
-            font-weight: 500;
+            color: var(--accent);
+            font-size: 16px;
             cursor: pointer;
             padding: 8px;
         }
         
-        .detail-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
+        .detail-title {
+            font-size: 18px;
+            font-weight: 600;
         }
         
-        .stops-list {
+        .schedule-list {
+            padding: 16px;
+        }
+        
+        .schedule-item {
             display: flex;
-            flex-direction: column;
-            gap: 0;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--bg-card);
         }
         
-        .stop-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--bg-tertiary);
-        }
-        
-        .stop-marker {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--accent-primary);
-            margin-top: 4px;
-            flex-shrink: 0;
-        }
-        
-        .stop-info h4 {
+        .schedule-time {
             font-size: 17px;
             font-weight: 500;
-            margin-bottom: 4px;
         }
         
-        .stop-times {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
-        
-        /* Stops Tab */
-        .stops-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 12px;
-            padding: 16px;
-        }
-        
-        .stop-card-metro {
-            background: var(--bg-secondary);
-            border-radius: var(--radius-lg);
-            padding: 16px;
-            text-align: center;
-        }
-        
-        .stop-card-metro h4 {
+        .schedule-stop {
             font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .routes-dots {
-            display: flex;
-            gap: 6px;
-            justify-content: center;
-        }
-        
-        .route-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-        
-        /* Loading */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-primary);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 3000;
-        }
-        
-        .loading-screen.hidden {
-            display: none;
-        }
-        
-        .loading-logo {
-            font-size: 64px;
-            margin-bottom: 24px;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(0.95); opacity: 0.7; }
-        }
-        
-        .loading-text {
-            font-size: 17px;
             color: var(--text-secondary);
         }
         
-        /* Update Toast */
-        .update-toast {
+        /* Bottom Nav */
+        .bottom-nav {
             position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--bg-elevated);
-            padding: 12px 24px;
-            border-radius: var(--radius-xl);
-            font-size: 15px;
-            font-weight: 500;
-            opacity: 0;
-            transition: all 0.3s;
-            z-index: 1500;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border-top: 1px solid var(--bg-hover);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
         }
         
-        .update-toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 20px;
+            color: var(--text-secondary);
+            font-size: 11px;
+            background: none;
+            border: none;
+            cursor: pointer;
         }
         
-        /* Hidden */
+        .nav-item.active {
+            color: var(--accent);
+        }
+        
+        .nav-icon {
+            font-size: 22px;
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+        
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
-    <!-- Loading -->
-    <div id="loadingScreen" class="loading-screen">
-        <div class="loading-logo">🚌</div>
-        <div class="loading-text">Загрузка расписания...</div>
-    </div>
-    
-    <!-- Main App -->
-    <div id="mainApp">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-top">
-                <h1>Олёкминск</h1>
-                <div class="time-display">
-                    <div class="time" id="currentTime">--:--</div>
-                    <div class="date" id="currentDate">-- -----</div>
-                </div>
-            </div>
-            <div class="search-container">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="search-input" id="searchInput" placeholder="Поиск маршрута или остановки">
-            </div>
-        </header>
-        
-        <!-- Quick Filters -->
-        <div class="quick-filters">
-            <button class="filter-chip active" data-filter="all">Все</button>
-            <button class="filter-chip" data-filter="now">Сейчас</button>
-            <button class="filter-chip" data-filter="popular">Популярные</button>
-            <button class="filter-chip" data-filter="favorites">⭐ Избранное</button>
+    <!-- Header -->
+    <header class="header">
+        <h1 class="header-title">🚌 Расписание</h1>
+        <div class="header-time">
+            <span>Олёкминск</span>
+            <span class="time-big" id="currentTime">--:--</span>
         </div>
         
-        <!-- Content -->
-        <main id="mainContent">
-            <!-- Routes Tab -->
-            <div id="routesTab" class="tab-content">
-                <div class="routes-section">
-                    <div class="section-title">Ближайшие рейсы</div>
-                    <div id="routesList"></div>
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-tab="city">Город</button>
+            <button class="tab" data-tab="suburban">Пригород</button>
+            <button class="tab" data-tab="stops">Остановки</button>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="content">
+        <!-- City Routes -->
+        <div id="cityTab" class="tab-content active">
+            <!-- Route 1 -->
+            <div class="route-card">
+                <div class="route-header">
+                    <div class="route-number route-1">1</div>
+                    <div class="route-title">
+                        <h3>Автовокзал ⇄ Дача</h3>
+                        <p>Через центр города</p>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Stops Tab -->
-            <div id="stopsTab" class="tab-content hidden">
-                <div class="stops-grid" id="stopsGrid"></div>
-            </div>
-            
-            <!-- Map Tab -->
-            <div id="mapTab" class="tab-content hidden">
-                <div style="padding: 40px; text-align: center; color: var(--text-secondary);">
-                    <div style="font-size: 64px; margin-bottom: 16px;">🗺️</div>
-                    <p>Карта маршрутов</p>
-                    <p style="font-size: 13px; margin-top: 8px;">В разработке</p>
+                <div class="direction" onclick="showRouteDetail('1', 'forward')">
+                    <div class="direction-info">
+                        <span class="direction-arrow">→</span>
+                        <span class="direction-name">Автовокзал → Дача</span>
+                    </div>
+                    <div class="direction-time">
+                        <div class="time-main" id="time-1-forward">--</div>
+                        <div class="time-label">мин</div>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Info Tab -->
-            <div id="infoTab" class="tab-content hidden">
-                <div style="padding: 20px;">
-                    <div class="section-title">О приложении</div>
-                    <div class="route-metro-card" style="padding: 20px;">
-                        <h3 style="margin-bottom: 12px;">🚌 Расписание автобусов</h3>
-                        <p style="color: var(--text-secondary); margin-bottom: 16px;">Актуальное расписание автобусов Олёкминска с данными из Google Sheets.</p>
-                        
-                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                            <button class="filter-chip" onclick="loadData(true)" style="background: var(--accent-primary); color: var(--bg-primary);">🔄 Обновить сейчас</button>
-                        </div>
-                        
-                        <div id="lastUpdateInfo" style="margin-top: 16px; font-size: 13px; color: var(--text-tertiary);">
-                            Обновлено: --
-                        </div>
+                <div class="direction" onclick="showRouteDetail('1', 'back')">
+                    <div class="direction-info">
+                        <span class="direction-arrow">→</span>
+                        <span class="direction-name">Дача → Автовокзал</span>
+                    </div>
+                    <div class="direction-time">
+                        <div class="time-main" id="time-1-back">--</div>
+                        <div class="time-label">мин</div>
                     </div>
                 </div>
             </div>
-        </main>
+            
+            <!-- Route 5 -->
+            <div class="route-card">
+                <div class="route-header">
+                    <div class="route-number route-5">5</div>
+                    <div class="route-title">
+                        <h3>Автовокзал ⇄ ПНДИ</h3>
+                        <p>Поликлиника</p>
+                    </div>
+                </div>
+                <div class="direction" onclick="showRouteDetail('5', 'forward')">
+                    <div class="direction-info">
+                        <span class="direction-arrow">→</span>
+                        <span class="direction-name">Автовокзал → ПНДИ</span>
+                    </div>
+                    <div class="direction-time">
+                        <div class="time-main" id="time-5-forward">--</div>
+                        <div class="time-label">мин</div>
+                    </div>
+                </div>
+                <div class="direction" onclick="showRouteDetail('5', 'back')">
+                    <div class="direction-info">
+                        <span class="direction-arrow">→</span>
+                        <span class="direction-name">ПНДИ → Автовокзал</span>
+                    </div>
+                    <div class="direction-time">
+                        <div class="time-main" id="time-5-back">--</div>
+                        <div class="time-label">мин</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-            <button class="nav-item active" data-nav="routes">
-                <span class="nav-icon">🚌</span>
-                <span>Маршруты</span>
-            </button>
-            <button class="nav-item" data-nav="stops">
-                <span class="nav-icon">📍</span>
-                <span>Остановки</span>
-            </button>
-            <button class="nav-item" data-nav="map">
-                <span class="nav-icon">🗺️</span>
-                <span>Карта</span>
-            </button>
-            <button class="nav-item" data-nav="info">
-                <span class="nav-icon">ℹ️</span>
-                <span>Инфо</span>
-            </button>
-        </nav>
-    </div>
+        <!-- Suburban Routes -->
+        <div id="suburbanTab" class="tab-content">
+            <div class="route-card">
+                <div class="route-header">
+                    <div class="route-number route-sub">С</div>
+                    <div class="route-title">
+                        <h3>Олёкминск ⇄ Якутск</h3>
+                        <p>Ежедневно</p>
+                    </div>
+                </div>
+                <div class="direction" onclick="showSuburbanDetail('yakutsk')">
+                    <div class="direction-info">
+                        <span class="direction-arrow">→</span>
+                        <span class="direction-name">Олёкминск → Якутск</span>
+                    </div>
+                    <div class="direction-time">
+                        <div class="time-main" id="time-sub-1">07:00</div>
+                        <div class="time-label">утро</div>
+                    </div>
+                </div>
+                <div class="direction" onclick="showSuburbanDetail('olekminsk')">
+                    <div class="direction-info">
+                        <span class="direction-arrow">→</span>
+                        <span class="direction-name">Якутск → Олёкминск</span>
+                    </div>
+                    <div class="direction-time">
+                        <div class="time-main" id="time-sub-2">18:00</div>
+                        <div class="time-label">вечер</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stops -->
+        <div id="stopsTab" class="tab-content">
+            <div id="stopsList">
+                <!-- Generated by JS -->
+            </div>
+        </div>
+    </main>
     
     <!-- Detail View -->
     <div id="detailView" class="detail-view">
         <div class="detail-header">
             <button class="back-btn" onclick="closeDetail()">← Назад</button>
-            <h2 id="detailTitle">Маршрут</h2>
+            <span class="detail-title" id="detailTitle">Маршрут</span>
         </div>
-        <div class="detail-content">
-            <div id="detailContent"></div>
+        <div class="schedule-list" id="detailContent">
+            <!-- Generated by JS -->
         </div>
-    </div>
-    
-    <!-- Update Toast -->
-    <div id="updateToast" class="update-toast">
-        🔄 Расписание обновлено
     </div>
     
     <script src="app.js"></script>

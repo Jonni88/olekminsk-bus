@@ -1,34 +1,75 @@
 /**
- * 🚌 Расписание автобусов Олёкминск — Metro Style App
- * Дизайн в стиле Яндекс.Метро
+ * Расписание автобусов Олёкминск — Упрощённая версия
  */
 
-// === КОНФИГУРАЦИЯ ===
-const CONFIG = {
-    SPREADSHEET_ID: '1jNSVkXTohNjy2Ukpb2-IZMUbu7OKGJQ_G-eel60c-IE',
-    CACHE_KEY: 'bus_metro_cache_v2',
-    CACHE_TIME_KEY: 'bus_metro_time_v2',
-    CACHE_TTL: 5 * 60 * 1000, // 5 минут
-    AUTO_REFRESH: 60 * 60 * 1000, // 1 час
-    ROUTE_COLORS: ['#ef4444', '#3b82f6', '#22c55e', '#a855f7', '#f97316', '#ec4899', '#14b8a6', '#f59e0b'],
+// === ДАННЫЕ РАСПИСАНИЯ ===
+const SCHEDULE_DATA = {
+    // Маршрут 1: Автовокзал ⇄ Дача
+    route1: {
+        forward: {  // Автовокзал → Дача
+            name: "Автовокзал → Дача",
+            stops: ["Автовокзал", "Центр", "Школа №1", "Дача"],
+            times: ["06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "10:00", 
+                    "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"]
+        },
+        back: {  // Дача → Автовокзал
+            name: "Дача → Автовокзал",
+            stops: ["Дача", "Школа №1", "Центр", "Автовокзал"],
+            times: ["06:15", "06:45", "07:15", "07:45", "08:15", "08:45", "09:15", "10:15",
+                    "11:15", "12:15", "13:15", "14:15", "15:15", "16:15", "17:15", "18:15", "19:15", "20:15"]
+        }
+    },
+    
+    // Маршрут 5: Автовокзал ⇄ ПНДИ
+    route5: {
+        forward: {  // Автовокзал → ПНДИ
+            name: "Автовокзал → ПНДИ",
+            stops: ["Автовокзал", "Центральная площадь", "Больница", "ПНДИ"],
+            times: ["06:20", "07:00", "07:40", "08:20", "09:00", "10:00", "11:00", "12:00",
+                    "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"]
+        },
+        back: {  // ПНДИ → Автовокзал
+            name: "ПНДИ → Автовокзал",
+            stops: ["ПНДИ", "Больница", "Центральная площадь", "Автовокзал"],
+            times: ["06:35", "07:15", "07:55", "08:35", "09:15", "10:15", "11:15", "12:15",
+                    "13:15", "14:15", "15:15", "16:15", "17:15", "18:15", "19:15"]
+        }
+    },
+    
+    // Пригород
+    suburban: {
+        yakutsk: {
+            name: "Олёкминск → Якутск",
+            times: ["07:00", "12:00", "18:00"],
+            price: "1200₽"
+        },
+        olekminsk: {
+            name: "Якутск → Олёкминск",
+            times: ["08:00", "14:00", "19:00"],
+            price: "1200₽"
+        }
+    },
+    
+    // Остановки
+    stops: [
+        { name: "Автовокзал", routes: ["1", "5"], times: { "1": ["06:00", "06:30"], "5": ["06:20", "07:00"] } },
+        { name: "Центр", routes: ["1"], times: { "1": ["06:05", "06:35"] } },
+        { name: "Центральная площадь", routes: ["5"], times: { "5": ["06:25", "07:05"] } },
+        { name: "Школа №1", routes: ["1"], times: { "1": ["06:10", "06:40"] } },
+        { name: "Больница", routes: ["5"], times: { "5": ["06:30", "07:10"] } },
+        { name: "Дача", routes: ["1"], times: { "1": ["06:15", "06:45"] } },
+        { name: "ПНДИ", routes: ["5"], times: { "5": ["06:35", "07:15"] } }
+    ]
 };
-
-// === СОСТОЯНИЕ ===
-let appData = { routes: [], stops: [], schedule: [], exceptions: [], lastUpdate: null };
-let currentTab = 'routes';
-let favorites = JSON.parse(localStorage.getItem('bus_favorites') || '[]');
 
 // === ИНИЦИАЛИЗАЦИЯ ===
 document.addEventListener('DOMContentLoaded', () => {
     updateTime();
     setInterval(updateTime, 1000);
-    setupNavigation();
-    setupSearch();
-    setupFilters();
-    loadData();
-    
-    // Автообновление
-    setInterval(() => loadData(true), CONFIG.AUTO_REFRESH);
+    setupTabs();
+    updateRouteTimes();
+    renderStops();
+    setInterval(updateRouteTimes, 60000); // Обновляем каждую минуту
 });
 
 // === ВРЕМЯ ===
@@ -36,239 +77,137 @@ function updateTime() {
     const now = new Date();
     document.getElementById('currentTime').textContent = 
         now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-    document.getElementById('currentDate').textContent = 
-        now.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
 }
 
-// === ЗАГРУЗКА ДАННЫХ ===
-async function loadData(force = false) {
-    const loadingScreen = document.getElementById('loadingScreen');
-    
-    // Проверяем кэш
-    if (!force) {
-        const cached = localStorage.getItem(CONFIG.CACHE_KEY);
-        const cachedTime = localStorage.getItem(CONFIG.CACHE_TIME_KEY);
-        
-        if (cached && cachedTime) {
-            const age = Date.now() - parseInt(cachedTime);
-            if (age < CONFIG.CACHE_TTL) {
-                appData = JSON.parse(cached);
-                renderAll();
-                loadingScreen.classList.add('hidden');
-                return;
-            }
-        }
-    }
-    
-    loadingScreen.classList.remove('hidden');
-    
-    try {
-        const [routes, stops, schedule, exceptions] = await Promise.all([
-            fetchSheet('Маршруты'),
-            fetchSheet('Остановки'),
-            fetchSheet('Расписание'),
-            fetchSheet('Исключения')
-        ]);
-        
-        appData = { routes, stops, schedule, exceptions, lastUpdate: new Date() };
-        
-        // Сохраняем в кэш
-        localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(appData));
-        localStorage.setItem(CONFIG.CACHE_TIME_KEY, Date.now().toString());
-        
-        renderAll();
-        showUpdateToast();
-        
-    } catch (error) {
-        console.error('Ошибка загрузки:', error);
-        // Пробуем загрузить из кэша даже если устарел
-        const cached = localStorage.getItem(CONFIG.CACHE_KEY);
-        if (cached) {
-            appData = JSON.parse(cached);
-            renderAll();
-        }
-    } finally {
-        loadingScreen.classList.add('hidden');
-    }
-}
-
-async function fetchSheet(sheetName) {
-    const url = `https://docs.google.com/spreadsheets/d/${CONFIG.SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return parseCSV(await response.text());
-}
-
-function parseCSV(csv) {
-    const lines = csv.trim().split('\n');
-    if (lines.length < 2) return [];
-    
-    const headers = parseCSVLine(lines[0]);
-    return lines.slice(1).map(line => {
-        const values = parseCSVLine(line);
-        const obj = {};
-        headers.forEach((h, i) => obj[h] = values[i] || '');
-        return obj;
+// === ТАБЫ ===
+function setupTabs() {
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.tab + 'Tab').classList.add('active');
+        });
     });
 }
 
-function parseCSVLine(line) {
-    const result = [];
-    let current = '', inQuotes = false;
-    
-    for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        if (char === '"') {
-            if (inQuotes && line[i + 1] === '"') {
-                current += '"'; i++;
-            } else {
-                inQuotes = !inQuotes;
-            }
-        } else if (char === ',' && !inQuotes) {
-            result.push(current.trim());
-            current = '';
-        } else {
-            current += char;
-        }
-    }
-    result.push(current.trim());
-    return result;
-}
-
-// === ОТРИСОВКА ===
-function renderAll() {
-    renderRoutes();
-    renderStops();
-    updateLastUpdate();
-}
-
-function renderRoutes() {
-    const container = document.getElementById('routesList');
+// === ОБНОВЛЕНИЕ ВРЕМЕНИ МАРШРУТОВ ===
+function updateRouteTimes() {
     const now = new Date();
-    const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    const currentTime = now.getHours() * 60 + now.getMinutes();
     
-    container.innerHTML = appData.routes.map((route, index) => {
-        const color = CONFIG.ROUTE_COLORS[index % CONFIG.ROUTE_COLORS.length];
-        const nextBuses = getNextBuses(route.ID, 3);
-        const nextTime = nextBuses[0]?.Время;
-        const timeDiff = nextTime ? getMinutesDiff(currentTime, nextTime) : null;
-        
-        let timeClass = '';
-        let timeText = nextTime || '--:--';
-        
-        if (timeDiff !== null) {
-            if (timeDiff <= 5) {
-                timeClass = 'urgent';
-                timeText = `${timeDiff} мин`;
-            } else if (timeDiff <= 15) {
-                timeClass = 'soon';
-                timeText = `${timeDiff} мин`;
-            }
-        }
-        
-        return `
-            <div class="route-metro-card" onclick="openRouteDetail('${route.ID}')"
-                 style="border-left: 4px solid ${color}">
-                <div class="route-metro-header">
-                    <div class="route-line" style="background: ${color}">${route.Номер}</div>
-                    <div class="route-metro-info">
-                        <h3>${route.Название}</h3>
-                        <p>${route.Описание || 'Обычный маршрут'}</p>
-                    </div>
-                    <div class="route-status">
-                        <div class="next-time ${timeClass}">${timeText}</div>
-                        <div class="status-text">${nextBuses.length > 0 ? 'до прибытия' : 'нет рейсов'}</div>
-                    </div>
-                </div>
-                <div class="route-timeline">
-                    ${nextBuses.slice(1).map((b, i) => `
-                        <span class="time-pill ${i === 0 ? 'next' : ''}">${b.Время}</span>
-                    `).join('')}
-                </div>
-            </div>
-        `;
-    }).join('');
+    // Маршрут 1
+    updateDirectionTime('1-forward', SCHEDULE_DATA.route1.forward.times, currentTime);
+    updateDirectionTime('1-back', SCHEDULE_DATA.route1.back.times, currentTime);
+    
+    // Маршрут 5
+    updateDirectionTime('5-forward', SCHEDULE_DATA.route5.forward.times, currentTime);
+    updateDirectionTime('5-back', SCHEDULE_DATA.route5.back.times, currentTime);
 }
 
-function getNextBuses(routeId, count) {
-    const now = new Date();
-    const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+function updateDirectionTime(elementId, times, currentMinutes) {
+    const el = document.getElementById('time-' + elementId);
+    if (!el) return;
     
-    const isWeekend = now.getDay() === 0 || now.getDay() === 6;
-    const dateStr = now.toISOString().split('T')[0];
-    const exception = appData.exceptions.find(e => e.Дата === dateStr);
+    const nextBus = times.find(time => {
+        const [h, m] = time.split(':').map(Number);
+        return h * 60 + m > currentMinutes;
+    });
     
-    let schedule = appData.schedule.filter(s => s.Маршрут_ID === routeId);
-    
-    // Фильтруем по дням
-    if (exception) {
-        schedule = schedule.filter(s => s.Дни.includes('Сб-Вс') || s.Дни.includes('выход') || s.Дни.includes('Ежедневно'));
-    } else if (isWeekend) {
-        schedule = schedule.filter(s => s.Дни.includes('Сб-Вс') || s.Дни.includes('Ежедневно'));
+    if (nextBus) {
+        const [h, m] = nextBus.split(':').map(Number);
+        const busMinutes = h * 60 + m;
+        const diff = busMinutes - currentMinutes;
+        
+        el.textContent = diff;
+        el.className = 'time-main' + (diff <= 5 ? ' urgent' : '');
+        
+        // Добавляем время отправления в data-атрибут
+        el.dataset.time = nextBus;
     } else {
-        schedule = schedule.filter(s => s.Дни.includes('Пн-Пт') || s.Дни.includes('Ежедневно'));
+        el.textContent = '—';
+        el.className = 'time-main';
     }
-    
-    return schedule
-        .filter(s => s.Время > currentTime)
-        .sort((a, b) => a.Время.localeCompare(b.Время))
-        .slice(0, count);
 }
 
-function getMinutesDiff(time1, time2) {
-    const [h1, m1] = time1.split(':').map(Number);
-    const [h2, m2] = time2.split(':').map(Number);
-    return (h2 * 60 + m2) - (h1 * 60 + m1);
-}
-
+// === ОТРИСОВКА ОСТАНОВОК ===
 function renderStops() {
-    const container = document.getElementById('stopsGrid');
+    const container = document.getElementById('stopsList');
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
     
-    container.innerHTML = appData.stops.map(stop => {
-        const routeIds = stop.Маршруты.split(/[,;]/).map(id => id.trim());
+    container.innerHTML = SCHEDULE_DATA.stops.map(stop => {
+        // Находим ближайший автобус
+        let nearestBus = null;
+        let nearestTime = Infinity;
+        let nearestRoute = '';
+        
+        stop.routes.forEach(routeNum => {
+            const route = routeNum === '1' ? SCHEDULE_DATA.route1 : SCHEDULE_DATA.route5;
+            
+            // Проверяем оба направления
+            [route.forward, route.back].forEach(direction => {
+                if (direction.stops.includes(stop.name)) {
+                    const stopIndex = direction.stops.indexOf(stop.name);
+                    direction.times.forEach(time => {
+                        const [h, m] = time.split(':').map(Number);
+                        // Прибавляем время до остановки (примерно 5 мин на остановку)
+                        const busMinutes = h * 60 + m + (stopIndex * 5);
+                        if (busMinutes > currentMinutes && busMinutes < nearestTime) {
+                            nearestTime = busMinutes;
+                            nearestBus = time;
+                            nearestRoute = routeNum;
+                        }
+                    });
+                }
+            });
+        });
+        
+        const diff = nearestBus ? nearestTime - currentMinutes : null;
         
         return `
-            <div class="stop-card-metro" onclick="openStopDetail('${stop.ID}')">
-                <h4>📍 ${stop.Название}</h4>
-                <div class="routes-dots">
-                    ${routeIds.map((id, i) => {
-                        const color = CONFIG.ROUTE_COLORS[(parseInt(id) - 1) % CONFIG.ROUTE_COLORS.length];
-                        return `<span class="route-dot" style="background: ${color}"></span>`;
-                    }).join('')}
+            <div class="stop-card" onclick="showStopDetail('${stop.name}')">
+                <div class="stop-header">
+                    <span class="stop-name">${stop.name}</span>
+                    <div class="stop-next">
+                        ${nearestBus ? `
+                            <div class="stop-next-time">${nearestBus}</div>
+                            <div class="stop-next-route">Маршрут ${nearestRoute} · ${diff} мин</div>
+                        ` : `
+                            <div class="stop-next-time">—</div>
+                            <div class="stop-next-route">Нет рейсов</div>
+                        `}
+                    </div>
+                </div>
+                <div class="stop-routes">
+                    ${stop.routes.map(r => `<span class="route-pill route-${r}">${r}</span>`).join('')}
                 </div>
             </div>
         `;
     }).join('');
 }
 
-// === ДЕТАЛИ ===
-function openRouteDetail(routeId) {
-    const route = appData.routes.find(r => r.ID === routeId);
-    if (!route) return;
+// === ДЕТАЛИ МАРШРУТА ===
+function showRouteDetail(routeNum, direction) {
+    const route = routeNum === '1' ? SCHEDULE_DATA.route1 : SCHEDULE_DATA.route5;
+    const data = direction === 'forward' ? route.forward : route.back;
     
-    document.getElementById('detailTitle').textContent = `Маршрут ${route.Номер}`;
+    document.getElementById('detailTitle').textContent = data.name;
     
-    const stops = [...new Set(appData.schedule.filter(s => s.Маршрут_ID === routeId).map(s => s.Остановка_ID))];
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
     
-    document.getElementById('detailContent').innerHTML = stops.map(stopId => {
-        const stop = appData.stops.find(s => s.ID === stopId);
-        if (!stop) return '';
-        
-        const times = appData.schedule
-            .filter(s => s.Маршрут_ID === routeId && s.Остановка_ID === stopId)
-            .sort((a, b) => a.Время.localeCompare(b.Время));
+    document.getElementById('detailContent').innerHTML = data.times.map(time => {
+        const [h, m] = time.split(':').map(Number);
+        const busMinutes = h * 60 + m;
+        const isPast = busMinutes < currentMinutes;
+        const diff = busMinutes - currentMinutes;
         
         return `
-            <div class="stop-item">
-                <div class="stop-marker"></div>
-                <div class="stop-info">
-                    <h4>${stop.Название}</h4>
-                    <div class="stop-times">
-                        ${times.map(t => `
-                            <span class="time-pill">${t.Время}</span>
-                        `).join('')}
-                    </div>
-                </div>
+            <div class="schedule-item" style="opacity: ${isPast ? 0.4 : 1}">
+                <span class="schedule-time">${time}</span>
+                ${!isPast && diff <= 60 ? `<span style="color: var(--accent)">${diff} мин</span>` : ''}
             </div>
         `;
     }).join('');
@@ -276,166 +215,88 @@ function openRouteDetail(routeId) {
     document.getElementById('detailView').classList.add('open');
 }
 
-function openStopDetail(stopId) {
-    const stop = appData.stops.find(s => s.ID === stopId);
+// === ДЕТАЛИ ПРИГОРОДА ===
+function showSuburbanDetail(direction) {
+    const data = direction === 'yakutsk' ? SCHEDULE_DATA.suburban.yakutsk : SCHEDULE_DATA.suburban.olekminsk;
+    
+    document.getElementById('detailTitle').textContent = data.name;
+    
+    document.getElementById('detailContent').innerHTML = `
+        <div style="padding: 16px; background: var(--bg-card); border-radius: 12px; margin-bottom: 16px;">
+            <div style="font-size: 15px; color: var(--text-secondary); margin-bottom: 4px;">Стоимость</div>
+            <div style="font-size: 24px; font-weight: 600;">${data.price}</div>
+        </div>
+        ${data.times.map(time => `
+            <div class="schedule-item">
+                <span class="schedule-time">${time}</span>
+            </div>
+        `).join('')}
+    `;
+    
+    document.getElementById('detailView').classList.add('open');
+}
+
+// === ДЕТАЛИ ОСТАНОВКИ ===
+function showStopDetail(stopName) {
+    const stop = SCHEDULE_DATA.stops.find(s => s.name === stopName);
     if (!stop) return;
     
-    document.getElementById('detailTitle').textContent = stop.Название;
+    document.getElementById('detailTitle').textContent = stop.name;
     
-    const routeIds = stop.Маршруты.split(/[,;]/).map(id => id.trim());
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
     
-    document.getElementById('detailContent').innerHTML = routeIds.map(id => {
-        const route = appData.routes.find(r => r.ID === id || r.Номер === id);
-        if (!route) return '';
+    let html = '';
+    
+    stop.routes.forEach(routeNum => {
+        const route = routeNum === '1' ? SCHEDULE_DATA.route1 : SCHEDULE_DATA.route5;
         
-        const nextBuses = getNextBuses(route.ID, 5);
-        
-        return `
-            <div class="route-metro-card" style="margin-bottom: 12px;">
-                <div class="route-metro-header">
-                    <div class="route-line">${route.Номер}</div>
-                    <div class="route-metro-info">
-                        <h3>${route.Название}</h3>
-                    </div>
-                </div>
-                <div class="route-timeline">
-                    ${nextBuses.map(b => `
-                        <span class="time-pill">${b.Время}</span>
-                    `).join('')}
-                </div>
-            </div>
-        `;
-    }).join('');
+        [route.forward, route.back].forEach(direction => {
+            if (direction.stops.includes(stopName)) {
+                const stopIndex = direction.stops.indexOf(stopName);
+                
+                html += `<div style="margin-bottom: 20px;">`;
+                html += `<div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; text-transform: uppercase;">${direction.name}</div>`;
+                
+                html += `<div style="display: flex; flex-wrap: wrap; gap: 8px;">`;
+                direction.times.forEach(time => {
+                    const [h, m] = time.split(':').map(Number);
+                    const busMinutes = h * 60 + m + (stopIndex * 5);
+                    const isPast = busMinutes < currentMinutes;
+                    const diff = busMinutes - currentMinutes;
+                    
+                    const actualTime = new Date();
+                    actualTime.setHours(h, m + (stopIndex * 5));
+                    const timeStr = actualTime.toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'});
+                    
+                    html += `
+                        <div style="
+                            padding: 8px 12px; 
+                            background: ${isPast ? 'var(--bg-hover)' : 'var(--bg-hover)'}; 
+                            border-radius: 8px;
+                            opacity: ${isPast ? 0.4 : 1};
+                            ${!isPast && diff <= 30 ? 'border: 1px solid var(--accent);' : ''}
+                        ">
+                            <div style="font-weight: 500;">${timeStr}</div>
+                            ${!isPast ? `<div style="font-size: 11px; color: var(--accent);">${diff} мин</div>` : ''}
+                        </div>
+                    `;
+                });
+                html += `</div></div>`;
+            }
+        });
+    });
     
+    document.getElementById('detailContent').innerHTML = html;
     document.getElementById('detailView').classList.add('open');
 }
 
+// === ЗАКРЫТИЕ ДЕТАЛЕЙ ===
 function closeDetail() {
     document.getElementById('detailView').classList.remove('open');
-}
-
-// === НАВИГАЦИЯ ===
-function setupNavigation() {
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const nav = item.dataset.nav;
-            switchTab(nav);
-            
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
-        });
-    });
-}
-
-function switchTab(tab) {
-    currentTab = tab;
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
-    document.getElementById(`${tab}Tab`).classList.remove('hidden');
-}
-
-// === ПОИСК ===
-function setupSearch() {
-    const searchInput = document.getElementById('searchInput');
-    
-    searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase();
-        
-        if (query.length < 2) {
-            renderAll();
-            return;
-        }
-        
-        // Фильтруем маршруты
-        const filteredRoutes = appData.routes.filter(r => 
-            r.Номер.toLowerCase().includes(query) ||
-            r.Название.toLowerCase().includes(query) ||
-            r.Описание?.toLowerCase().includes(query)
-        );
-        
-        renderFilteredRoutes(filteredRoutes);
-    });
-}
-
-function renderFilteredRoutes(routes) {
-    const container = document.getElementById('routesList');
-    // ... (та же логика что и в renderRoutes, но с filtered массивом)
-    container.innerHTML = routes.length === 0 
-        ? '<div style="text-align: center; padding: 40px; color: var(--text-secondary)">Ничего не найдено</div>'
-        : routes.map((route, index) => {
-            const color = CONFIG.ROUTE_COLORS[index % CONFIG.ROUTE_COLORS.length];
-            return `
-                <div class="route-metro-card" onclick="openRouteDetail('${route.ID}')"
-                     style="border-left: 4px solid ${color}">
-                    <div class="route-metro-header">
-                        <div class="route-line" style="background: ${color}">${route.Номер}</div>
-                        <div class="route-metro-info">
-                            <h3>${route.Название}</h3>
-                            <p>${route.Описание || ''}</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-}
-
-// === ФИЛЬТРЫ ===
-function setupFilters() {
-    document.querySelectorAll('.filter-chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-            chip.classList.add('active');
-            
-            const filter = chip.dataset.filter;
-            applyFilter(filter);
-        });
-    });
-}
-
-function applyFilter(filter) {
-    switch(filter) {
-        case 'now':
-            // Показываем только маршруты с ближайшими рейсами
-            const routesWithBuses = appData.routes.filter(r => getNextBuses(r.ID, 1).length > 0);
-            renderFilteredRoutes(routesWithBuses);
-            break;
-        case 'favorites':
-            const favRoutes = appData.routes.filter(r => favorites.includes(r.ID));
-            renderFilteredRoutes(favRoutes);
-            break;
-        default:
-            renderRoutes();
-    }
-}
-
-// === УТИЛИТЫ ===
-function updateLastUpdate() {
-    const el = document.getElementById('lastUpdateInfo');
-    if (appData.lastUpdate) {
-        const date = new Date(appData.lastUpdate);
-        el.textContent = `Обновлено: ${date.toLocaleString('ru-RU')}`;
-    }
-}
-
-function showUpdateToast() {
-    const toast = document.getElementById('updateToast');
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
 // === PWA ===
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').catch(console.error);
 }
-
-// Закрытие детали по свайпу
-let touchStartY = 0;
-document.getElementById('detailView').addEventListener('touchstart', e => {
-    touchStartY = e.touches[0].clientY;
-});
-
-document.getElementById('detailView').addEventListener('touchend', e => {
-    const touchEndY = e.changedTouches[0].clientY;
-    if (touchEndY - touchStartY > 100) {
-        closeDetail();
-    }
-});
