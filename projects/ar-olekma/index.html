@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AR Олёкминск - Исторические экскурсии</title>
+    
+    <!-- A-Frame -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <!-- AR.js -->
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        /* UI Оверлей */
+        .ui-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            pointer-events: none;
+        }
+        
+        .ui-overlay > * {
+            pointer-events: auto;
+        }
+        
+        /* Стартовый экран */
+        .start-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .start-screen h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .start-screen h2 {
+            font-size: 24px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+        
+        .mode-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 350px;
+        }
+        
+        .mode-btn {
+            background: rgba(255,255,255,0.95);
+            color: #333;
+            border: none;
+            padding: 25px 30px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .mode-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .mode-btn .icon {
+            font-size: 40px;
+        }
+        
+        .mode-btn .text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .mode-btn .text small {
+            font-size: 13px;
+            font-weight: 400;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+        
+        .instructions {
+            margin-top: 40px;
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 350px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .instructions h3 {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        /* Верхняя панель */
+        .top-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 15px 20px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 100;
+        }
+        
+        .location-info h1 {
+            font-size: 22px;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .location-info p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .close-btn {
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Нижняя панель */
+        .bottom-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        
+        /* AR Карточка */
+        .ar-card {
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            animation: slideUp 0.4s ease;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .ar-card .year {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        
+        .ar-card h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        
+        .ar-card p {
+            font-size: 15px;
+            line-height: 1.5;
+            opacity: 0.95;
+        }
+        
+        /* Меню */
+        .bottom-menu {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        
+        .menu-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+        
+        .menu-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .menu-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            width: 64px;
+            height: 64px;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.5);
+        }
+        
+        /* Индикаторы */
+        .scanning-hint {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            background: rgba(0,0,0,0.7);
+            padding: 20px 30px;
+            border-radius: 20px;
+            display: none;
+        }
+        
+        .scanning-hint.active {
+            display: block;
+        }
+        
+        .scan-frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px;
+            height: 250px;
+            border: 3px solid rgba(102, 126, 234, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
+            display: none;
+        }
+        
+        .scan-frame.active {
+            display: block;
+        }
+        
+        /* Лоадер */
+        .loader {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 1500;
+            display: none;
+        }
+        
+        .loader.active {
+            display: block;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* GPS статус */
+        .gps-status {
+            position: absolute;
+            top: 80px;
+            left: 20px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: white;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .gps-status.active {
+            display: block;
+        }
+        
+        .gps-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #0f0;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Стартовый экран -->
+    <div class="start-screen" id="startScreen">
+        <h1>🏛️</h1>
+        <h2>AR Олёкминск</h2>
+        
+        <div class="mode-selector">
+            <button class="mode-btn" onclick="startMarkerMode()">
+                <span class="icon">📷</span>
+                <span class="text">
+                    Сканировать QR
+                    <small>Наведите на QR-код на здании</small>
+                </span>
+            </button>
+            
+            <button class="mode-btn" onclick="startGPSMode()">
+                <span class="icon">📍</span>
+                <span class="text">
+                    GPS Навигация
+                    <small>Автоопределение местоположения</small>
+                </span>
+            </button>
+        </div>
+        
+        <div class="instructions">
+            <h3>📱 Как это работает:</h3>
+            <ol>
+                <li>Разрешите доступ к камере</li>
+                <li>Выберите режим сканирования</li>
+                <li>Наведите на QR-код или идите к локации</li>
+                <li>Увидите историю в AR!</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Лоадер -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+        <p id="loaderText">Загрузка AR...</p>
+    </div>
+
+    <!-- AR Сцена -->
+    <div id="ar-container" style="display: none;">
+        <a-scene embedded 
+                 arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix;"
+                 renderer="logarithmicDepthBuffer: true;"
+                 vr-mode-ui="enabled: false"
+                 gesture-detector
+                 id="arScene">
+            
+            <!-- Камера -->
+            <a-entity camera></a-entity>
+            
+            <!-- Маркер 1: Дом Культуры -->
+            <a-marker type="barcode" value="1" id="marker-dk"
+                     emitevents="true"
+                     cursor="rayOrigin: mouse">
+                <a-entity position="0 0 0">
+                    <!-- 3D Карточка -->
+                    <a-plane position="0 0.5 0" 
+                             width="2" 
+                             height="1.2" 
+                             color="#000"
+                             opacity="0.9"
+                             material="shader: flat; transparent: true">
+                        
+                        <a-text value="Дом Культуры\n1985 год" 
+                               align="center" 
+                               color="white" 
+                               width="4"
+                               position="0 0.2 0.01"></a-text>
+                        
+                        <a-text value="Наведите чтобы узнать\nисторию этого места" 
+                               align="center" 
+                               color="#AAA" 
+                               width="3"
+                               position="0 -0.2 0.01"></a-text>
+                    </a-plane>
+                    
+                    <!-- Иконка -->
+                    <a-entity position="0 1.5 0">
+                        <a-sphere color="#667eea" radius="0.3"></a-sphere>
+                        <a-text value="🏛️" 
+                               align="center" 
+                               position="0 0 0.3"></a-text>
+                    </a-entity>
+                </a-entity>
+            </a-marker>
+
+            <!-- Маркер 2: Набережная -->
+            <a-marker type="barcode" value="2" id="marker-nab"
+                     emitevents="true">
+                <a-entity position="0 0 0">
+                    <a-plane position="0 0.5 0" 
+                             width="2" 
+                             height="1.2" 
+                             color="#000"
+                             opacity="0.9"
+                             material="shader: flat; transparent: true">
+                        
+                        <a-text value="Набережная Лены\n1970-е годы" 
+                               align="center" 
+                               color="white" 
+                               width="4"
+                               position="0 0.2 0.01"></a-text>
+                        
+                        <a-text value="Старая набережная города" 
+                               align="center" 
+                               color="#AAA" 
+                               width="3"
+                               position="0 -0.2 0.01"></a-text>
+                    </a-plane>
+                    
+                    <a-entity position="0 1.5 0">
+                        <a-sphere color="#764ba2" radius="0.3"></a-sphere>
+                        <a-text value="🌊" 
+                               align="center" 
+                               position="0 0 0.3"></a-text>
+                    </a-entity>
+                </a-entity>
+            </a-marker>
+
+            <!-- Маркер 3: Школа -->
+            <a-marker type="barcode" value="3" id="marker-school"
+                     emitevents="true">
+                <a-entity position="0 0 0">
+                    <a-plane position="0 0.5 0" 
+                             width="2" 
+                             height="1.2" 
+                             color="#000"
+                             opacity="0.9"
+                             material="shader: flat; transparent: true">
+                        
+                        <a-text value="Школа №1\n1950-е годы" 
+                               align="center" 
+                               color="white" 
+                               width="4"
+                               position="0 0.2 0.01"></a-text>
+                        
+                        <a-text value="Первая школа города" 
+                               align="center" 
+                               color="#AAA" 
+                               width="3"
+                               position="0 -0.2 0.01"></a-text>
+                    </a-plane>
+                    
+                    <a-entity position="0 1.5 0">
+                        <a-sphere color="#f093fb" radius="0.3"></a-sphere>
+                        <a-text value="🏫" 
+                               align="center" 
+                               position="0 0 0.3"></a-text>
+                    </a-entity>
+                </a-entity>
+            </a-marker>
+        </a-scene>
+    </div>
+
+    <!-- UI Оверлей -->
+    <div class="ui-overlay" id="uiOverlay" style="display: none;">
+        <!-- Верхняя панель -->
+        <div class="top-bar">
+            <div class="location-info">
+                <h1 id="locationTitle">🏛️ Дом Культуры</h1>
+                <p id="locationSubtitle">📍 50 м до объекта</p>
+            </div>
+            
+            <button class="close-btn" onclick="closeAR()">×</button>
+        </div>
+        
+        <!-- GPS Статус -->
+        <div class="gps-status" id="gpsStatus">
+            <span class="gps-dot"></span>
+            <span id="gpsText">Поиск GPS...</span>
+        </div>
+        
+        <!-- Подсказка сканирования -->
+        <div class="scanning-hint" id="scanningHint">
+            <p>📷 Наведите камеру на QR-код</p>
+        </div>
+        
+        <div class="scan-frame" id="scanFrame"></div>
+
+        <!-- Нижняя панель -->
+        <div class="bottom-panel">
+            <!-- AR Карточка -->
+            <div class="ar-card" id="arCard" style="display: none;">
+                <span class="year" id="cardYear">1985 год</span>
+                <h3 id="cardTitle">Дом Культуры «Гармония»</h3>
+                <p id="cardText">В 1980-е годы Дом Культуры был центром культурной жизни города. Здесь проходили концерты, театральные постановки и танцевальные вечеры.</p>
+            </div>
+            
+            <!-- Меню -->
+            <div class="bottom-menu">
+                <button class="menu-btn" onclick="prevLocation()" title="Назад">⬅️</button>
+                
+                <button class="menu-btn" onclick="toggleQuest()" title="Квест">🎯</button>
+                
+                <button class="menu-btn primary" onclick="capturePhoto()" title="Сделать фото">📸</button>
+                
+                <button class="menu-btn" onclick="shareLocation()" title="Поделиться">📤</button>
+                
+                <button class="menu-btn" onclick="nextLocation()" title="Вперед">➡️</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Данные локаций
+        const locations = [
+            {
+                id: 'dk',
+                name: 'Дом Культуры «Гармония»',
+                year: '1985',
+                description: 'В 1980-е годы Дом Культуры был центром культурной жизни города. Здесь проходили концерты, театральные постановки и танцевальные вечеры.',
+                markerId: 'marker-dk',
+                coords: { lat: 60.366, lng: 120.416 }
+            },
+            {
+                id: 'nab',
+                name: 'Набережная Лены',
+                year: '1970',
+                description: 'Старая набережная до строительства современной. Здесь проводились городские праздники, собрания и народные гуляния.',
+                markerId: 'marker-nab',
+                coords: { lat: 60.367, lng: 120.418 }
+            },
+            {
+                id: 'school',
+                name: 'Школа №1 им. Яковлева',
+                year: '1950',
+                description: 'Первая школа города, основана в 1930-х годах. Выпустила множество известных жителей Олёкминска и внесла большой вклад в образование.',
+                markerId: 'marker-school',
+                coords: { lat: 60.368, lng: 120.415 }
+            }
+        ];
+
+        let currentMode = null;
+        let currentLocation = 0;
+        let watchId = null;
+
+        // Режим QR-сканирования
+        function startMarkerMode() {
+            currentMode = 'marker';
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('loader').classList.add('active');
+            document.getElementById('loaderText').textContent = 'Запуск камеры...';
+            
+            setTimeout(() => {
+                document.getElementById('loader').classList.remove('active');
+                document.getElementById('ar-container').style.display = 'block';
+                document.getElementById('uiOverlay').style.display = 'block';
+                document.getElementById('scanningHint').classList.add('active');
+                document.getElementById('scanFrame').classList.add('active');
+                
+                initMarkers();
+            }, 1500);
+        }
+
+        // Режим GPS
+        function startGPSMode() {
+            currentMode = 'gps';
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('loader').classList.add('active');
+            document.getElementById('loaderText').textContent = 'Определение местоположения...';
+            
+            if (navigator.geolocation) {
+                document.getElementById('gpsStatus').classList.add('active');
+                
+                watchId = navigator.geolocation.watchPosition(
+                    handleGPSPosition,
+                    handleGPSError,
+                    { enableHighAccuracy: true, maximumAge: 5000, timeout: 10000 }
+                );
+                
+                setTimeout(() => {
+                    document.getElementById('loader').classList.remove('active');
+                    document.getElementById('ar-container').style.display = 'block';
+                    document.getElementById('uiOverlay').style.display = 'block';
+                }, 2000);
+            } else {
+                alert('Геолокация не поддерживается');
+                document.getElementById('loader').classList.remove('active');
+            }
+        }
+
+        // Инициализация маркеров
+        function initMarkers() {
+            locations.forEach((loc, index) => {
+                const marker = document.getElementById(loc.markerId);
+                if (marker) {
+                    marker.addEventListener('markerFound', () => {
+                        console.log('Маркер найден:', loc.name);
+                        showLocation(index);
+                    });
+                    
+                    marker.addEventListener('markerLost', () => {
+                        console.log('Маркер потерян:', loc.name);
+                        hideCard();
+                    });
+                }
+            });
+        }
+
+        // Обработка GPS
+        function handleGPSPosition(position) {
+            const { latitude, longitude } = position.coords;
+            
+            let minDist = Infinity;
+            let nearestIdx = 0;
+            
+            locations.forEach((loc, idx) => {
+                const dist = calculateDistance(latitude, longitude, loc.coords.lat, loc.coords.lng);
+                if (dist < minDist) {
+                    minDist = dist;
+                    nearestIdx = idx;
+                }
+            });
+            
+            const distMeters = Math.round(minDist * 1000);
+            document.getElementById('gpsText').textContent = `${distMeters} м до ${locations[nearestIdx].name}`;
+            document.getElementById('locationSubtitle').textContent = `📍 ${distMeters} м до объекта`;
+            
+            if (distMeters < 100 && currentLocation !== nearestIdx) {
+                currentLocation = nearestIdx;
+                showLocation(nearestIdx);
+            }
+        }
+
+        function handleGPSError(error) {
+            console.warn('GPS ошибка:', error);
+            document.getElementById('gpsText').textContent = 'GPS недоступен';
+        }
+
+        // Вычисление расстояния
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                     Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                     Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        // Показать локацию
+        function showLocation(index) {
+            const loc = locations[index];
+            document.getElementById('cardYear').textContent = loc.year + ' год';
+            document.getElementById('cardTitle').textContent = loc.name;
+            document.getElementById('cardText').textContent = loc.description;
+            document.getElementById('locationTitle').textContent = '🏛️ ' + loc.name;
+            document.getElementById('arCard').style.display = 'block';
+            
+            document.getElementById('scanningHint').classList.remove('active');
+            document.getElementById('scanFrame').classList.remove('active');
+        }
+
+        function hideCard() {
+            document.getElementById('arCard').style.display = 'none';
+            if (currentMode === 'marker') {
+                document.getElementById('scanningHint').classList.add('active');
+                document.getElementById('scanFrame').classList.add('active');
+            }
+        }
+
+        // UI Функции
+        function toggleQuest() {
+            const loc = locations[currentLocation];
+            const questions = {
+                'dk': 'В каком году построен Дом Культуры?',
+                'nab': 'Какая река протекает рядом?',
+                'school': 'Какой номер у этой школы?'
+            };
+            alert('🎯 ' + questions[loc.id]);
+        }
+
+        function capturePhoto() {
+            alert('📸 Сделайте скриншот и поделитесь!\n\n#ARОлёкминск #МояОлёкма #ИсторияОлёкминска');
+        }
+
+        function shareLocation() {
+            const loc = locations[currentLocation];
+            if (navigator.share) {
+                navigator.share({
+                    title: loc.name,
+                    text: `Посмотрите AR-экскурсию: ${loc.name}`,
+                    url: window.location.href
+                });
+            } else {
+                alert('Скопируйте ссылку:\n' + window.location.href);
+            }
+        }
+
+        function nextLocation() {
+            currentLocation = (currentLocation + 1) % locations.length;
+            showLocation(currentLocation);
+        }
+
+        function prevLocation() {
+            currentLocation = (currentLocation - 1 + locations.length) % locations.length;
+            showLocation(currentLocation);
+        }
+
+        function closeAR() {
+            if (confirm('Завершить экскурсию?')) {
+                if (watchId) {
+                    navigator.geolocation.clearWatch(watchId);
+                }
+                location.reload();
+            }
+        }
+
+        // Обработка ориентации
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                window.dispatchEvent(new Event('resize'));
+            }, 300);
+        });
+    </script>
+</body>
+</html>

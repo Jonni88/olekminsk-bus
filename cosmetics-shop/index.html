@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BEAUTY STORE - интернет-магазин профессиональной косметики">
+    <title>BEAUTY STORE | Профессиональная косметика</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">✨</span>
+                    <span class="logo-text">BEAUTY STORE</span>
+                </a>
+
+                <nav class="nav">
+                    <a href="catalog.html" class="nav-link">Каталог</a>
+                    <a href="about.html" class="nav-link">О нас</a>
+                    <a href="contacts.html" class="nav-link">Контакты</a>
+                </nav>
+
+                <div class="header-actions">
+                    <a href="cart.html" class="cart-btn">
+                        <span class="cart-icon">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="catalog.html" class="mobile-link">Каталог</a>
+        <a href="about.html" class="mobile-link">О нас</a>
+        <a href="contacts.html" class="mobile-link">Контакты</a>
+        <a href="cart.html" class="mobile-link">🛒 Корзина</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <p class="hero-subtitle">Профессиональная косметика</p>
+                <h1 class="hero-title">Красивая кожа начинается с правильного ухода</h1>
+                <p class="hero-text">Откройте для себя коллекцию премиальной косметики от мировых брендов. Натуральные составы, проверенные формулы, видимый результат.</p>
+                
+                <div class="hero-buttons">
+                    <a href="catalog.html" class="btn btn-primary">Смотреть каталог</a>
+                    <a href="#categories" class="btn btn-outline">Категории</a>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600" alt="Косметика" class="hero-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories" id="categories">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Категории</h2>
+                <p class="section-text">Выберите нужный раздел</p>
+            </div>
+
+            <div class="categories-grid">
+                <a href="catalog.html?cat=face" class="category-card">
+                    <div class="category-icon">✨</div>
+                    <h3 class="category-title">Уход за лицом</h3>
+                    <p class="category-count">45 товаров</p>
+                </a>
+
+                <a href="catalog.html?cat=body" class="category-card">
+                    <div class="category-icon">🧴</div>
+                    <h3 class="category-title">Уход за телом</h3>
+                    <p class="category-count">32 товара</p>
+                </a>
+
+                <a href="catalog.html?cat=hair" class="category-card">
+                    <div class="category-icon">💇</div>
+                    <h3 class="category-title">Уход за волосами</h3>
+                    <p class="category-count">28 товаров</p>
+                </a>
+
+                <a href="catalog.html?cat=makeup" class="category-card">
+                    <div class="category-icon">💄</div>
+                    <h3 class="category-title">Макияж</h3>
+                    <p class="category-count">56 товаров</p>
+                </a>
+
+                <a href="catalog.html?cat=perfume" class="category-card">
+                    <div class="category-icon">🌸</div>
+                    <h3 class="category-title">Парфюмерия</h3>
+                    <p class="category-count">24 товара</p>
+                </a>
+
+                <a href="catalog.html?cat=sets" class="category-card">
+                    <div class="category-icon">🎁</div>
+                    <h3 class="category-title">Наборы</h3>
+                    <p class="category-count">18 товаров</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Популярные товары</h2>
+                <a href="catalog.html" class="link-all">Смотреть все →</a>
+            </div>
+
+            <div class="products-grid" id="featuredProducts">
+                <!-- Products will be loaded by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="benefits">
+        <div class="container">
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚚</div>
+                    <h3 class="benefit-title">Бесплатная доставка</h3>
+                    <p class="benefit-text">При заказе от 3000 ₽ по всей России</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">✅</div>
+                    <h3 class="benefit-title">Оригинальная продукция</h3>
+                    <p class="benefit-text">100% гарантия подлинности товаров</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎁</div>
+                    <h3 class="benefit-title">Подарки к заказу</h3>
+                    <p class="benefit-text">Пробники и миниатюры в каждой посылке</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">💬</div>
+                    <h3 class="benefit-title">Консультация эксперта</h3>
+                    <p class="benefit-text">Поможем подобрать уход специально для вас</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="footer-logo">
+                        <span>✨</span> BEAUTY STORE
+                    </a>
+                    <p class="footer-text">Профессиональная косметика для вашей красоты. Только оригинальная продукция от мировых брендов.</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">Каталог</h4>
+                    <ul class="footer-links">
+                        <li><a href="catalog.html?cat=face">Уход за лицом</a></li>
+                        <li><a href="catalog.html?cat=body">Уход за телом</a></li>
+                        <li><a href="catalog.html?cat=hair">Уход за волосами</a></li>
+                        <li><a href="catalog.html?cat=makeup">Макияж</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">Информация</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">О нас</a></li>
+                        <li><a href="delivery.html">Доставка</a></li>
+                        <li><a href="payment.html">Оплата</a></li>
+                        <li><a href="contacts.html">Контакты</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">Контакты</h4>
+                    <p class="footer-contact">📞 +7 (800) 123-45-67</p>
+                    <p class="footer-contact">✉️ info@beautystore.ru</p>
+                    <p class="footer-contact">📍 Москва, ул. Красная, 1</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 BEAUTY STORE. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

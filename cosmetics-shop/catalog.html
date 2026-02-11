@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог | BEAUTY STORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .catalog {
+            padding: 40px 0 80px;
+        }
+        
+        .catalog-header {
+            margin-bottom: 32px;
+        }
+        
+        .catalog-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">✨</span>
+                    <span class="logo-text">BEAUTY STORE</span>
+                </a>
+
+                <nav class="nav">
+                    <a href="catalog.html" class="nav-link active">Каталог</a>
+                    <a href="about.html" class="nav-link">О нас</a>
+                    <a href="contacts.html" class="nav-link">Контакты</a>
+                </nav>
+
+                <div class="header-actions">
+                    <a href="cart.html" class="cart-btn">
+                        <span class="cart-icon">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="catalog">
+        <div class="container">
+            <div class="catalog-header">
+                <h1 class="catalog-title">Каталог товаров</h1>
+                
+                <div class="filters">
+                    <button class="filter-btn active" onclick="filterProducts('all')">Все</button>
+                    <button class="filter-btn" onclick="filterProducts('face')">Уход за лицом</button>
+                    <button class="filter-btn" onclick="filterProducts('body')">Уход за телом</button>
+                    <button class="filter-btn" onclick="filterProducts('hair')">Волосы</button>
+                    <button class="filter-btn" onclick="filterProducts('makeup')">Макияж</button>
+                    <button class="filter-btn" onclick="filterProducts('perfume')">Парфюмерия</button>
+                </div>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2026 BEAUTY STORE. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Filter products
+        function filterProducts(category) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const filtered = category === 'all' 
+                ? products 
+                : products.filter(p => p.category === category);
+            
+            renderProducts(filtered, document.getElementById('productsGrid'));
+        }
+
+        // Initial render
+        renderProducts(products, document.getElementById('productsGrid'));
+    </script>
+</body>
+</html>

@@ -2,1318 +2,1178 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Полярная звезда-2026 — Республиканский конкурс</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="XXIX ежегодный Республиканский телевизионный конкурс Полярная звезда-2026. 27-28 февраля, г. Олёкминск.">
+    <title>Полярная звезда-2026 — XXIX Республиканский конкурс</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #d69e2e;
+            --accent-light: #ecc94b;
+            --text: #2d3748;
+            --text-light: #718096;
+            --bg: #f7fafc;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
         }
-        
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
         body {
             font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
-            color: #2d3748;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #ffd93d 100%);
-            background-attachment: fixed;
-            min-height: 100vh;
-            word-wrap: break-word;
+            color: var(--text);
+            background: var(--bg);
             overflow-x: hidden;
         }
-        
-        .header {
-            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 25%, #ff9ff3 50%, #54a0ff 75%, #5f27cd 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            color: white;
-            padding: 80px 20px 100px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-        }
-        
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .header::before {
-            content: '⭐';
-            position: absolute;
-            font-size: 300px;
-            opacity: 0.15;
-            top: -100px;
-            right: -50px;
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .header::after {
-            content: '✨';
-            position: absolute;
-            font-size: 150px;
-            opacity: 0.1;
-            bottom: -30px;
-            left: -30px;
-            animation: float 8s ease-in-out infinite reverse;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-        
-        .header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
-            font-weight: 800;
-            letter-spacing: -1px;
-            animation: slideInDown 1s ease;
-        }
-        
-        @keyframes slideInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .header .subtitle {
-            font-size: 1.4rem;
-            opacity: 0.95;
-            margin-bottom: 25px;
-            font-weight: 500;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-            animation: fadeIn 1s ease 0.3s both;
-        }
-        
-        .header-image {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto 30px;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 5px solid rgba(255,255,255,0.3);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: slideInDown 1s ease 0.2s both;
-        }
-        
-        .hero-img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-            color: #5f27cd;
-            padding: 12px 28px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: slideInUp 1s ease 0.5s both;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .container {
-            max-width: 1100px;
-            margin: -50px auto 0;
-            padding: 40px 20px;
-            position: relative;
-            z-index: 10;
-        }
-        
-        .info-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-        
-        .info-card {
-            background: rgba(255, 255, 255, 0.95);
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.95);
             backdrop-filter: blur(10px);
-            padding: 35px 30px;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(255,255,255,0.3);
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
         }
-        
-        .info-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
         }
-        
-        .info-card .icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            display: block;
-            animation: bounce 2s infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .info-card h3 {
-            color: #5f27cd;
-            margin-bottom: 12px;
+
+        .nav-logo {
             font-size: 1.3rem;
             font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
         }
-        
-        .info-card p {
-            color: #718096;
+
+        .nav-logo span { color: var(--accent); }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: var(--text);
+            text-decoration: none;
             font-weight: 500;
-            line-height: 1.7;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            position: relative;
         }
-        
-        .section {
-            background: rgba(255, 255, 255, 0.97);
-            backdrop-filter: blur(10px);
-            padding: 50px;
-            border-radius: 30px;
-            box-shadow: 0 25px 70px rgba(0,0,0,0.15);
-            margin-bottom: 40px;
-            border: 1px solid rgba(255,255,255,0.4);
-            box-sizing: border-box;
-            width: 100%;
-            max-width: 100%;
+
+        .nav-menu a:hover { color: var(--accent); }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover::after { width: 100%; }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(26,54,93,0.8) 0%, rgba(44,82,130,0.8) 50%, rgba(45,55,72,0.8) 100%),
+                        url('https://habrastorage.org/r/w1560/getpro/habr/post_images/309/741/799/309741799f247356b0cd3581890ed3c8.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            padding: 100px 20px 60px;
             overflow: hidden;
         }
-        
-        .section h2 {
-            color: #5f27cd;
-            font-size: 2.2rem;
-            margin-bottom: 35px;
-            padding-bottom: 15px;
-            border-bottom: 4px solid;
-            border-image: linear-gradient(90deg, #ff6b6b, #feca57, #ff9ff3, #54a0ff) 1;
+
+        .hero-content {
+            text-align: center;
+            color: var(--white);
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
             display: inline-block;
-            font-weight: 700;
-        }
-        
-        .schedule {
-            display: grid;
-            gap: 20px;
-        }
-        
-        .schedule-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            padding: 25px;
-            background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
-            border-radius: 20px;
-            border-left: 5px solid;
-            border-image: linear-gradient(180deg, #ff6b6b, #feca57) 1;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-        
-        .schedule-item:hover {
-            transform: translateX(10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
-        .schedule-date {
-            min-width: 80px;
-            font-weight: 700;
-            color: #ff6b6b;
-            font-size: 1.1rem;
-            text-align: center;
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #fff5f5 0%, #fff 100%);
-            border-radius: 15px;
-            margin: 0 auto;
-        }
-        
-        .schedule-content {
-            text-align: center;
-            flex: 1;
-        }
-        
-        .schedule-content h4 {
-            color: #2d3748;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            text-align: center;
-        }
-        
-        .schedule-content p {
-            color: #718096;
-            font-size: 1rem;
-            font-weight: 500;
-            text-align: center !important;
-            margin: 0 auto;
-        }
-        
-        .nominations {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 18px;
-            justify-content: center !important;
-        }
-        
-        .nomination {
-            background: linear-gradient(135deg, #ff9ff3 0%, #feca57 100%);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(255, 159, 243, 0.4);
-            transition: transform 0.3s ease;
-        }
-        
-        .nomination:hover {
-            transform: scale(1.05);
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: #2d3748;
-            font-size: 1rem;
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 16px 20px;
-            border: 3px solid #e2e8f0;
-            border-radius: 16px;
-            font-size: 1rem;
-            font-family: 'Montserrat', sans-serif;
-            transition: all 0.3s ease;
-            background: #f8f9ff;
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #ff9ff3;
-            box-shadow: 0 0 0 4px rgba(255, 159, 243, 0.2);
-            background: white;
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-        
-        .submit-btn {
-            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #ff9ff3 100%);
-            background-size: 200% 200%;
-            animation: gradientBtn 3s ease infinite;
-            color: white;
-            padding: 20px 50px;
-            border: none;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 10px 25px;
             border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-        
-        @keyframes gradientBtn {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
-        
-        .submit-btn:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 50px rgba(255, 107, 107, 0.5);
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            opacity: 0.95;
+            margin-bottom: 30px;
+            font-weight: 400;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
-        
-        .document-download {
+
+        .hero-date {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            background: linear-gradient(135deg, #54a0ff 0%, #5f27cd 100%);
-            color: white;
-            padding: 18px 35px;
+            gap: 10px;
+            background: rgba(0,0,0,0.4);
+            padding: 15px 30px;
             border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
             font-size: 1.1rem;
-            margin-top: 30px;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(84, 160, 255, 0.4);
+            margin-bottom: 40px;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
         }
-        
-        .document-download:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(84, 160, 255, 0.5);
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
-        
-        .contacts {
-            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
-            color: white;
-            padding: 60px;
-            border-radius: 30px;
-            text-align: center;
-            box-shadow: 0 25px 70px rgba(0,0,0,0.3);
-        }
-        
-        .contacts h2 {
-            color: #feca57;
-            border-bottom: none;
-            font-size: 2.5rem;
-        }
-        
-        .contact-item {
-            margin: 20px 0;
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-        
-        .contact-item a {
-            color: #ff9ff3;
-            text-decoration: none;
-            font-weight: 700;
-            transition: color 0.3s ease;
-        }
-        
-        .contact-item a:hover {
-            color: #feca57;
-        }
-        
-        .price-tag {
-            display: inline-block;
-            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
-            color: white;
-            padding: 20px 40px;
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
             border-radius: 50px;
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-top: 30px;
-            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
-            animation: pulse 2s infinite;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
         }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary);
         }
-        
-        .slider-container {
-            position: relative;
-            width: 100%;
-            max-width: 100%;
+
+        .btn-primary:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(214,158,46,0.3);
         }
-        
-        .slider-wrapper {
-            position: relative;
-            width: 100%;
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid rgba(255,255,255,0.3);
         }
-        
-        .slider-slide {
-            display: none;
-            width: 100%;
-            max-width: 100%;
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--white);
         }
-        
-        .slider-slide.active {
-            display: block;
-            animation: fadeSlide 0.3s ease;
-            min-height: 300px;
-        }
-        
-        @keyframes fadeSlide {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        
-        .gala-block {
-            margin-top: 40px;
-            padding: 40px;
-            background: linear-gradient(135deg, #fff9e6 0%, #fff5f5 50%, #ffe6f0 100%);
-            border-radius: 24px;
+
+        .section { padding: 100px 20px; }
+
+        .section-header {
             text-align: center;
-            border: 3px solid #ffd700;
-            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3);
-            animation: glow 2s ease-in-out infinite alternate;
+            max-width: 700px;
+            margin: 0 auto 60px;
         }
-        
-        @keyframes glow {
-            from { box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3); }
-            to { box-shadow: 0 25px 80px rgba(255, 107, 107, 0.4); }
-        }
-        
-        .gala-header {
-            margin-bottom: 20px;
-        }
-        
-        .gala-icon {
-            font-size: 4rem;
-            display: block;
-            margin-bottom: 15px;
-            animation: bounce 1s infinite;
-        }
-        
-        .gala-header h3 {
-            font-size: 2.2rem;
-            color: #ff6b6b;
-            font-weight: 800;
-            margin-bottom: 10px;
+
+        .section-label {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 2px;
+            margin-bottom: 15px;
         }
-        
-        .gala-header p {
-            font-size: 1.1rem;
-            color: #5f27cd;
-            font-weight: 600;
-        }
-        
-        .gala-description {
-            font-size: 1rem;
-            color: #2d3748;
-            margin-bottom: 12px;
-            font-weight: 500;
-        }
-        
-        .gala-location {
-            font-size: 0.95rem;
-            color: #718096;
+
+        .section h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: var(--primary);
             margin-bottom: 20px;
-            padding: 8px 16px;
-            background: white;
-            border-radius: 30px;
-            display: inline-block;
         }
-        
-        /* Gala Section - Separate Block */
-        .gala-section {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 60px 40px;
-            border-radius: 30px;
-            text-align: center;
-            margin-bottom: 40px;
-            box-shadow: 0 25px 70px rgba(0,0,0,0.3);
-        }
-        
-        .gala-section .gala-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            display: block;
-            animation: bounce 2s infinite;
-        }
-        
-        .gala-section h2 {
-            color: #ffd700;
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            border: none;
-            display: block;
-        }
-        
-        .gala-section .gala-date {
-            font-size: 1.5rem;
-            color: #ff9ff3;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        
-        .gala-section .gala-text {
-            font-size: 1.2rem;
-            color: #fff;
-            opacity: 0.9;
-            margin-bottom: 15px;
-        }
-        
-        .gala-section .gala-venue {
+
+        .section-subtitle {
+            color: var(--text-light);
             font-size: 1.1rem;
-            color: #feca57;
-            margin-bottom: 25px;
         }
-        
-        .gala-section .gala-price {
-            display: inline-block;
-            background: #ffd700;
-            color: #1e3c72;
-            padding: 15px 35px;
-            border-radius: 50px;
-            font-size: 1.3rem;
-            font-weight: 800;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+
+        .about-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
         }
-        
-        .slider-nav {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .slider-btn {
-            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
-            color: white;
-            border: none;
-            padding: 15px 35px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
-        }
-        
-        .slider-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
-        }
-        
-        .slider-btn.active {
-            background: linear-gradient(135deg, #5f27cd 0%, #ff9ff3 100%);
-            box-shadow: 0 8px 30px rgba(95, 39, 205, 0.4);
-        }
-        
-        .slider-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            z-index: 10;
-        }
-        
-        .slider-arrow:hover {
-            background: white;
-            transform: translateY(-50%) scale(1.1);
-        }
-        
-        .slider-arrow.prev {
-            left: 20px;
-        }
-        
-        .slider-arrow.next {
-            right: 20px;
-        }
-        
-        .slide-header {
-            text-align: center;
-            margin-bottom: 35px;
-            padding: 30px 25px;
-            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+
+        .about-card {
+            background: var(--white);
+            padding: 35px;
             border-radius: 20px;
-            color: white;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        
-        .slide-header h3 {
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .about-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .about-card h3 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .about-card p {
+            color: var(--text-light);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .nominations {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .nominations .section-label { color: var(--accent); }
+        .nominations h2 { color: var(--white); }
+
+        .nominations-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .nomination-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 35px;
+        }
+
+        .nomination-card h3 {
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .program-block {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+        }
+
+        .program-block:last-child { margin-bottom: 0; }
+
+        .program-block h4 {
+            color: var(--accent);
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+
+        .program-block p {
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .program-block ul {
+            margin-left: 20px;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .program-block li { margin-bottom: 5px; }
+
+        .gala-highlight {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(214,158,46,0.3), rgba(236,201,75,0.2));
+            border-radius: 15px;
+            border: 2px solid var(--accent);
+            text-align: center;
+        }
+
+        .gala-highlight p:first-child {
+            font-size: 1.2rem;
             font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .news-grid, .gallery-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .news-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .news-card:hover { transform: translateY(-5px); }
+
+        .news-image {
+            height: 180px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .news-content { padding: 25px; }
+
+        .news-date {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
+        .news-card h3 {
+            color: var(--primary);
+            font-size: 1.15rem;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .news-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .gallery { background: var(--bg); }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover { transform: scale(1.02); }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 30px 20px 20px;
+            color: var(--white);
+        }
+
+        .gallery-overlay h4 {
+            font-size: 1rem;
             margin-bottom: 5px;
         }
-        
-        .slide-header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
+
+        .gallery-overlay p {
+            font-size: 0.85rem;
+            opacity: 0.8;
         }
-        
-        @media (max-width: 768px) {
-            .slider-arrow {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-            
-            .slider-arrow.prev {
-                left: 10px;
-            }
-            
-            .slider-arrow.next {
-                right: 10px;
-            }
-            
-            .slider-btn {
-                padding: 12px 25px;
-                font-size: 1rem;
-            }
+
+        .registration {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
         }
-    </style>
-            margin-bottom: 30px;
+
+        .registration h2 { color: var(--white); }
+
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 25px;
+            padding: 40px;
         }
-        
-        .section h2 {
-            color: #1e3c72;
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #ffd700;
-            display: inline-block;
-        }
-        
-        .schedule {
-            display: grid;
-            gap: 20px;
-        }
-        
-        .schedule-item {
-            display: flex;
-            gap: 20px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #2a5298;
-        }
-        
-        .schedule-date {
-            min-width: 100px;
-            font-weight: bold;
-            color: #1e3c72;
-        }
-        
-        .schedule-content h4 {
-            color: #333;
-            margin-bottom: 8px;
-        }
-        
-        .schedule-content p {
-            color: #666;
-            font-size: 0.95rem;
-        }
-        
-        .nominations {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
-            justify-content: center;
-        }
-        
-        .nomination {
-            background: #e3f2fd;
-            color: #1e3c72;
-            padding: 8px 16px;
+
+        .contact-info-box {
+            max-width: 700px;
+            margin: 0 auto 40px;
+            background: rgba(214,158,46,0.15);
+            border: 2px solid var(--accent);
             border-radius: 20px;
-            font-size: 0.9rem;
+            padding: 30px;
+            text-align: center;
         }
-        
-        .form-group {
-            margin-bottom: 20px;
+
+        .contact-info-box h3 {
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
         }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #333;
+
+        .contact-info-box p {
+            font-size: 1.1rem;
+            line-height: 1.8;
         }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
+
+        .contact-info-box a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
         }
-        
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #2a5298;
-        }
-        
+
         .form-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
+            margin-bottom: 20px;
         }
-        
-        .submit-btn {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
+
+        .form-group { margin-bottom: 20px; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
-            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 14px 18px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
         }
-        
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(30, 60, 114, 0.3);
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: rgba(255,255,255,0.5); }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255,255,255,0.15);
         }
-        
-        .document-download {
-            display: inline-flex;
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group select option {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .form-submit {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .form-submit .btn-primary {
+            font-size: 1.1rem;
+            padding: 16px 45px;
+            background: #25D366;
+        }
+
+        .form-submit .btn-primary:hover {
+            background: #128C7E;
+        }
+
+        .contacts-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .contact-item { text-align: center; }
+
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 20px;
+        }
+
+        .contact-item h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .contact-item p { color: var(--text-light); }
+        .contact-item a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .messengers-section {
+            background: var(--bg);
+            padding: 60px 20px;
+        }
+
+        .messengers-grid {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .messenger-item {
+            display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 10px;
-            background: #ffd700;
-            color: #1e3c72;
-            padding: 12px 25px;
-            border-radius: 8px;
             text-decoration: none;
-            font-weight: bold;
-            margin-top: 20px;
             transition: transform 0.3s;
         }
-        
-        .document-download:hover {
-            transform: translateY(-2px);
+
+        .messenger-item:hover {
+            transform: translateY(-5px);
         }
-        
-        .contacts {
-            background: #1e3c72;
-            color: white;
-            padding: 40px;
-            border-radius: 12px;
+
+        .messenger-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .messenger-icon.whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+        }
+
+        .messenger-icon.max {
+            background: linear-gradient(135deg, #FF6B00, #FF8C00);
+        }
+
+        .messenger-item span {
+            color: var(--text);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .footer {
+            background: var(--primary);
+            color: var(--white);
             text-align: center;
+            padding: 50px 20px;
         }
-        
-        .contacts h2 {
-            color: #ffd700;
-            border-bottom-color: white;
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
         }
-        
-        .contact-item {
-            margin: 15px 0;
-            font-size: 1.1rem;
+
+        .footer-logo span { color: var(--accent); }
+
+        .footer p {
+            opacity: 0.7;
+            font-size: 0.9rem;
         }
-        
-        .contact-item a {
-            color: #ffd700;
-            text-decoration: none;
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-        
-        .price-tag {
-            display: inline-block;
-            background: #ffd700;
-            color: #1e3c72;
-            padding: 15px 30px;
-            border-radius: 30px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-top: 20px;
+
+        .modal.active { display: flex; }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 20px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow: auto;
+            position: relative;
         }
-        
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text);
+            z-index: 10;
+        }
+
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.6rem;
-                letter-spacing: 0;
-            }
-            
-            .header .subtitle {
-                font-size: 0.95rem;
-            }
-            
-            .header {
-                padding: 50px 15px 70px;
-            }
-            
-            .header-image {
-                max-width: 100%;
-                border-radius: 15px;
-                margin-bottom: 20px;
-            }
-            
-            .badge {
-                padding: 8px 15px;
-                font-size: 0.75rem;
-            }
-            
-            .container {
-                padding: 20px 15px;
-                margin-top: -30px;
-            }
-            
-            .section {
-                padding: 25px 20px;
-                border-radius: 20px;
-            }
-            
-            .section h2 {
-                font-size: 1.3rem;
-                margin-bottom: 25px;
-            }
-            
-            .info-card {
-                padding: 25px 20px;
-            }
-            
-            .info-card .icon {
-                font-size: 2.5rem;
-            }
-            
-            .info-card h3 {
-                font-size: 1.1rem;
-            }
-            
-            .info-card p {
-                font-size: 0.9rem;
-            }
-            
-            .slide-header {
-                padding: 20px 15px;
-                margin-bottom: 20px;
-            }
-            
-            .slide-header h3 {
-                font-size: 1.2rem;
-            }
-            
-            .slide-header p {
-                font-size: 0.9rem;
-            }
-            
-            .schedule-item {
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--white);
                 flex-direction: column;
-                align-items: center;
-                gap: 15px;
-                padding: 20px;
+                padding: 30px;
+                gap: 20px;
+                box-shadow: var(--shadow-lg);
+                transform: translateY(-150%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s;
             }
-            
-            .schedule-date {
-                padding: 10px 20px;
-                font-size: 1rem;
-                margin: 0 auto;
+
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
             }
-            
-            .schedule-content h4 {
-                font-size: 1rem;
-            }
-            
-            .schedule-content p {
-                font-size: 0.85rem;
-                text-align: center;
-            }
-            
-            .nomination {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-                text-align: center;
-            }
-            
-            .slider-container {
-                padding: 10px;
-            }
-            
-            .slider-slide {
-                padding: 10px;
-            }
-            
-            .slider-slide.active {
-                min-height: 250px;
-            }
-            
-            .slider-arrow {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
-            }
-            
-            .slider-arrow.prev {
-                left: 5px;
-            }
-            
-            .slider-arrow.next {
-                right: 5px;
-            }
-            
-            .slider-btn {
-                padding: 10px 18px;
-                font-size: 0.85rem;
-            }
-            
-            .gala-block {
-                padding: 15px 15px;
-                margin-top: 15px;
-                border-radius: 15px;
-            }
-            
-            .gala-header {
-                margin-bottom: 10px;
-            }
-            
-            .gala-icon {
-                font-size: 2rem;
-                margin-bottom: 8px;
-            }
-            
-            .gala-header h3 {
-                font-size: 1.1rem;
-                margin-bottom: 5px;
-            }
-            
-            .gala-header p {
-                font-size: 0.85rem;
-            }
-            
-            /* Gala Section Mobile */
-            .gala-section {
-                padding: 35px 20px;
-                border-radius: 20px;
-            }
-            
-            .gala-section .gala-icon {
-                font-size: 2.5rem;
-                margin-bottom: 15px;
-            }
-            
-            .gala-section h2 {
-                font-size: 1.5rem;
-                letter-spacing: 2px;
-                margin-bottom: 10px;
-            }
-            
-            .gala-section .gala-date {
-                font-size: 1.1rem;
-                margin-bottom: 10px;
-            }
-            
-            .gala-section .gala-text {
-                font-size: 0.95rem;
-                margin-bottom: 10px;
-            }
-            
-            .gala-section .gala-venue {
-                font-size: 0.9rem;
-                margin-bottom: 20px;
-            }
-            
-            .gala-section .gala-price {
-                padding: 12px 25px;
-                font-size: 1rem;
-            }
-            
-            .gala-description {
-                font-size: 0.8rem;
-            }
-            
-            .gala-location {
-                font-size: 0.75rem;
-                padding: 5px 10px;
-            }
-            
-            .price-tag {
-                padding: 12px 25px;
-                font-size: 1rem;
-            }
-            
-            .contacts {
-                padding: 35px 20px;
-            }
-            
-            .contacts h2 {
-                font-size: 1.5rem;
-            }
-            
-            .contact-item {
-                font-size: 0.95rem;
-            }
+
+            .nav-toggle { display: block; }
+            .hero { padding: 120px 20px 60px; }
+            .hero-buttons { flex-direction: column; width: 100%; }
+            .hero-buttons .btn { width: 100%; justify-content: center; }
+            .section { padding: 60px 20px; }
+            .form-container { padding: 25px 20px; }
+            .form-row { grid-template-columns: 1fr; }
+            .news-grid, .gallery-grid { grid-template-columns: 1fr; }
+            .nomination-card { padding: 25px 20px; }
+            .messengers-grid { gap: 30px; }
         }
     </style>
 </head>
 <body>
-
-    <header class="header">
-        <div class="header-image">
-            <img src="gala-concert.jpg" alt="Полярная звезда-2026" class="hero-img">
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">⭐ <span>Полярная звезда</span></a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#about">О конкурсе</a></li>
+                <li><a href="#nominations">Программа</a></li>
+                <li><a href="#news">Новости</a></li>
+                <li><a href="#gallery">Галерея</a></li>
+                <li><a href="#registration">Регистрация</a></li>
+                <li><a href="#contacts">Контакты</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle">☰</button>
         </div>
-        <div class="badge">XXIX Республиканский конкурс</div>
-        <h1>⭐ Полярная звезда-2026</h1>
-        <p class="subtitle">Год Единства народов России<br>Год Культуры в Республике (Саха) Якутия</p>
-    </header>
+    </nav>
 
-    <div class="container">
-        <!-- Info Cards -->
-        <div class="info-cards">
-            <div class="info-card">
-                <div class="icon">📅</div>
-                <h3>Когда</h3>
-                <p>27-28 февраля 2026 года</p>
-            </div>
-            <div class="info-card">
-                <div class="icon">📍</div>
-                <h3>Где</h3>
-                <p>г. Олёкминск<br>МБУ НКЦ «Гармония»</p>
-            </div>
-            <div class="info-card">
-                <div class="icon">🎭</div>
-                <h3>Формат</h3>
-                <p>Телевизионный конкурс<br>Гала-концерт</p>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">XXIX ежегодный Республиканский телевизионный конкурс</div>
+            <h1>Полярная звезда — 2026</h1>
+            <p class="hero-subtitle">Посвящённый Году Единства народов России и Году Культуры в Республике (Саха) Якутия в Олёкминском районе</p>
+            <div class="hero-date">📅 27 — 28 февраля 2026 | г. Олёкминск</div>
+            <div class="hero-buttons">
+                <a href="#registration" class="btn btn-primary">Подать заявку</a>
+                <a href="#nominations" class="btn btn-outline">Программа</a>
+                <a href="https://docs.google.com/document/d/17EQlbJ30f-bZbnF6O0bdkuUsKpI3zJTA/edit?usp=sharing&ouid=109534034135319607038&rtpof=true&sd=true" class="btn btn-outline" target="_blank">📄 Скачать положение</a>
             </div>
         </div>
+    </section>
 
-        <!-- Program Slider -->
-        <section class="section">
-            <h2>📋 Программа конкурса</h2>
-            
-            <div class="slider-nav">
-                <button class="slider-btn active" onclick="goToSlide(0)">📅 27 февраля</button>
-                <button class="slider-btn" onclick="goToSlide(1)">📅 28 февраля</button>
+    <section class="section" id="about">
+        <div class="section-header">
+            <div class="section-label">О конкурсе</div>
+            <h2>XXIX Республиканский телевизионный конкурс</h2>
+            <p class="section-subtitle">Посвящённый Году Единства народов России и Году Культуры в Республике (Саха) Якутия</p>
+        </div>
+        
+        <div class="about-grid">
+            <div class="about-card">
+                <div class="about-icon">📅</div>
+                <h3>Даты проведения</h3>
+                <p>27 и 28 февраля 2026 года. Два дня творческих состязаний и гала-концерта.</p>
+            </div>
+            <div class="about-card">
+                <div class="about-icon">📍</div>
+                <h3>Место проведения</h3>
+                <p>г. Олёкминск, МБУ НКЦ «Гармония» и МБОУ ДО «ОДШИ». Центральные площадки города.</p>
+            </div>
+            <div class="about-card">
+                <div class="about-icon">🎭</div>
+                <h3>Номинации</h3>
+                <p>Игра на инструментах, олонхо, фольклор, ИЗО, ДПИ. Конкурс для коллективов города и отдалённых наслегов.</p>
+            </div>
+            <div class="about-card">
+                <div class="about-icon">🎪</div>
+                <h3>Гала-концерт</h3>
+                <p>28 февраля в 17:00. Вход: 300 рублей. Торжественное закрытие конкурса.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section nominations" id="nominations">
+        <div class="section-header">
+            <div class="section-label">Номинации и программа</div>
+            <h2>27 — 28 февраля 2026 года</h2>
+            <p class="section-subtitle" style="color: rgba(255,255,255,0.8)">Программа XXIX Республиканского телевизионного конкурса</p>
+        </div>
+        
+        <div class="nominations-grid">
+            <div class="nomination-card">
+                <h3>📅 27 февраля 2026 года (пятница)</h3>
+                
+                <div class="program-block">
+                    <h4>📍 МБОУ ДО «ОДШИ»</h4>
+                    <p><strong>9:00</strong> — Регистрация участников</p>
+                    <p><strong>10:00</strong> — Конкурс, смотр номинаций:</p>
+                    <ul>
+                        <li>Игра на инструментах</li>
+                        <li>Олонхо</li>
+                        <li>Фольклор</li>
+                        <li>ИЗО (изобразительное искусство)</li>
+                        <li>ДПИ (декоративно-прикладное искусство)</li>
+                    </ul>
+                </div>
+                
+                <div class="program-block">
+                    <h4>📍 МБУ НКЦ «Гармония»</h4>
+                    <p><strong>15:00</strong> — Регистрация участников</p>
+                    <p><strong>16:00</strong> — Конкурс, участвуют коллективы города</p>
+                </div>
             </div>
             
-            <div class="slider-container">
-                <div class="slider-wrapper" id="slider">
-                    <!-- Slide 1: 27 February -->
-                    <div class="slider-slide active">
-                        <div class="slide-header">
-                            <h3>27 февраля 2026</h3>
-                            <p>Четверг</p>
-                        </div>
-                        <div class="schedule">
-                            <div class="schedule-item">
-                                <div class="schedule-date">9:00</div>
-                                <div class="schedule-content">
-                                    <h4>Регистрация участников</h4>
-                                    <p>МБОУ ДО «ОДШИ»</p>
-                                </div>
-                            </div>
-                            <div class="schedule-item">
-                                <div class="schedule-date">10:00</div>
-                                <div class="schedule-content">
-                                    <h4>Конкурс смотра номинаций</h4>
-                                    <p>МБОУ ДО «ОДШИ»</p>
-                                    <div class="nominations">
-                                        <span class="nomination">🎸 Игра на инструментах</span>
-                                        <span class="nomination">📜 Олонхо</span>
-                                        <span class="nomination">🎵 Фольклор</span>
-                                        <span class="nomination">🎨 ИЗО</span>
-                                        <span class="nomination">✂️ ДПИ</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="schedule-item">
-                                <div class="schedule-date">15:00</div>
-                                <div class="schedule-content">
-                                    <h4>Регистрация коллективов города</h4>
-                                    <p>МБУ НКЦ «Гармония»</p>
-                                </div>
-                            </div>
-                            <div class="schedule-item">
-                                <div class="schedule-date">16:00</div>
-                                <div class="schedule-content">
-                                    <h4>Конкурс коллективов города</h4>
-                                    <p>МБУ НКЦ «Гармония»</p>
-                                </div>
-                            </div>
-                        </div>
+            <div class="nomination-card">
+                <h3>📅 28 февраля 2026 года (суббота)</h3>
+                
+                <div class="program-block">
+                    <h4>📍 МБУ НКЦ «Гармония»</h4>
+                    <p><strong>9:00</strong> — Регистрация участников</p>
+                    <p><strong>10:00</strong> — Конкурс, участвуют коллективы отдалённых наслегов</p>
+                    
+                    <div class="gala-highlight">
+                        <p>🎪 17:00 — ГАЛА-КОНЦЕРТ</p>
+                        <p>Вход: 300 рублей</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="news">
+        <div class="section-header">
+            <div class="section-label">Новости</div>
+            <h2>Последние события</h2>
+            <p class="section-subtitle">Следите за обновлениями конкурса</p>
+        </div>
+        
+        <div class="news-grid">
+            <article class="news-card">
+                <div class="news-image">📢</div>
+                <div class="news-content">
+                    <div class="news-date">5 февраля 2026</div>
+                    <h3>Старт приёма заявок</h3>
+                    <p>Открыта регистрация участников на XXIX Республиканский телевизионный конкурс «Полярная звезда — 2026»!</p>
+                </div>
+            </article>
+            
+            <article class="news-card">
+                <div class="news-image">🎭</div>
+                <div class="news-content">
+                    <div class="news-date">1 февраля 2026</div>
+                    <h3>Утверждена программа</h3>
+                    <p>Опубликована подробная программа проведения конкурса 27-28 февраля в г. Олёкминск.</p>
+                </div>
+            </article>
+            
+            <article class="news-card">
+                <div class="news-image">📋</div>
+                <div class="news-content">
+                    <div class="news-date">25 января 2026</div>
+                    <h3>Опубликовано положение</h3>
+                    <p>Доступно полное положение о конкурсе со всеми требованиями и критериями оценки.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="section gallery" id="gallery">
+        <div class="section-header">
+            <div class="section-label">Галерея</div>
+            <h2>Моменты прошлых лет</h2>
+            <p class="section-subtitle">Яркие моменты конкурса «Полярная звезда»</p>
+        </div>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item" onclick="openModal(0)">
+                🎤
+                <div class="gallery-overlay">
+                    <h4>Вокальный конкурс</h4>
+                    <p>Финал 2025 года</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openModal(1)">
+                💃
+                <div class="gallery-overlay">
+                    <h4>Хореография</h4>
+                    <p>Современный танец</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openModal(2)">
+                🎨
+                <div class="gallery-overlay">
+                    <h4>Выставка работ</h4>
+                    <p>Изобразительное искусство</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openModal(3)">
+                🎭
+                <div class="gallery-overlay">
+                    <h4>Театральная сцена</h4>
+                    <p>Лучшие миниатюры</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openModal(4)">
+                🎸
+                <div class="gallery-overlay">
+                    <h4>Инструменталисты</h4>
+                    <p>Народные инструменты</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openModal(5)">
+                📸
+                <div class="gallery-overlay">
+                    <h4>Фотовыставка</h4>
+                    <p>Победители конкурса</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section registration" id="registration">
+        <div class="section-header">
+            <div class="section-label">Регистрация</div>
+            <h2>Подать заявку</h2>
+            <p class="section-subtitle" style="color: rgba(255,255,255,0.8)">Заполните форму для участия в конкурсе</p>
+        </div>
+        
+        <div class="contact-info-box">
+            <h3>📞 Приём заявок на участие</h3>
+            <p><a href="tel:+79644244164">+7 (964) 424-41-64</a> (WhatsApp/MAX)<br>
+            Белоусова Анна Валерьевна</p>
+        </div>
+        
+        <div class="form-container">
+            <form id="registrationForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="lastName">Фамилия *</label>
+                        <input type="text" id="lastName" name="lastName" required placeholder="Иванов">
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">Имя *</label>
+                        <input type="text" id="firstName" name="firstName" required placeholder="Иван">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="category">Возрастная категория *</label>
+                        <select id="category" name="category" required>
+                            <option value="">Выберите категорию</option>
+                            <option value="Младшая (7-10 лет)">Младшая (7-10 лет)</option>
+                            <option value="Средняя (11-14 лет)">Средняя (11-14 лет)</option>
+                            <option value="Старшая (15-18 лет)">Старшая (15-18 лет)</option>
+                            <option value="Молодёжная (19-25 лет)">Молодёжная (19-25 лет)</option>
+                        </select>
                     </div>
                     
-                    <!-- Slide 2: 28 February -->
-                    <div class="slider-slide">
-                        <div class="slide-header">
-                            <h3>28 февраля 2026</h3>
-                            <p>Пятница</p>
-                        </div>
-                        <div class="schedule">
-                            <div class="schedule-item">
-                                <div class="schedule-date">9:00</div>
-                                <div class="schedule-content">
-                                    <h4>Регистрация коллективов наслегов</h4>
-                                    <p>МБУ НКЦ «Гармония»</p>
-                                </div>
-                            </div>
-                            <div class="schedule-item">
-                                <div class="schedule-date">10:00</div>
-                                <div class="schedule-content">
-                                    <h4>Конкурс коллективов отдалённых наслегов</h4>
-                                    <p>МБУ НКЦ «Гармония»</p>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="nomination">Номинация *</label>
+                        <select id="nomination" name="nomination" required>
+                            <option value="">Выберите номинацию</option>
+                            <option value="Игра на инструментах">Игра на инструментах</option>
+                            <option value="Олонхо">Олонхо</option>
+                            <option value="Фольклор">Фольклор</option>
+                            <option value="ИЗО">ИЗО (изобразительное искусство)</option>
+                            <option value="ДПИ">ДПИ (декоративно-прикладное искусство)</option>
+                        </select>
                     </div>
                 </div>
-            </div>
-            
-            <script>
-                let currentSlide = 0;
-                const slides = document.querySelectorAll('.slider-slide');
-                const buttons = document.querySelectorAll('.slider-btn');
-                
-                function updateSlider() {
-                    slides.forEach((slide, index) => {
-                        slide.classList.toggle('active', index === currentSlide);
-                    });
-                    buttons.forEach((btn, index) => {
-                        btn.classList.toggle('active', index === currentSlide);
-                    });
-                }
-                
-                function changeSlide(direction) {
-                    currentSlide += direction;
-                    if (currentSlide < 0) currentSlide = slides.length - 1;
-                    if (currentSlide >= slides.length) currentSlide = 0;
-                    updateSlider();
-                }
-                
-                function goToSlide(index) {
-                    currentSlide = index;
-                    updateSlider();
-                }
-                
-                // Auto-slide every 10 seconds
-                setInterval(() => {
-                    changeSlide(1);
-                }, 10000);
-            </script>
-        </section>
 
-        <!-- Gala Concert Section -->
-        <section class="gala-section">
-            <div class="gala-icon">🎉</div>
-            <h2>ГАЛА-КОНЦЕРТ</h2>
-            <p class="gala-date">28 февраля в 17:00</p>
-            <p class="gala-text">Торжественное закрытие конкурса</p>
-            <p class="gala-venue">📍 МБУ НКЦ «Гармония»</p>
-            <div class="gala-price">💰 Вход: 300 рублей</div>
-        </section>
-
-        <!-- Registration Form -->
-        <section class="section">
-            <h2>📝 Регистрация участника</h2>
-            <form action="/register" method="POST">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="name">ФИО участника / руководителя *</label>
-                        <input type="text" id="name" name="name" required placeholder="Иванов Иван Иванович">
+                        <label for="city">Населённый пункт *</label>
+                        <input type="text" id="city" name="city" required placeholder="Олёкминск">
                     </div>
+                    
                     <div class="form-group">
                         <label for="phone">Телефон *</label>
-                        <input type="tel" id="phone" name="phone" required placeholder="+7 (XXX) XXX-XX-XX">
+                        <input type="tel" id="phone" name="phone" required placeholder="+7 (___) ___-__-__">
                     </div>
                 </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="example@mail.ru">
-                    </div>
-                    <div class="form-group">
-                        <label for="organization">Организация / коллектив</label>
-                        <input type="text" id="organization" name="organization" placeholder="Название школы, ансамбля">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="nomination">Номинация *</label>
-                    <select id="nomination" name="nomination" required>
-                        <option value="">Выберите номинацию</option>
-                        <option value="instruments">Игра на инструментах</option>
-                        <option value="olonkho">Олонхо</option>
-                        <option value="folklore">Фольклор</option>
-                        <option value="izo">Изобразительное искусство (ИЗО)</option>
-                        <option value="dpi">Декоративно-прикладное искусство (ДПИ)</option>
-                        <option value="collective">Коллективное выступление</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="age">Возрастная категория</label>
-                    <select id="age" name="age">
-                        <option value="">Выберите категорию</option>
-                        <option value="junior">До 12 лет</option>
-                        <option value="teen">13-17 лет</option>
-                        <option value="adult">18 лет и старше</option>
-                        <option value="mixed">Смешанная</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="comment">Дополнительная информация</label>
-                    <textarea id="comment" name="comment" rows="3" placeholder="Название произведения, количество участников и т.д."></textarea>
-                </div>
-                
-                <button type="submit" class="submit-btn">Отправить заявку</button>
-            </form>
-            
-            <a href="polozhenie.pdf" class="document-download" download>
-                📄 Скачать положение конкурса
-            </a>
-        </section>
 
-        <!-- Contacts -->
-        <section class="contacts">
-            <h2>📞 Контакты</h2>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="example@mail.ru">
+                </div>
+
+                <div class="form-group">
+                    <label for="educational">Учебное заведение / Коллектив *</label>
+                    <input type="text" id="educational" name="educational" required placeholder="МБУ НКЦ «Гармония»">
+                </div>
+
+                <div class="form-group">
+                    <label for="program">Название программы / Произведения</label>
+                    <textarea id="program" name="program" placeholder="Укажите название выступления, произведения, авторов..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="teacher">Руководитель / Педагог</label>
+                    <input type="text" id="teacher" name="teacher" placeholder="ФИО руководителя">
+                </div>
+
+                <div class="form-submit">
+                    <button type="submit" class="btn btn-primary">Отправить заявку</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="section" id="contacts">
+        <div class="section-header">
+            <div class="section-label">Контакты</div>
+            <h2>Свяжитесь с нами</h2>
+            <p class="section-subtitle">Организационный комитет конкурса</p>
+        </div>
+        
+        <div class="contacts-grid">
             <div class="contact-item">
-                <strong>Организатор:</strong> Белоусова Анна Валерьевна
+                <div class="contact-icon">📍</div>
+                <h3>Адрес</h3>
+                <p>Республика (Саха) Якутия<br>г. Олёкминск<br>МБУ НКЦ «Гармония»</p>
             </div>
+            
             <div class="contact-item">
-                <strong>Телефон:</strong> <a href="tel:+79644244164">8 (964) 424-41-64</a>
+                <div class="contact-icon">📞</div>
+                <h3>Телефон</h3>
+                <p><a href="tel:+79644244164">+7 (964) 424-41-64</a></p>
             </div>
+            
             <div class="contact-item">
-                <strong>Telegram:</strong> <a href="https://t.me/+79644244164">@+79644244164</a>
+                <div class="contact-icon">👤</div>
+                <h3>Координатор</h3>
+                <p>Белоусова Анна Валерьевна</p>
             </div>
-            <div class="contact-item">
-                <strong>Место проведения:</strong><br>
-                г. Олёкминск, МБУ НКЦ «Гармония»<br>
-                МБОУ ДО «ОДШИ»
-            </div>
-        </section>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-logo">⭐ <span>Полярная звезда</span> — 2026</div>
+        <p>XXIX ежегодный Республиканский телевизионный конкурс<br>© 2026 Все права защищены</p>
+    </footer>
+
+    <div class="modal" id="galleryModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div id="modalBody" style="padding: 40px; text-align: center; min-height: 300px; display: flex; align-items: center; justify-content: center; font-size: 4rem;"></div>
+        </div>
     </div>
 
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Формируем сообщение для WhatsApp
+            const message = `Заявка на конкурс Полярная звезда-2026\n\n` +
+                `ФИ: ${data.lastName} ${data.firstName}\n` +
+                `Категория: ${data.category}\n` +
+                `Номинация: ${data.nomination}\n` +
+                `Населённый пункт: ${data.city}\n` +
+                `Телефон: ${data.phone}\n` +
+                `Email: ${data.email || 'не указан'}\n` +
+                `Учебное заведение: ${data.educational}\n` +
+                `Руководитель: ${data.teacher || 'не указан'}\n` +
+                `Программа: ${data.program || 'не указана'}\n\n` +
+                `Отправлено с сайта polarnaya-zvezda-2026`;
+            
+            // Открываем WhatsApp с готовым сообщением
+            const whatsappUrl = `https://wa.me/79644244164?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        });
+
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value[0] === '7' || value[0] === '8') value = value.substring(1);
+                let formatted = '+7';
+                if (value.length > 0) formatted += ' (' + value.substring(0, 3);
+                if (value.length >= 3) formatted += ') ' + value.substring(3, 6);
+                if (value.length >= 6) formatted += '-' + value.substring(6, 8);
+                if (value.length >= 8) formatted += '-' + value.substring(8, 10);
+                e.target.value = formatted;
+            }
+        });
+
+        const galleryItems = [
+            { icon: '🎤', title: 'Вокальный конкурс', desc: 'Финал 2025 года' },
+            { icon: '💃', title: 'Хореография', desc: 'Современный танец' },
+            { icon: '🎨', title: 'Выставка работ', desc: 'Изобразительное искусство' },
+            { icon: '🎭', title: 'Театральная сцена', desc: 'Лучшие миниатюры' },
+            { icon: '🎸', title: 'Инструменталисты', desc: 'Народные инструменты' },
+            { icon: '📸', title: 'Фотовыставка', desc: 'Победители конкурса' }
+        ];
+
+        function openModal(index) {
+            const modal = document.getElementById('galleryModal');
+            const modalBody = document.getElementById('modalBody');
+            const item = galleryItems[index];
+            
+            modalBody.innerHTML = `
+                <div>
+                    <div style="font-size: 5rem; margin-bottom: 20px;">${item.icon}</div>
+                    <h3 style="color: var(--primary); margin-bottom: 10px; font-size: 1.5rem;">${item.title}</h3>
+                    <p style="color: var(--text-light); font-size: 1.1rem;">${item.desc}</p>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('galleryModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('galleryModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        const nav = document.querySelector('.nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+            } else {
+                nav.style.boxShadow = '0 4px 6px -1px rgba(0,0,0,0.1)';
+            }
+        });
+    </script>
 </body>
 </html>
