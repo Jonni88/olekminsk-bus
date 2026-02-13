@@ -3,24 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Военно-тактический клуб «Арена» — Лазертаг и Страйкбол в Олёкминске</title>
+    <title>АРЕНА — Лазертаг и Страйкбол в Олёкминске</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-primary: #1a1a1a;
-            --color-secondary: #2d3b2d;
-            --color-accent: #ff6b35;
-            --color-accent-hover: #e85a28;
-            --color-gold: #ffc107;
-            --color-text: #f5f5f5;
-            --color-text-muted: #b0b0b0;
-            --color-dark: #0d0d0d;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --shadow-glow: 0 0 30px rgba(255, 107, 53, 0.3);
-            --radius: 16px;
-            --transition: all 0.3s ease;
+            --fire: #ff3d00;
+            --fire-light: #ff6d00;
+            --fire-dark: #dd2c00;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --card: rgba(20, 20, 20, 0.8);
+            --glass: rgba(255, 255, 255, 0.05);
+            --text: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
         }
 
         * {
@@ -29,17 +26,42 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background: var(--color-dark);
-            color: var(--color-text);
-            line-height: 1.6;
-            overflow-x: hidden;
+        html {
+            scroll-behavior: smooth;
         }
 
-        h1, h2, h3, h4 {
-            font-family: 'Montserrat', sans-serif;
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--darker);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .logo {
+            font-family: 'Orbitron', sans-serif;
             font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(255, 61, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(255, 109, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(221, 44, 0, 0.05) 0%, transparent 70%);
+            animation: bgPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         /* Header */
@@ -49,319 +71,138 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            background: rgba(13, 13, 13, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+            padding: 1rem 2rem;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.95), transparent);
+            backdrop-filter: blur(20px);
         }
 
         .header-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 900;
-            color: var(--color-accent);
+            background: linear-gradient(135deg, var(--fire), var(--fire-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .logo span {
-            color: var(--color-text);
         }
 
         nav {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         nav a {
-            color: var(--color-text-muted);
+            color: var(--text-muted);
             text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
+            font-weight: 500;
             font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--fire);
+            transition: width 0.3s ease;
         }
 
         nav a:hover {
-            color: var(--color-accent);
+            color: var(--text);
         }
 
-        .phone-btn {
-            background: var(--color-accent);
-            color: white;
-            padding: 0.6rem 1.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-        }
-
-        .phone-btn:hover {
-            background: var(--color-accent-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-glow);
-        }
-
-        /* Game Tabs */
-        .game-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-
-        .game-tab {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 107, 53, 0.3);
-            color: var(--color-text);
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .game-tab:hover {
-            background: rgba(255, 107, 53, 0.1);
-            border-color: var(--color-accent);
-        }
-
-        .game-tab.active {
-            background: var(--color-accent);
-            border-color: var(--color-accent);
-            color: white;
-        }
-
-        .game-section {
-            display: none;
-        }
-
-        .game-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Booking Form */
-        .booking {
-            background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .booking::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -20%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .booking-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius);
-            padding: 2.5rem;
-            position: relative;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--color-text);
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        nav a:hover::after {
             width: 100%;
-            padding: 1rem 1.2rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            color: var(--color-text);
-            font-size: 1rem;
-            font-family: 'Open Sans', sans-serif;
-            transition: var(--transition);
         }
 
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--color-accent);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: var(--color-text-muted);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .game-selector {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .game-option {
-            flex: 1;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .game-option:hover {
-            border-color: rgba(255, 107, 53, 0.5);
-        }
-
-        .game-option.selected {
-            background: rgba(255, 107, 53, 0.15);
-            border-color: var(--color-accent);
-        }
-
-        .game-option-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .game-option h4 {
-            font-size: 1rem;
-            margin-bottom: 0.2rem;
-        }
-
-        .game-option p {
-            font-size: 0.8rem;
-            color: var(--color-text-muted);
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: #25D366;
-            color: white;
-            border: none;
-            padding: 1.2rem;
-            border-radius: 12px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .submit-btn:hover {
-            background: #128C7E;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
-        }
-
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .game-selector {
-                flex-direction: column;
-            }
-
-            .booking-form {
-                padding: 1.5rem;
-            }
-        }
-
-        /* Hero Section */
+        /* Hero with Video Background */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            background: linear-gradient(135deg, rgba(13,13,13,0.9) 0%, rgba(45,59,45,0.8) 100%),
-                        url('images/hero.jpg') center/cover no-repeat;
-            padding: 8rem 2rem 4rem;
+            padding: 120px 2rem 80px;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, 
+                rgba(5, 5, 5, 0.7) 0%, 
+                rgba(5, 5, 5, 0.5) 50%, 
+                rgba(5, 5, 5, 0.9) 100%);
+            z-index: -1;
         }
 
         .hero-content {
             max-width: 900px;
             text-align: center;
+            z-index: 1;
         }
 
         .hero-badge {
-            display: inline-block;
-            background: rgba(255, 107, 53, 0.2);
-            border: 1px solid var(--color-accent);
-            color: var(--color-accent);
-            padding: 0.5rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass);
+            border: 1px solid rgba(255, 61, 0, 0.3);
+            padding: 0.6rem 1.5rem;
             border-radius: 50px;
             font-size: 0.9rem;
-            font-weight: 600;
+            color: var(--fire-light);
             margin-bottom: 2rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.8s ease;
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-size: clamp(2.5rem, 6vw, 5rem);
             font-weight: 900;
-            margin-bottom: 1.5rem;
             line-height: 1.1;
-            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.1s both;
         }
 
         .hero h1 span {
-            color: var(--color-accent);
-            display: block;
+            background: linear-gradient(135deg, var(--fire), var(--fire-light), #ffaa00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero p {
             font-size: 1.25rem;
-            color: var(--color-text-muted);
-            margin-bottom: 2.5rem;
+            color: var(--text-muted);
             max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto 2.5rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
         }
 
         .hero-buttons {
@@ -369,89 +210,50 @@
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.3s both;
         }
 
-        .btn-primary {
-            background: var(--color-accent);
-            color: white;
+        .btn {
             padding: 1rem 2.5rem;
-            border-radius: 50px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
             text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            transition: var(--transition);
-            border: 2px solid var(--color-accent);
+            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--fire), var(--fire-dark));
+            color: white;
+            box-shadow: 0 10px 40px rgba(255, 61, 0, 0.3);
         }
 
         .btn-primary:hover {
-            background: var(--color-accent-hover);
             transform: translateY(-3px);
-            box-shadow: var(--shadow-glow);
+            box-shadow: 0 20px 60px rgba(255, 61, 0, 0.4);
         }
 
         .btn-secondary {
-            background: transparent;
-            color: var(--color-text);
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            transition: var(--transition);
-            border: 2px solid rgba(255,255,255,0.3);
+            background: var(--glass);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .btn-secondary:hover {
-            border-color: var(--color-accent);
-            color: var(--color-accent);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--fire);
         }
 
-        .hero-features {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 4rem;
-            flex-wrap: wrap;
-        }
-
-        .hero-feature {
-            text-align: center;
-        }
-
-        .hero-feature-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 107, 53, 0.15);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 1.5rem;
-            border: 1px solid rgba(255, 107, 53, 0.3);
-        }
-
-        .hero-feature h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .hero-feature p {
-            font-size: 0.9rem;
-            color: var(--color-text-muted);
-            margin: 0;
-        }
-
-        /* Section Styles */
-        section {
-            padding: 6rem 2rem;
-        }
-
-        .container {
-            max-width: 1200px;
+        /* Game Cards */
+        .games-section {
+            padding: 100px 2rem;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -462,11 +264,11 @@
 
         .section-tag {
             display: inline-block;
-            color: var(--color-accent);
+            color: var(--fire);
             font-weight: 600;
             text-transform: uppercase;
+            font-size: 0.85rem;
             letter-spacing: 3px;
-            font-size: 0.9rem;
             margin-bottom: 1rem;
         }
 
@@ -476,157 +278,128 @@
         }
 
         .section-subtitle {
-            color: var(--color-text-muted);
+            color: var(--text-muted);
             font-size: 1.1rem;
             max-width: 600px;
             margin: 0 auto;
         }
 
-        /* About Section */
-        .about {
-            background: var(--color-primary);
-        }
-
-        .about-grid {
+        .games-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .about-image {
-            position: relative;
-        }
-
-        .about-image img {
-            width: 100%;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-        }
-
-        .about-image::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            left: -20px;
-            right: 20px;
-            bottom: 20px;
-            border: 3px solid var(--color-accent);
-            border-radius: var(--radius);
-            z-index: -1;
-        }
-
-        .about-content h3 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .about-content p {
-            color: var(--color-text-muted);
-            margin-bottom: 1.5rem;
-            font-size: 1.05rem;
-        }
-
-        .about-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .stat {
-            text-align: center;
-            padding: 1.5rem;
-            background: rgba(255, 107, 53, 0.1);
-            border-radius: var(--radius);
-            border: 1px solid rgba(255, 107, 53, 0.2);
-        }
-
-        .stat-number {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--color-accent);
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--color-text-muted);
-        }
-
-        /* Features Section */
-        .features {
-            background: var(--color-dark);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
         }
 
-        .feature-card {
-            background: rgba(255, 255, 255, 0.03);
+        .game-card {
+            background: var(--card);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius);
-            padding: 2.5rem;
-            transition: var(--transition);
-            position: relative;
+            border-radius: 24px;
             overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
         }
 
-        .feature-card::before {
+        .game-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--color-accent), var(--color-gold));
+            height: 3px;
+            background: linear-gradient(90deg, var(--fire), var(--fire-light));
             transform: scaleX(0);
-            transition: var(--transition);
+            transition: transform 0.4s ease;
         }
 
-        .feature-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(255, 107, 53, 0.3);
-            box-shadow: var(--shadow);
+        .game-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 61, 0, 0.3);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
         }
 
-        .feature-card:hover::before {
+        .game-card:hover::before {
             transform: scaleX(1);
         }
 
-        .feature-icon {
-            width: 70px;
-            height: 70px;
-            background: rgba(255, 107, 53, 0.15);
-            border-radius: 16px;
+        .game-image {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .game-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .game-card:hover .game-image img {
+            transform: scale(1.1);
+        }
+
+        .game-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .game-content {
+            padding: 2rem;
+        }
+
+        .game-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-content p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .game-features {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .game-feature {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 0.3rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .game-price {
             font-size: 2rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(255, 107, 53, 0.3);
+            font-weight: 700;
+            color: var(--fire-light);
         }
 
-        .feature-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
+        .game-price span {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 400;
         }
 
-        .feature-card p {
-            color: var(--color-text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* Gallery Section */
-        .gallery {
-            background: var(--color-primary);
+        /* Gallery Grid */
+        .gallery-section {
+            padding: 100px 2rem;
+            background: linear-gradient(to bottom, transparent, rgba(255, 61, 0, 0.03), transparent);
         }
 
         .gallery-grid {
+            max-width: 1400px;
+            margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 1rem;
@@ -634,17 +407,21 @@
 
         .gallery-item {
             position: relative;
-            border-radius: var(--radius);
+            border-radius: 16px;
             overflow: hidden;
             aspect-ratio: 1;
-            cursor: pointer;
+        }
+
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
         }
 
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: var(--transition);
+            transition: transform 0.5s ease;
         }
 
         .gallery-item:hover img {
@@ -654,138 +431,54 @@
         .gallery-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
             display: flex;
             align-items: flex-end;
             padding: 1.5rem;
             opacity: 0;
-            transition: var(--transition);
+            transition: opacity 0.3s ease;
         }
 
         .gallery-item:hover .gallery-overlay {
             opacity: 1;
         }
 
-        .gallery-item:first-child {
-            grid-column: span 2;
-            grid-row: span 2;
-        }
-
-        /* Pricing Section */
-        .pricing {
-            background: var(--color-dark);
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .pricing-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius);
-            padding: 2.5rem;
-            text-align: center;
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .pricing-card.popular {
-            border-color: var(--color-accent);
-            transform: scale(1.05);
-            background: rgba(255, 107, 53, 0.05);
-        }
-
-        .popular-badge {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--color-accent);
-            color: white;
-            padding: 0.4rem 1.5rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .pricing-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .pricing-card .price {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: var(--color-accent);
-            margin: 1.5rem 0;
-        }
-
-        .pricing-card .price span {
-            font-size: 1rem;
-            color: var(--color-text-muted);
-            font-weight: 400;
-        }
-
-        .pricing-features {
-            list-style: none;
-            margin: 2rem 0;
-        }
-
-        .pricing-features li {
-            padding: 0.8rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            color: var(--color-text-muted);
-        }
-
-        .pricing-features li:last-child {
-            border-bottom: none;
+        .gallery-overlay span {
+            font-weight: 600;
         }
 
         /* Arsenal Section */
-        .arsenal {
-            background: var(--color-dark);
-        }
-
-        .arsenal-slider {
-            position: relative;
-            max-width: 1200px;
+        .arsenal-section {
+            padding: 100px 2rem;
+            max-width: 1400px;
             margin: 0 auto;
-            overflow: hidden;
         }
 
-        .arsenal-track {
-            display: flex;
-            transition: transform 0.5s ease;
+        .arsenal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 1.5rem;
         }
 
-        .arsenal-card {
-            flex: 0 0 calc(25% - 1.125rem);
-            background: rgba(255, 255, 255, 0.03);
+        .arsenal-item {
+            background: var(--card);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius);
+            border-radius: 16px;
             overflow: hidden;
-            transition: var(--transition);
+            transition: all 0.3s ease;
         }
 
-        .arsenal-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(255, 107, 53, 0.3);
-            box-shadow: var(--shadow);
+        .arsenal-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 61, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
-        .arsenal-card img {
+        .arsenal-item img {
             width: 100%;
             height: 180px;
             object-fit: contain;
-            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            background: linear-gradient(135deg, #1a1a1a, #0f0f0f);
             padding: 1rem;
         }
 
@@ -795,303 +488,184 @@
         }
 
         .arsenal-info h4 {
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-bottom: 0.3rem;
         }
 
         .arsenal-info p {
             font-size: 0.85rem;
-            color: var(--color-text-muted);
+            color: var(--text-muted);
         }
 
-        .arsenal-nav {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            margin-top: 2rem;
+        /* Booking Section */
+        .booking-section {
+            padding: 100px 2rem;
+            background: linear-gradient(135deg, rgba(255, 61, 0, 0.05) 0%, transparent 50%);
         }
 
-        .arsenal-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(255, 107, 53, 0.15);
-            border: 1px solid rgba(255, 107, 53, 0.3);
-            color: var(--color-text);
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .booking-container {
+            max-width: 700px;
+            margin: 0 auto;
         }
 
-        .arsenal-btn:hover {
-            background: var(--color-accent);
-            border-color: var(--color-accent);
+        .booking-form {
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            backdrop-filter: blur(20px);
         }
 
-        .arsenal-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
+        .form-group {
+            margin-bottom: 1.5rem;
         }
 
-        .arsenal-dots {
-            display: flex;
-            gap: 0.5rem;
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-muted);
         }
 
-        .arsenal-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255, 107, 53, 0.3);
-            cursor: pointer;
-            transition: var(--transition);
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
         }
 
-        .arsenal-dot.active {
-            background: var(--color-accent);
-            width: 30px;
-            border-radius: 5px;
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--fire);
+            background: rgba(255, 255, 255, 0.08);
         }
 
-        @media (max-width: 992px) {
-            .arsenal-card {
-                flex: 0 0 calc(33.333% - 1rem);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .arsenal-card {
-                flex: 0 0 calc(50% - 0.75rem);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .arsenal-card {
-                flex: 0 0 calc(100% - 0rem);
-            }
-        }
-
-        /* Contact Section */
-        .contact {
-            background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .contact::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .contact-grid {
+        .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .contact-info h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-info p {
-            color: var(--color-text-muted);
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
             gap: 1rem;
-            margin-bottom: 1.5rem;
         }
 
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 107, 53, 0.15);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            border: 1px solid rgba(255, 107, 53, 0.3);
-            flex-shrink: 0;
+        .game-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
-        .contact-text a {
-            color: var(--color-text);
-            text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .contact-text a:hover {
-            color: var(--color-accent);
-        }
-
-        .contact-text span {
-            display: block;
-            font-size: 0.9rem;
-            color: var(--color-text-muted);
-        }
-
-        .contact-cta {
+        .game-option {
+            padding: 1.5rem;
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius);
-            padding: 3rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .game-option:hover {
+            border-color: rgba(255, 61, 0, 0.3);
+        }
+
+        .game-option.selected {
+            background: rgba(255, 61, 0, 0.1);
+            border-color: var(--fire);
+        }
+
+        .game-option-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-option h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .game-option p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Contact */
+        .contact-section {
+            padding: 100px 2rem;
             text-align: center;
         }
 
-        .contact-cta h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
+        .contact-grid {
+            max-width: 800px;
+            margin: 3rem auto 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
         }
 
-        .contact-cta p {
-            color: var(--color-text-muted);
-            margin-bottom: 2rem;
+        .contact-card {
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
         }
 
-        .whatsapp-btn {
-            background: #25D366;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            display: inline-flex;
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 61, 0, 0.3);
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--fire), var(--fire-dark));
+            border-radius: 16px;
+            display: flex;
             align-items: center;
-            gap: 0.5rem;
-            transition: var(--transition);
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
         }
 
-        .whatsapp-btn:hover {
-            background: #128C7E;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+        .contact-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
         }
 
-        .age-badge {
-            display: inline-block;
-            background: rgba(255, 193, 7, 0.15);
-            border: 1px solid var(--color-gold);
-            color: var(--color-gold);
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            margin-top: 2rem;
-            font-weight: 600;
+        .contact-card a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-card:hover a {
+            color: var(--fire-light);
         }
 
         /* Footer */
         footer {
-            background: var(--color-dark);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding: 3rem 2rem;
             text-align: center;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .footer-logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.8rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
             font-weight: 900;
-            color: var(--color-accent);
+            background: linear-gradient(135deg, var(--fire), var(--fire-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 1rem;
-        }
-
-        .footer-logo span {
-            color: var(--color-text);
-        }
-
-        footer p {
-            color: var(--color-text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--color-text);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .about-grid,
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .about-image::before {
-                display: none;
-            }
-
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .gallery-item:first-child {
-                grid-column: span 2;
-                grid-row: span 2;
-            }
-
-            .pricing-card.popular {
-                transform: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            nav {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .hero-features {
-                gap: 1.5rem;
-            }
-
-            .about-stats {
-                grid-template-columns: 1fr;
-            }
-
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .gallery-item:first-child {
-                grid-column: span 1;
-                grid-row: span 1;
-            }
-
-            .contact-cta {
-                padding: 2rem 1.5rem;
-            }
         }
 
         /* Animations */
@@ -1106,544 +680,251 @@
             }
         }
 
-        .hero-content > * {
-            animation: fadeInUp 0.8s ease forwards;
+        /* Responsive */
+        @media (max-width: 992px) {
+            nav {
+                display: none;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .gallery-item:first-child {
+                grid-column: span 2;
+                grid-row: span 2;
+            }
         }
 
-        .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
-        .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
-        .hero-content > *:nth-child(3) { animation-delay: 0.3s; }
-        .hero-content > *:nth-child(4) { animation-delay: 0.4s; }
-        .hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .game-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-form {
+                padding: 2rem 1.5rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .gallery-item:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="bg-animation"></div>
+
     <!-- Header -->
     <header>
         <div class="header-container">
-            <div class="logo">АРЕНА <span>ARENA</span></div>
-            <div style="color: var(--color-text-muted); font-size: 0.85rem; margin-left: 1rem;">Военно-тактический клуб</div>
+            <div class="logo">АРЕНА</div>
             <nav>
-                <a href="#home">Главная</a>
-                <a href="#about">О нас</a>
+                <a href="#games">Игры</a>
                 <a href="#gallery">Галерея</a>
                 <a href="#arsenal">Арсенал</a>
                 <a href="#booking">Запись</a>
                 <a href="#contact">Контакты</a>
             </nav>
-            <a href="tel:+79248752311" class="phone-btn">Позвонить</a>
-            <button class="mobile-menu-btn">☰</button>
+            <a href="tel:+79248752311" class="btn btn-primary">📞 Позвонить</a>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
+    <!-- Hero -->
+    <section class="hero">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="video/hero-bg.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <div class="hero-badge">🎯 Военно-тактический клуб «Арена»</div>
-            <h1>Лазертаг & Страйкбол <span>в Олёкминске</span></h1>
-            <p>Выбери свой формат игры! Лазертаг — безопасно для всей семьи. Страйкбол — для тех, кто ищет острые ощущения.</p>
-            
-            <div class="game-tabs">
-                <button class="game-tab active" data-game="lazertag">🔫 Лазертаг</button>
-                <button class="game-tab" data-game="strikeball">💥 Страйкбол</button>
+            <div class="hero-badge">
+                🔥 Олёкминск • Активный отдых
             </div>
-            
+            <h1>Лазертаг & Страйкбол <span>в АРЕНЕ</span></h1>
+            <p>Погрузись в мир тактических игр! От детских праздников до корпоративных баталий — у нас есть всё для незабываемых эмоций.</p>
             <div class="hero-buttons">
-                <a href="https://t.me/+1daHjXRWXDQwMzJi" class="btn-primary" target="_blank">✈️ Telegram сообщество</a>
-                <a href="https://chat.whatsapp.com/JJnQteS094rIe3Rk2pNU14?mode=ac_c" class="btn-secondary" target="_blank">💬 WhatsApp группа</a>
-            </div>
-            <div class="hero-features">
-                <div class="hero-feature">
-                    <div class="hero-feature-icon">🎯</div>
-                    <h4>Безопасно</h4>
-                    <p>Лазерное оборудование</p>
-                </div>
-                <div class="hero-feature">
-                    <div class="hero-feature-icon">🏕️</div>
-                    <h4>Лесная локация</h4>
-                    <p>Естественное укрытие</p>
-                </div>
-                <div class="hero-feature">
-                    <div class="hero-feature-icon">👨‍👩‍👧‍👦</div>
-                    <h4>Для всех</h4>
-                    <p>С 9 лет и старше</p>
-                </div>
+                <a href="#booking" class="btn btn-primary">🎮 Записаться на игру</a>
+                <a href="https://t.me/+1daHjXRWXDQwMzJi" class="btn btn-secondary" target="_blank">✈️ Telegram</a>
             </div>
         </div>
     </section>
 
-    <!-- Laser Tag Section -->
-    <div class="game-section active" id="lazertag-section">
+    <!-- Games Section -->
+    <section class="games-section" id="games">
+        <div class="section-header">
+            <span class="section-tag">Выбери свою игру</span>
+            <h2 class="section-title">Два формата — одна арена</h2>
+            <p class="section-subtitle">Для детей и взрослых, для семьи и компании</p>
+        </div>
 
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-image">
-                    <img src="images/game-1.jpg" alt="Игра в лазертаг">
+        <div class="games-grid">
+            <!-- Laser Tag -->
+            <div class="game-card">
+                <div class="game-image">
+                    <img src="images/team-kids.jpg" alt="Дети играют в лазертаг">
+                    <span class="game-badge">👨‍👩‍👧‍👦 Для всей семьи</span>
                 </div>
-                <div class="about-content">
-                    <span class="section-tag">О нас</span>
-                    <h3>Настоящий боевой опыт безопасно</h3>
-                    <p>Лазертаг — это командная тактическая игра с использованием инфракрасного излучения. В отличие от пейнтбола, здесь нет боли, синяков и грязи — только чистый адреналин и стратегия!</p>
-                    <p>Мы организуем игры в живописном лесу Олёкминска. У нас есть укрытия, разнообразное оборудование и несколько игровых сценариев — от захвата флага до каждого сам за себя.</p>
-                    <div class="about-stats">
-                        <div class="stat">
-                            <span class="stat-number">9+</span>
-                            <span class="stat-label">Лет игрокам</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">10+</span>
-                            <span class="stat-label">Видов оружия</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">∞</span>
-                            <span class="stat-label">Эмоций</span>
-                        </div>
+                <div class="game-content">
+                    <h3>🔫 Лазертаг</h3>
+                    <p>Безопасная игра с инфракрасным оружием. Никаких синяков и боли — только чистый адреналин и командная стратегия!</p>
+                    
+                    <div class="game-features">
+                        <span class="game-feature">👤 9+ лет</span>
+                        <span class="game-feature">👥 От 4 человек</span>
+                        <span class="game-feature">🌲 Лесная локация</span>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Почему мы</span>
-                <h2 class="section-title">Преимущества нашего лазертага</h2>
-                <p class="section-subtitle">Всё для идеальной игры — от оборудования до локации</p>
+                    <div class="game-price">от 500₽ <span>/человек</span></div>
+                </div>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🔫</div>
-                    <h3>Арсенал оружия</h3>
-                    <p>Широкий выбор: от пистолетов и автоматов до снайперских винтовок. Каждый найдёт оружие по душе!</p>
+
+            <!-- Strikeball -->
+            <div class="game-card">
+                <div class="game-image">
+                    <img src="images/team-adults.jpg" alt="Взрослые играют в страйкбол">
+                    <span class="game-badge">💥 Экстрим</span>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🌲</div>
-                    <h3>Лесная локация</h3>
-                    <p>Играем в настоящем лесу с естественными укрытиями, пнями и деревьями. Никаких скучных залов!</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Безопасность</h3>
-                    <p>Лазерное оборудование не оставляет синяков и не требует защитной экипировки. Играй без боли!</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎮</div>
-                    <h3>Сценарии игр</h3>
-                    <p>Захват флага, командный бой, зомби-апокалипсис, каждый сам за себя — выбирай свой режим!</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">👥</div>
-                    <h3>Любая компания</h3>
-                    <p>От 4 до 20+ человек. Идеально для дней рождения, корпоративов, тимбилдингов и просто активного отдыха.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>Лёгкая запись</h3>
-                    <p>Просто позвони или напиши в WhatsApp — мы подберём удобное время и ответим на все вопросы.</p>
+                <div class="game-content">
+                    <h3>💥 Страйкбол</h3>
+                    <p>Настоящий боевой опыт с пневматическим оружием. Экипировка предоставляется! Полное погружение в атмосферу боя.</p>
+                    
+                    <div class="game-features">
+                        <span class="game-feature">👤 18+ лет</span>
+                        <span class="game-feature">👥 От 6 человек</span>
+                        <span class="game-feature">🎭 Экипировка included</span>
+                    </div>
+
+                    <div class="game-price">от 800₽ <span>/человек</span></div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Gallery Section -->
-    <section class="gallery" id="gallery">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Галерея</span>
-                <h2 class="section-title">Фото с наших игр</h2>
-                <p class="section-subtitle">Атмосфера настоящего боя в лесу Олёкминска</p>
+    <section class="gallery-section" id="gallery">
+        <div class="section-header">
+            <span class="section-tag">Фото с игр</span>
+            <h2 class="section-title">Моменты боя</h2>
+            <p class="section-subtitle">Атмосфера настоящих сражений в лесу Олёкминска</p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="images/team-kids.jpg" alt="Дети">
+                <div class="gallery-overlay"><span>Юные бойцы</span></div>
             </div>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="images/weapons.jpg" alt="Арсенал оружия">
-                    <div class="gallery-overlay">
-                        <span>Наше оборудование</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/game-1.jpg" alt="Игрок в укрытии">
-                    <div class="gallery-overlay">
-                        <span>Тактические позиции</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/game-2.jpg" alt="Снайперская позиция">
-                    <div class="gallery-overlay">
-                        <span>Снайперская работа</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/game-3.jpg" alt="Игрок за деревом">
-                    <div class="gallery-overlay">
-                        <span>Лесная локация</span>
-                    </div>
-                </div>
+            <div class="gallery-item">
+                <img src="images/game-1.jpg" alt="Игра">
+                <div class="gallery-overlay"><span>Тактика</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/game-2.jpg" alt="Снайпер">
+                <div class="gallery-overlay"><span>Снайпер</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/game-3.jpg" alt="Лес">
+                <div class="gallery-overlay"><span>Локация</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/team-adults.jpg" alt="Взрослые">
+                <div class="gallery-overlay"><span>Команда</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/weapons.jpg" alt="Оружие">
+                <div class="gallery-overlay"><span>Арсенал</span></div>
             </div>
         </div>
     </section>
 
     <!-- Arsenal Section -->
-    <section class="arsenal" id="arsenal">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Арсенал</span>
-                <h2 class="section-title">Наше оборудование</h2>
-                <p class="section-subtitle">Профессиональное лазерное оружие на любой вкус — от пистолетов до снайперских винтовок</p>
-            </div>
-            
-            <div class="arsenal-slider">
-                <div class="arsenal-track" id="arsenalTrack">
-                    <div class="arsenal-card">
-                        <img src="images/weapon-1.jpg" alt="Помповое ружьё">
-                        <div class="arsenal-info">
-                            <h4>Помповое ружьё</h4>
-                            <p>Мощный ближний бой</p>
-                        </div>
-                    </div>
-                    <div class="arsenal-card">
-                        <img src="images/weapon-2.jpg" alt="Steyr AUG">
-                        <div class="arsenal-info">
-                            <h4>Steyr AUG</h4>
-                            <p>Австрийская точность</p>
-                        </div>
-                    </div>
-                    <div class="arsenal-card">
-                        <img src="images/weapon-3.jpg" alt="АКС-74У">
-                        <div class="arsenal-info">
-                            <h4>АКС-74У</h4>
-                            <p>Компактный автомат</p>
-                        </div>
-                    </div>
-                    <div class="arsenal-card">
-                        <img src="images/weapon-4.jpg" alt="M4A1">
-                        <div class="arsenal-info">
-                            <h4>M4A1</h4>
-                            <p>Американский классик</p>
-                        </div>
-                    </div>
-                    <div class="arsenal-card">
-                        <img src="images/weapon-5.jpg" alt="АК-74M">
-                        <div class="arsenal-info">
-                            <h4>АК-74M</h4>
-                            <p>Надёжность АК</p>
-                        </div>
-                    </div>
-                    <div class="arsenal-card">
-                        <img src="images/weapon-6.jpg" alt="Укороченное ружьё">
-                        <div class="arsenal-info">
-                            <h4>Shorty</h4>
-                            <p>Мобильный дробовик</p>
-                        </div>
-                    </div>
-                    <div class="arsenal-card">
-                        <img src="images/weapon-7.jpg" alt="Glock">
-                        <div class="arsenal-info">
-                            <h4>Glock</h4>
-                            <p>Пистолет на все случаи</p>
-                        </div>
-                    </div>
-                    <div class="arsenal-card">
-                        <img src="images/weapon-8.jpg" alt="Modern AR">
-                        <div class="arsenal-info">
-                            <h4>Modern AR</h4>
-                            <p>Тактический модульный</p>
-                        </div>
-                    </div>
-                    <div class="arsenal-card">
-                        <img src="images/weapon-9.jpg" alt="АКС-74">
-                        <div class="arsenal-info">
-                            <h4>АКС-74</h4>
-                            <p>Классика СССР</p>
-                        </div>
-                    </div>
-                    <div class="arsenal-card">
-                        <img src="images/weapon-10.jpg" alt="Игровая станция">
-                        <div class="arsenal-info">
-                            <h4>Игровая база</h4>
-                            <p>Спецоборудование</p>
-                        </div>
-                    </div>
-                    <div class="arsenal-card">
-                        <img src="images/weapon-11.jpg" alt="Бомба">
-                        <div class="arsenal-info">
-                            <h4>Устройство</h4>
-                            <p>Для сценария "Закладка"</p>
-                        </div>
-                    </div>
-                    <div class="arsenal-card">
-                        <img src="images/weapon-12.jpg" alt="АК-12">
-                        <div class="arsenal-info">
-                            <h4>АК-12</h4>
-                            <p>Современный российский</p>
-                        </div>
-                    </div>
-                    <div class="arsenal-card">
-                        <img src="images/weapon-13.jpg" alt="АК-15 Патник">
-                        <div class="arsenal-info">
-                            <h4>АК-15 Патник</h4>
-                            <p>Тактический автомат</p>
-                        </div>
-                    </div>
-                    <div class="arsenal-card">
-                        <img src="images/weapon-14.jpg" alt="AR с барабаном">
-                        <div class="arsenal-info">
-                            <h4>AR Drum</h4>
-                            <p>С барабанным магазином</p>
-                        </div>
-                    </div>
-                    <div class="arsenal-card">
-                        <img src="images/weapon-15.jpg" alt="Снайперская винтовка">
-                        <div class="arsenal-info">
-                            <h4>Снайперка</h4>
-                            <p>С глушителем и сошками</p>
-                        </div>
-                    </div>
-                    <div class="arsenal-card">
-                        <img src="images/weapon-16.jpg" alt="ПП">
-                        <div class="arsenal-info">
-                            <h4>Пистолет-пулемёт</h4>
-                            <p>Компактный SMG</p>
-                        </div>
-                    </div>
+    <section class="arsenal-section" id="arsenal">
+        <div class="section-header">
+            <span class="section-tag">Вооружение</span>
+            <h2 class="section-title">Наш арсенал</h2>
+            <p class="section-subtitle">Профессиональное оборудование для любого стиля игры</p>
+        </div>
+
+        <div class="arsenal-grid">
+            <div class="arsenal-item">
+                <img src="images/weapon-1.jpg" alt="">
+                <div class="arsenal-info">
+                    <h4>Помповое ружьё</h4>
+                    <p>Ближний бой</p>
                 </div>
-                
-                <div class="arsenal-nav">
-                    <button class="arsenal-btn" id="arsenalPrev">◀</button>
-                    <div class="arsenal-dots" id="arsenalDots"></div>
-                    
-                    <button class="arsenal-btn" id="arsenalNext">▶</button>
+            </div>
+            <div class="arsenal-item">
+                <img src="images/weapon-2.jpg" alt="">
+                <div class="arsenal-info">
+                    <h4>Steyr AUG</h4>
+                    <p>Точность</p>
+                </div>
+            </div>
+            <div class="arsenal-item">
+                <img src="images/weapon-3.jpg" alt="">
+                <div class="arsenal-info">
+                    <h4>АКС-74У</h4>
+                    <p>Компакт</p>
+                </div>
+            </div>
+            <div class="arsenal-item">
+                <img src="images/weapon-4.jpg" alt="">
+                <div class="arsenal-info">
+                    <h4>M4A1</h4>
+                    <p>Классика</p>
+                </div>
+            </div>
+            <div class="arsenal-item">
+                <img src="images/weapon-5.jpg" alt="">
+                <div class="arsenal-info">
+                    <h4>АК-74M</h4>
+                    <p>Надёжность</p>
+                </div>
+            </div>
+            <div class="arsenal-item">
+                <img src="images/weapon-7.jpg" alt="">
+                <div class="arsenal-info">
+                    <h4>Glock</h4>
+                    <p>Пистолет</p>
+                </div>
+            </div>
+            <div class="arsenal-item">
+                <img src="images/weapon-12.jpg" alt="">
+                <div class="arsenal-info">
+                    <h4>АК-12</h4>
+                    <p>Современный</p>
+                </div>
+            </div>
+            <div class="arsenal-item">
+                <img src="images/weapon-15.jpg" alt="">
+                <div class="arsenal-info">
+                    <h4>Снайперка</h4>
+                    <p>Дальний бой</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing Section -->
-    <section class="pricing" id="pricing">
-        <div class="container">
+    <!-- Booking Section -->
+    <section class="booking-section" id="booking">
+        <div class="booking-container">
             <div class="section-header">
-                <span class="section-tag">Цены</span>
-                <h2 class="section-title">Стоимость игры</h2>
-                <p class="section-subtitle">Чем больше играете — тем выгоднее!</p>
+                <span class="section-tag">Бронирование</span>
+                <h2 class="section-title">Запишись на игру</h2>
+                <p class="section-subtitle">Заполни форму — мы свяжемся с тобой в WhatsApp</p>
             </div>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3>Мини-игра</h3>
-                    <div class="price">500₽ <span>/человек</span></div>
-                    <ul class="pricing-features">
-                        <li>⏱️ 1 час игры</li>
-                        <li>🔫 Стандартный автомат</li>
-                        <li>👥 От 4 человек</li>
-                        <li>📋 2-3 сценария</li>
-                    </ul>
-                    <a href="tel:+79248752311" class="btn-secondary">Записаться</a>
-                </div>
-                <div class="pricing-card popular">
-                    <div class="popular-badge">Популярное</div>
-                    <h3>Стандарт</h3>
-                    <div class="price">900₽ <span>/человек</span></div>
-                    <ul class="pricing-features">
-                        <li>⏱️ 2 часа игры</li>
-                        <li>🔫 Любое оружие на выбор</li>
-                        <li>👥 От 4 человек</li>
-                        <li>📋 Все сценарии</li>
-                        <li>📸 Фото с игры</li>
-                    </ul>
-                    <a href="tel:+79248752311" class="btn-primary">Записаться</a>
-                </div>
-                <div class="pricing-card">
-                    <h3>Баттл</h3>
-                    <div class="price">1300₽ <span>/человек</span></div>
-                    <ul class="pricing-features">
-                        <li>⏱️ 3 часа игры</li>
-                        <li>🔫 Любое оружие + снайперка</li>
-                        <li>👥 От 6 человек</li>
-                        <li>📋 Все сценарии</li>
-                        <li>📸 Фото и видео</li>
-                        <li>🏆 Турнирная таблица</li>
-                    </ul>
-                    <a href="tel:+79248752311" class="btn-secondary">Записаться</a>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Strikeball Section -->
-    <div class="game-section" id="strikeball-section">
-        <!-- Strikeball About -->
-        <section class="about" id="about-strikeball">
-            <div class="container">
-                <div class="about-grid">
-                    <div class="about-image">
-                        <img src="images/strikeball-hero.jpg" alt="Страйкбол">
-                    </div>
-                    <div class="about-content">
-                        <span class="section-tag">О страйкболе</span>
-                        <h3>Настоящий боевой опыт</h3>
-                        <p>Страйкбол — это командная военно-тактическая игра с использованием пневматического оружия, стреляющего пластиковыми шариками. Ощути настоящий адреналин и командный дух боя!</p>
-                        <p>Мы организуем игры в живописном лесу Олёкминска. Экипировка предоставляется! Приходи с друзьями — устроим настоящее сражение.</p>
-                        <div class="about-stats">
-                            <div class="stat">
-                                <span class="stat-number">18+</span>
-                                <span class="stat-label">Лет игрокам</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number">✓</span>
-                                <span class="stat-label">Экипировка</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number">💥</span>
-                                <span class="stat-label">Реалистично</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Strikeball Features -->
-        <section class="features" id="features-strikeball">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Почему страйкбол</span>
-                    <h2 class="section-title">Особенности игры</h2>
-                    <p class="section-subtitle">Максимальная реалистичность и острые ощущения</p>
-                </div>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">🎭</div>
-                        <h3>Экипировка included</h3>
-                        <p>Маска, жилет и оружие — всё предоставляем! Приходи в удобной одежде и готовься к бою.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🌲</div>
-                        <h3>Лесная локация</h3>
-                        <p>Играем в настоящем лесу с естественными укрытиями, пнями и деревьями. Никаких скучных залов!</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">💥</div>
-                        <h3>Реалистичность</h3>
-                        <p>Взвешенное оружие, перезарядка, полёт шариков — полное погружение в атмосферу боя.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🎮</div>
-                        <h3>Сценарии игр</h3>
-                        <p>Захват флага, командный бой, каждый сам за себя — выбирай свой режим!</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">👥</div>
-                        <h3>Любая компания</h3>
-                        <p>От 6 до 20+ человек. Идеально для корпоративов, тимбилдингов и активного отдыха.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📱</div>
-                        <h3>Лёгкая запись</h3>
-                        <p>Заполни форму ниже — мы свяжемся и подберём удобное время.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Strikeball Gallery -->
-        <section class="gallery" id="gallery-strikeball">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Галерея</span>
-                    <h2 class="section-title">Фото со страйкбола</h2>
-                    <p class="section-subtitle">Атмосфера настоящего боя в лесу Олёкминска</p>
-                </div>
-                <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <img src="images/game-1.jpg" alt="Игроки в страйкбол">
-                        <div class="gallery-overlay">
-                            <span>Тактические позиции</span>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/game-2.jpg" alt="Снайпер">
-                        <div class="gallery-overlay">
-                            <span>Снайперская работа</span>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/game-3.jpg" alt="Игрок в лесу">
-                        <div class="gallery-overlay">
-                            <span>Лесная локация</span>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/strikeball-hero.jpg" alt="Страйкбол">
-                        <div class="gallery-overlay">
-                            <span>Военная экипировка</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Strikeball Pricing -->
-        <section class="pricing" id="pricing-strikeball">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Цены на страйкбол</span>
-                    <h2 class="section-title">Стоимость игры</h2>
-                    <p class="section-subtitle">Экипировка включена!</p>
-                </div>
-                <div class="pricing-grid">
-                    <div class="pricing-card">
-                        <h3>Базовый</h3>
-                        <div class="price">800₽ <span>/человек</span></div>
-                        <ul class="pricing-features">
-                            <li>⏱️ 2 часа игры</li>
-                            <li>🔫 Автомат + экипировка</li>
-                            <li>👥 От 6 человек</li>
-                            <li>📋 2-3 сценария</li>
-                        </ul>
-                        <a href="#booking" class="btn-secondary">Записаться</a>
-                    </div>
-                    <div class="pricing-card popular">
-                        <div class="popular-badge">Популярное</div>
-                        <h3>Стандарт</h3>
-                        <div class="price">1200₽ <span>/человек</span></div>
-                        <ul class="pricing-features">
-                            <li>⏱️ 3 часа игры</li>
-                            <li>🔫 Любое оружие + экипировка</li>
-                            <li>👥 От 6 человек</li>
-                            <li>📋 Все сценарии</li>
-                            <li>📸 Фото с игры</li>
-                        </ul>
-                        <a href="#booking" class="btn-primary">Записаться</a>
-                    </div>
-                    <div class="pricing-card">
-                        <h3>Баттл</h3>
-                        <div class="price">1500₽ <span>/человек</span></div>
-                        <ul class="pricing-features">
-                            <li>⏱️ 4 часа игры</li>
-                            <li>🔫 Любое оружие + экипировка</li>
-                            <li>👥 От 8 человек</li>
-                            <li>📋 Все сценарии</li>
-                            <li>📸 Фото и видео</li>
-                            <li>🏆 Турнирная таблица</li>
-                        </ul>
-                        <a href="#booking" class="btn-secondary">Записаться</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Booking Form Section -->
-    <section class="booking" id="booking">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Запись на игру</span>
-                <h2 class="section-title">Забронируй игру</h2>
-                <p class="section-subtitle">Заполни форму — мы получим заявку в WhatsApp и свяжемся с тобой!</p>
-            </div>
-            
             <form class="booking-form" id="bookingForm">
                 <div class="game-selector">
                     <div class="game-option selected" data-game="lazertag">
@@ -1660,19 +941,19 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="name">Ваше имя *</label>
-                        <input type="text" id="name" name="name" placeholder="Иван" required>
+                        <label>Ваше имя *</label>
+                        <input type="text" name="name" placeholder="Иван" required>
                     </div>
                     <div class="form-group">
-                        <label for="phone">Телефон *</label>
-                        <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" required>
+                        <label>Телефон *</label>
+                        <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="players">Количество игроков *</label>
-                        <select id="players" name="players" required>
+                        <label>Количество игроков *</label>
+                        <select name="players" required>
                             <option value="">Выберите</option>
                             <option value="4-6">4-6 человек</option>
                             <option value="7-10">7-10 человек</option>
@@ -1681,362 +962,101 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="tariff">Тариф *</label>
-                        <select id="tariff" name="tariff" required>
-                            <option value="">Выберите</option>
-                            <option value="Базовый">Базовый</option>
-                            <option value="Стандарт">Стандарт — Популярное</option>
-                            <option value="Баттл">Баттл</option>
-                        </select>
+                        <label>Дата</label>
+                        <input type="date" name="date">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="date">Желаемая дата</label>
-                    <input type="date" id="date" name="date">
+                    <label>Комментарий</label>
+                    <textarea name="comment" rows="3" placeholder="Особые пожелания..."></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label for="comment">Комментарий</label>
-                    <textarea id="comment" name="comment" rows="3" placeholder="Особые пожелания, вопросы..."></textarea>
+                <div class="form-group" style="display: flex; align-items: flex-start; gap: 0.8rem;">
+                    <input type="checkbox" id="consent" name="consent" required style="width: auto; margin-top: 0.3rem; accent-color: var(--fire);">
+                    <label for="consent" style="margin: 0; font-size: 0.9rem; color: var(--text-muted);">
+                        Я согласен на обработку персональных данных *
+                    </label>
                 </div>
 
-                <button type="submit" class="submit-btn">
-                    💬 Отправить заявку в WhatsApp
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    💬 Отправить в WhatsApp
                 </button>
             </form>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <span class="section-tag">Контакты</span>
-                    <h2>Присоединяйся к клубу!</h2>
-                    <p>Вся актуальная информация о предстоящих играх — в наших сообществах. Подписывайся и будь в курсе!</p>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon" style="background: #0088cc; border-color: #0088cc;">✈️</div>
-                        <div class="contact-text">
-                            <a href="https://t.me/+1daHjXRWXDQwMzJi" target="_blank">Telegram сообщество</a>
-                            <span>Вся информация о играх</span>
-                        </div>
-                    </div>
+    <section class="contact-section" id="contact">
+        <div class="section-header">
+            <span class="section-tag">Связь</span>
+            <h2 class="section-title">Контакты</h2>
+            <p class="section-subtitle">Выбирай удобный способ связи</p>
+        </div>
 
-                    <div class="contact-item">
-                        <div class="contact-icon" style="background: #25D366; border-color: #25D366;">💬</div>
-                        <div class="contact-text">
-                            <a href="https://chat.whatsapp.com/JJnQteS094rIe3Rk2pNU14?mode=ac_c" target="_blank">WhatsApp группа</a>
-                            <span>Запасная ссылка</span>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">📞</div>
-                        <div class="contact-text">
-                            <a href="tel:+79248752311">+7 (924) 875-23-11</a>
-                            <span>Звоните с 10:00 до 22:00</span>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">📱</div>
-                        <div class="contact-text">
-                            <a href="tel:+79241657679">+7 (924) 165-76-79</a>
-                            <span>Дополнительный номер</span>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">📍</div>
-                        <div class="contact-text">
-                            <span style="color: var(--color-text); font-weight: 600;">г. Олёкминск</span>
-                            <span>Лесная локация (точка сбора — по записи)</span>
-                        </div>
-                    </div>
-
-                    <div class="age-badge">👤 Возрастное ограничение: 9+</div>
-                </div>
-                
-                <div class="contact-cta">
-                    <h3>Telegram — основной канал</h3>
-                    <p>Вся информация о предстоящих играх, расписание и новости — в нашем Telegram-сообществе!</p>
-                    <a href="https://t.me/+1daHjXRWXDQwMzJi" class="btn-primary" target="_blank" style="background: #0088cc; border-color: #0088cc;">
-                        ✈️ Вступить в Telegram
-                    </a>
-                    <p style="margin-top: 1.5rem; font-size: 0.9rem;">
-                        Запасная ссылка: <a href="https://chat.whatsapp.com/JJnQteS094rIe3Rk2pNU14?mode=ac_c" target="_blank" style="color: #25D366;">WhatsApp группа</a>
-                    </p>
-                </div>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon">✈️</div>
+                <h3>Telegram</h3>
+                <a href="https://t.me/+1daHjXRWXDQwMzJi" target="_blank">Вступить в группу</a>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">💬</div>
+                <h3>WhatsApp</h3>
+                <a href="https://chat.whatsapp.com/JJnQteS094rIe3Rk2pNU14?mode=ac_c" target="_blank">Группа</a>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">📞</div>
+                <h3>Телефон</h3>
+                <a href="tel:+79248752311">+7 (924) 875-23-11</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-logo">АРЕНА <span>ARENA</span></div>
-            <p>Военно-тактический клуб — Лазертаг в Олёкминске</p>
-            <p style="margin-top: 1rem;">
-                📞 <a href="tel:+79248752311" style="color: var(--color-text-muted);">+7 (924) 875-23-11</a> | 
-                📞 <a href="tel:+79241657679" style="color: var(--color-text-muted);">+7 (924) 165-76-79</a>
-            </p>
-            <p style="margin-top: 2rem; font-size: 0.85rem; opacity: 0.6;">
-                © 2026 Лазертаг Олёкминск. Все права защищены.
-            </p>
-        </div>
+        <div class="footer-logo">АРЕНА</div>
+        <p style="color: var(--text-muted);">Военно-тактический клуб — Лазертаг и Страйкбол в Олёкминске</p>
+        <p style="margin-top: 2rem; color: var(--text-muted); font-size: 0.85rem;">© 2026 Все права защищены</p>
     </footer>
 
     <script>
-        // Game Tabs
-        const gameTabs = document.querySelectorAll('.game-tab');
-        const gameSections = document.querySelectorAll('.game-section');
-        
-        gameTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const game = tab.dataset.game;
-                
-                // Update tabs
-                gameTabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                
-                // Update sections
-                gameSections.forEach(s => s.classList.remove('active'));
-                document.getElementById(game + '-section').classList.add('active');
-            });
-        });
-
-        // Booking Form Game Selector
-        const gameOptions = document.querySelectorAll('.game-option');
-        
-        gameOptions.forEach(option => {
+        // Game selector in form
+        document.querySelectorAll('.game-option').forEach(option => {
             option.addEventListener('click', () => {
-                gameOptions.forEach(o => o.classList.remove('selected'));
+                document.querySelectorAll('.game-option').forEach(o => o.classList.remove('selected'));
                 option.classList.add('selected');
             });
         });
 
-        // WhatsApp Form Submission
-        const bookingForm = document.getElementById('bookingForm');
-        
-        bookingForm.addEventListener('submit', (e) => {
+        // Form submission
+        document.getElementById('bookingForm').addEventListener('submit', (e) => {
             e.preventDefault();
             
-            const selectedGame = document.querySelector('.game-option.selected').dataset.game;
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const players = document.getElementById('players').value;
-            const tariff = document.getElementById('tariff').value;
-            const date = document.getElementById('date').value;
-            const comment = document.getElementById('comment').value;
+            const game = document.querySelector('.game-option.selected').dataset.game;
+            const formData = new FormData(e.target);
             
-            const gameName = selectedGame === 'lazertag' ? 'Лазертаг' : 'Страйкбол';
+            const gameName = game === 'lazertag' ? 'Лазертаг' : 'Страйкбол';
             
-            let message = `🎮 *Новая заявка на игру!*\n\n`;
-            message += `📍 *Тип игры:* ${gameName}\n`;
-            message += `👤 *Имя:* ${name}\n`;
-            message += `📞 *Телефон:* ${phone}\n`;
-            message += `👥 *Количество игроков:* ${players}\n`;
-            message += `💎 *Тариф:* ${tariff}\n`;
+            let message = `🎮 *Новая заявка — АРЕНА*\n\n`;
+            message += `📍 *Игра:* ${gameName}\n`;
+            message += `👤 *Имя:* ${formData.get('name')}\n`;
+            message += `📞 *Телефон:* ${formData.get('phone')}\n`;
+            message += `👥 *Игроки:* ${formData.get('players')}\n`;
             
-            if (date) {
-                message += `📅 *Желаемая дата:* ${date}\n`;
+            if (formData.get('date')) {
+                message += `📅 *Дата:* ${formData.get('date')}\n`;
             }
             
-            if (comment) {
-                message += `💬 *Комментарий:* ${comment}\n`;
+            if (formData.get('comment')) {
+                message += `💬 *Комментарий:* ${formData.get('comment')}\n`;
             }
             
-            message += `\n⏰ Заявка отправлена: ${new Date().toLocaleString('ru-RU')}`;
+            message += `✅ *Согласие на обработку ПД:* Да\n`;
             
-            const whatsappNumber = '79241657679';
-            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-            
+            const whatsappUrl = `https://wa.me/79241657679?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
         });
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(13, 13, 13, 0.98)';
-            } else {
-                header.style.background = 'rgba(13, 13, 13, 0.95)';
-            }
-        });
-
-        // Arsenal Slider
-        (function() {
-            const track = document.getElementById('arsenalTrack');
-            const prevBtn = document.getElementById('arsenalPrev');
-            const nextBtn = document.getElementById('arsenalNext');
-            const dotsContainer = document.getElementById('arsenalDots');
-            const slider = document.querySelector('.arsenal-slider');
-            
-            if (!track || !prevBtn || !nextBtn) return;
-            
-            const cards = track.querySelectorAll('.arsenal-card');
-            const totalCards = cards.length;
-            
-            let cardsPerView = 4;
-            if (window.innerWidth <= 992) cardsPerView = 3;
-            if (window.innerWidth <= 768) cardsPerView = 2;
-            if (window.innerWidth <= 480) cardsPerView = 1;
-            
-            let currentIndex = 0;
-            let maxIndex = Math.ceil(totalCards / cardsPerView) - 1;
-            
-            // Touch/Drag variables
-            let isDragging = false;
-            let startPos = 0;
-            let currentTranslate = 0;
-            let prevTranslate = 0;
-            let animationID;
-            
-            // Create dots
-            function createDots() {
-                dotsContainer.innerHTML = '';
-                for (let i = 0; i <= maxIndex; i++) {
-                    const dot = document.createElement('div');
-                    dot.className = 'arsenal-dot' + (i === currentIndex ? ' active' : '');
-                    dot.addEventListener('click', () => goToSlide(i));
-                    dotsContainer.appendChild(dot);
-                }
-            }
-            createDots();
-            
-            function getDots() {
-                return dotsContainer.querySelectorAll('.arsenal-dot');
-            }
-            
-            function updateSlider() {
-                const cardWidth = cards[0].offsetWidth + 24;
-                currentTranslate = -currentIndex * cardsPerView * cardWidth;
-                prevTranslate = currentTranslate;
-                track.style.transform = `translateX(${currentTranslate}px)`;
-                
-                prevBtn.disabled = currentIndex === 0;
-                nextBtn.disabled = currentIndex >= maxIndex;
-                
-                getDots().forEach((dot, i) => {
-                    dot.classList.toggle('active', i === currentIndex);
-                });
-            }
-            
-            function goToSlide(index) {
-                currentIndex = Math.max(0, Math.min(index, maxIndex));
-                updateSlider();
-            }
-            
-            function nextSlide() {
-                if (currentIndex < maxIndex) {
-                    currentIndex++;
-                    updateSlider();
-                }
-            }
-            
-            function prevSlide() {
-                if (currentIndex > 0) {
-                    currentIndex--;
-                    updateSlider();
-                }
-            }
-            
-            prevBtn.addEventListener('click', prevSlide);
-            nextBtn.addEventListener('click', nextSlide);
-            
-            // Touch events (mobile swipe)
-            slider.addEventListener('touchstart', touchStart);
-            slider.addEventListener('touchend', touchEnd);
-            slider.addEventListener('touchmove', touchMove);
-            
-            // Mouse events (desktop drag)
-            slider.addEventListener('mousedown', touchStart);
-            slider.addEventListener('mouseup', touchEnd);
-            slider.addEventListener('mouseleave', () => {
-                if (isDragging) touchEnd();
-            });
-            slider.addEventListener('mousemove', touchMove);
-            
-            function touchStart(event) {
-                isDragging = true;
-                startPos = getPositionX(event);
-                animationID = requestAnimationFrame(animation);
-                slider.style.cursor = 'grabbing';
-            }
-            
-            function touchMove(event) {
-                if (isDragging) {
-                    const currentPosition = getPositionX(event);
-                    const diff = currentPosition - startPos;
-                    track.style.transform = `translateX(${prevTranslate + diff}px)`;
-                }
-            }
-            
-            function touchEnd(event) {
-                isDragging = false;
-                cancelAnimationFrame(animationID);
-                slider.style.cursor = 'grab';
-                
-                const movedBy = getPositionX(event) - startPos;
-                const threshold = 50;
-                
-                if (movedBy < -threshold && currentIndex < maxIndex) {
-                    currentIndex++;
-                } else if (movedBy > threshold && currentIndex > 0) {
-                    currentIndex--;
-                }
-                
-                updateSlider();
-            }
-            
-            function getPositionX(event) {
-                return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
-            }
-            
-            function animation() {
-                if (isDragging) requestAnimationFrame(animation);
-            }
-            
-            // Prevent context menu on slider
-            slider.addEventListener('contextmenu', e => e.preventDefault());
-            
-            // Update on resize
-            window.addEventListener('resize', () => {
-                let newCardsPerView = 4;
-                if (window.innerWidth <= 992) newCardsPerView = 3;
-                if (window.innerWidth <= 768) newCardsPerView = 2;
-                if (window.innerWidth <= 480) newCardsPerView = 1;
-                
-                if (newCardsPerView !== cardsPerView) {
-                    cardsPerView = newCardsPerView;
-                    maxIndex = Math.ceil(totalCards / cardsPerView) - 1;
-                    currentIndex = Math.min(currentIndex, maxIndex);
-                    createDots();
-                    updateSlider();
-                }
-            });
-            
-            // Set initial cursor
-            slider.style.cursor = 'grab';
-            
-            updateSlider();
-        })();
     </script>
 </body>
 </html>
