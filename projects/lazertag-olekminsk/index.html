@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лазертаг в Олёкминске — Активный отдых для всей семьи</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #1a1a1a;
+            --color-secondary: #2d3b2d;
+            --color-accent: #ff6b35;
+            --color-accent-hover: #e85a28;
+            --color-gold: #ffc107;
+            --color-text: #f5f5f5;
+            --color-text-muted: #b0b0b0;
+            --color-dark: #0d0d0d;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 30px rgba(255, 107, 53, 0.3);
+            --radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: var(--color-dark);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(13, 13, 13, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: var(--color-text);
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: var(--color-accent);
+        }
+
+        .phone-btn {
+            background: var(--color-accent);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .phone-btn:hover {
+            background: var(--color-accent-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(13,13,13,0.9) 0%, rgba(45,59,45,0.8) 100%),
+                        url('images/hero.jpg') center/cover no-repeat;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .hero h1 span {
+            color: var(--color-accent);
+            display: block;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--color-text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--color-accent);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border: 2px solid var(--color-accent);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-accent-hover);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-feature {
+            text-align: center;
+        }
+
+        .hero-feature-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 107, 53, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .hero-feature h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .hero-feature p {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin: 0;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 6rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            color: var(--color-accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--color-text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--color-primary);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: 20px;
+            bottom: 20px;
+            border: 3px solid var(--color-accent);
+            border-radius: var(--radius);
+            z-index: -1;
+        }
+
+        .about-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content p {
+            color: var(--color-text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 107, 53, 0.1);
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .stat-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--color-accent);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+
+        /* Features Section */
+        .features {
+            background: var(--color-dark);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-accent), var(--color-gold));
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 107, 53, 0.3);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 107, 53, 0.15);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            background: var(--color-primary);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            aspect-ratio: 1;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            background: var(--color-dark);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .pricing-card.popular {
+            border-color: var(--color-accent);
+            transform: scale(1.05);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-accent);
+            color: white;
+            padding: 0.4rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-card .price {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--color-accent);
+            margin: 1.5rem 0;
+        }
+
+        .pricing-card .price span {
+            font-size: 1rem;
+            color: var(--color-text-muted);
+            font-weight: 400;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .pricing-features li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: var(--color-text-muted);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .contact-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info p {
+            color: var(--color-text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 107, 53, 0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            flex-shrink: 0;
+        }
+
+        .contact-text a {
+            color: var(--color-text);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .contact-text a:hover {
+            color: var(--color-accent);
+        }
+
+        .contact-text span {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+
+        .contact-cta {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius);
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .contact-cta h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-cta p {
+            color: var(--color-text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+        }
+
+        .age-badge {
+            display: inline-block;
+            background: rgba(255, 193, 7, 0.15);
+            border: 1px solid var(--color-gold);
+            color: var(--color-gold);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            margin-top: 2rem;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-dark);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--color-accent);
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo span {
+            color: var(--color-text);
+        }
+
+        footer p {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--color-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .about-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image::before {
+                display: none;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .gallery-item:first-child {
+                grid-column: span 2;
+                grid-row: span 2;
+            }
+
+            .pricing-card.popular {
+                transform: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-features {
+                gap: 1.5rem;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+
+            .contact-cta {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content > * {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+        .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+        .hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+        .hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+        .hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">LAZER<span>TAG</span></div>
+            <nav>
+                <a href="#about">О нас</a>
+                <a href="#features">Преимущества</a>
+                <a href="#gallery">Галерея</a>
+                <a href="#pricing">Цены</a>
+                <a href="#contact">Контакты</a>
+            </nav>
+            <a href="tel:+79248752311" class="phone-btn">Позвонить</a>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🔥 Активный отдых в Олёкминске</div>
+            <h1>Лазертаг <span>в Олёкминске</span></h1>
+            <p>Погрузись в мир тактических игр! Аренное оборудование, лесная локация и незабываемые эмоции для всей семьи</p>
+            <div class="hero-buttons">
+                <a href="tel:+79248752311" class="btn-primary">📞 Записаться</a>
+                <a href="https://wa.me/79248752311" class="btn-secondary" target="_blank">💬 Написать в WhatsApp</a>
+            </div>
+            <div class="hero-features">
+                <div class="hero-feature">
+                    <div class="hero-feature-icon">🎯</div>
+                    <h4>Безопасно</h4>
+                    <p>Лазерное оборудование</p>
+                </div>
+                <div class="hero-feature">
+                    <div class="hero-feature-icon">🏕️</div>
+                    <h4>Лесная локация</h4>
+                    <p>Естественное укрытие</p>
+                </div>
+                <div class="hero-feature">
+                    <div class="hero-feature-icon">👨‍👩‍👧‍👦</div>
+                    <h4>Для всех</h4>
+                    <p>С 9 лет и старше</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image">
+                    <img src="images/game-1.jpg" alt="Игра в лазертаг">
+                </div>
+                <div class="about-content">
+                    <span class="section-tag">О нас</span>
+                    <h3>Настоящий боевой опыт безопасно</h3>
+                    <p>Лазертаг — это командная тактическая игра с использованием инфракрасного излучения. В отличие от пейнтбола, здесь нет боли, синяков и грязи — только чистый адреналин и стратегия!</p>
+                    <p>Мы организуем игры в живописном лесу Олёкминска. У нас есть укрытия, разнообразное оборудование и несколько игровых сценариев — от захвата флага до каждого сам за себя.</p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <span class="stat-number">9+</span>
+                            <span class="stat-label">Лет игрокам</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">10+</span>
+                            <span class="stat-label">Видов оружия</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">∞</span>
+                            <span class="stat-label">Эмоций</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Почему мы</span>
+                <h2 class="section-title">Преимущества нашего лазертага</h2>
+                <p class="section-subtitle">Всё для идеальной игры — от оборудования до локации</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔫</div>
+                    <h3>Арсенал оружия</h3>
+                    <p>Широкий выбор: от пистолетов и автоматов до снайперских винтовок. Каждый найдёт оружие по душе!</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌲</div>
+                    <h3>Лесная локация</h3>
+                    <p>Играем в настоящем лесу с естественными укрытиями, пнями и деревьями. Никаких скучных залов!</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Безопасность</h3>
+                    <p>Лазерное оборудование не оставляет синяков и не требует защитной экипировки. Играй без боли!</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3>Сценарии игр</h3>
+                    <p>Захват флага, командный бой, зомби-апокалипсис, каждый сам за себя — выбирай свой режим!</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Любая компания</h3>
+                    <p>От 4 до 20+ человек. Идеально для дней рождения, корпоративов, тимбилдингов и просто активного отдыха.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Лёгкая запись</h3>
+                    <p>Просто позвони или напиши в WhatsApp — мы подберём удобное время и ответим на все вопросы.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Галерея</span>
+                <h2 class="section-title">Фото с наших игр</h2>
+                <p class="section-subtitle">Атмосфера настоящего боя в лесу Олёкминска</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="images/weapons.jpg" alt="Арсенал оружия">
+                    <div class="gallery-overlay">
+                        <span>Наше оборудование</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/game-1.jpg" alt="Игрок в укрытии">
+                    <div class="gallery-overlay">
+                        <span>Тактические позиции</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/game-2.jpg" alt="Снайперская позиция">
+                    <div class="gallery-overlay">
+                        <span>Снайперская работа</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/game-3.jpg" alt="Игрок за деревом">
+                    <div class="gallery-overlay">
+                        <span>Лесная локация</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Цены</span>
+                <h2 class="section-title">Стоимость игры</h2>
+                <p class="section-subtitle">Чем больше играете — тем выгоднее!</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Мини-игра</h3>
+                    <div class="price">500₽ <span>/человек</span></div>
+                    <ul class="pricing-features">
+                        <li>⏱️ 1 час игры</li>
+                        <li>🔫 Стандартный автомат</li>
+                        <li>👥 От 4 человек</li>
+                        <li>📋 2-3 сценария</li>
+                    </ul>
+                    <a href="tel:+79248752311" class="btn-secondary">Записаться</a>
+                </div>
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Популярное</div>
+                    <h3>Стандарт</h3>
+                    <div class="price">900₽ <span>/человек</span></div>
+                    <ul class="pricing-features">
+                        <li>⏱️ 2 часа игры</li>
+                        <li>🔫 Любое оружие на выбор</li>
+                        <li>👥 От 4 человек</li>
+                        <li>📋 Все сценарии</li>
+                        <li>📸 Фото с игры</li>
+                    </ul>
+                    <a href="tel:+79248752311" class="btn-primary">Записаться</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>Баттл</h3>
+                    <div class="price">1300₽ <span>/человек</span></div>
+                    <ul class="pricing-features">
+                        <li>⏱️ 3 часа игры</li>
+                        <li>🔫 Любое оружие + снайперка</li>
+                        <li>👥 От 6 человек</li>
+                        <li>📋 Все сценарии</li>
+                        <li>📸 Фото и видео</li>
+                        <li>🏆 Турнирная таблица</li>
+                    </ul>
+                    <a href="tel:+79248752311" class="btn-secondary">Записаться</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <span class="section-tag">Контакты</span>
+                    <h2>Готов к игре?</h2>
+                    <p>Запишись прямо сейчас! Позвони или напиши в WhatsApp — мы подберём удобное время и расскажем о всех вариантах.</p>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-text">
+                            <a href="tel:+79248752311">+7 (924) 875-23-11</a>
+                            <span>Звоните с 10:00 до 22:00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div class="contact-text">
+                            <a href="tel:+79241657679">+7 (924) 165-76-79</a>
+                            <span>Дополнительный номер</span>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-text">
+                            <span style="color: var(--color-text); font-weight: 600;">г. Олёкминск</span>
+                            <span>Лесная локация (точка сбора — по записи)</span>
+                        </div>
+                    </div>
+
+                    <div class="age-badge">👤 Возрастное ограничение: 9+</div>
+                </div>
+                
+                <div class="contact-cta">
+                    <h3>Быстрая запись</h3>
+                    <p>Напиши нам в WhatsApp — ответим за 5 минут и забронируем слот!</p>
+                    <a href="https://wa.me/79248752311" class="whatsapp-btn" target="_blank">
+                        💬 Написать в WhatsApp
+                    </a>
+                    <p style="margin-top: 1.5rem; font-size: 0.9rem;">
+                        Или позвони: <a href="tel:+79248752311" style="color: var(--color-accent);">+7 (924) 875-23-11</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">LAZER<span>TAG</span></div>
+            <p>Лазертаг в Олёкминске — активный отдых для всей семьи</p>
+            <p style="margin-top: 1rem;">
+                📞 <a href="tel:+79248752311" style="color: var(--color-text-muted);">+7 (924) 875-23-11</a> | 
+                📞 <a href="tel:+79241657679" style="color: var(--color-text-muted);">+7 (924) 165-76-79</a>
+            </p>
+            <p style="margin-top: 2rem; font-size: 0.85rem; opacity: 0.6;">
+                © 2026 Лазертаг Олёкминск. Все права защищены.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(13, 13, 13, 0.98)';
+            } else {
+                header.style.background = 'rgba(13, 13, 13, 0.95)';
+            }
+        });
+    </script>
+</body>
+</html>
