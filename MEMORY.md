@@ -27,7 +27,7 @@
 | **auto-yakutia** | Авто из Японии и Китая под ключ в Якутию | https://jonni88.github.io/auto-yakutia/ |
 | **auto-parts-bot** | Telegram бот для автозапчастей | https://github.com/Jonni88/auto-parts-bot |
 | **guardians-handbook-olekminsk** | Справочник опекунов Олёкминского района (сайт + PDF + бот) | https://jonni88.github.io/guardians-handbook-olekminsk/ |
-| **lazertag-olekminsk** | Лендинг лазертага в Олёкминске — активный отдых | https://jonni88.github.io/lazertag-olekminsk/ |
+| **lazertag-olekminsk** | Военно-тактический клуб «Арена» — лазертаг в Олёкминске | https://jonni88.github.io/lazertag-olekminsk/ |
 
 ### 🔄 Требуют доработки
 | Проект | Описание | Тип | Приоритет |
