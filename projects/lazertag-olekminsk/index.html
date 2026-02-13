@@ -548,6 +548,54 @@
             border-bottom: none;
         }
 
+        /* Arsenal Section */
+        .arsenal {
+            background: var(--color-dark);
+        }
+
+        .arsenal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .arsenal-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .arsenal-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 107, 53, 0.3);
+            box-shadow: var(--shadow);
+        }
+
+        .arsenal-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            padding: 1rem;
+        }
+
+        .arsenal-info {
+            padding: 1.2rem;
+            text-align: center;
+        }
+
+        .arsenal-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .arsenal-info p {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+
         /* Contact Section */
         .contact {
             background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
@@ -800,6 +848,7 @@
                 <a href="#about">О нас</a>
                 <a href="#features">Преимущества</a>
                 <a href="#gallery">Галерея</a>
+                <a href="#arsenal">Арсенал</a>
                 <a href="#pricing">Цены</a>
                 <a href="#contact">Контакты</a>
             </nav>
@@ -943,6 +992,89 @@
                     <img src="images/game-3.jpg" alt="Игрок за деревом">
                     <div class="gallery-overlay">
                         <span>Лесная локация</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Arsenal Section -->
+    <section class="arsenal" id="arsenal">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Арсенал</span>
+                <h2 class="section-title">Наше оборудование</h2>
+                <p class="section-subtitle">Профессиональное лазерное оружие на любой вкус — от пистолетов до снайперских винтовок</p>
+            </div>
+            <div class="arsenal-grid">
+                <div class="arsenal-card">
+                    <img src="images/weapon-1.jpg" alt="Помповое ружьё">
+                    <div class="arsenal-info">
+                        <h4>Помповое ружьё</h4>
+                        <p>Мощный ближний бой</p>
+                    </div>
+                </div>
+                <div class="arsenal-card">
+                    <img src="images/weapon-2.jpg" alt="Steyr AUG">
+                    <div class="arsenal-info">
+                        <h4>Steyr AUG</h4>
+                        <p>Австрийская точность</p>
+                    </div>
+                </div>
+                <div class="arsenal-card">
+                    <img src="images/weapon-3.jpg" alt="АКС-74У">
+                    <div class="arsenal-info">
+                        <h4>АКС-74У</h4>
+                        <p>Компактный автомат</p>
+                    </div>
+                </div>
+                <div class="arsenal-card">
+                    <img src="images/weapon-4.jpg" alt="M4A1">
+                    <div class="arsenal-info">
+                        <h4>M4A1</h4>
+                        <p>Американский классик</p>
+                    </div>
+                </div>
+                <div class="arsenal-card">
+                    <img src="images/weapon-5.jpg" alt="АК-74M">
+                    <div class="arsenal-info">
+                        <h4>АК-74M</h4>
+                        <p>Надёжность АК</p>
+                    </div>
+                </div>
+                <div class="arsenal-card">
+                    <img src="images/weapon-6.jpg" alt="Укороченное ружьё">
+                    <div class="arsenal-info">
+                        <h4>Shorty</h4>
+                        <p>Мобильный дробовик</p>
+                    </div>
+                </div>
+                <div class="arsenal-card">
+                    <img src="images/weapon-7.jpg" alt="Glock">
+                    <div class="arsenal-info">
+                        <h4>Glock</h4>
+                        <p>Пистолет на все случаи</p>
+                    </div>
+                </div>
+                <div class="arsenal-card">
+                    <img src="images/weapon-8.jpg" alt="Modern AR">
+                    <div class="arsenal-info">
+                        <h4>Modern AR</h4>
+                        <p>Тактический модульный</p>
+                    </div>
+                </div>
+                <div class="arsenal-card">
+                    <img src="images/weapon-9.jpg" alt="АКС-74">
+                    <div class="arsenal-info">
+                        <h4>АКС-74</h4>
+                        <p>Классика СССР</p>
+                    </div>
+                </div>
+                <div class="arsenal-card">
+                    <img src="images/weapon-10.jpg" alt="Игровая станция">
+                    <div class="arsenal-info">
+                        <h4>Игровая база</h4>
+                        <p>Спецоборудование</p>
                     </div>
                 </div>
             </div>
